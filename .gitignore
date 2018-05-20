@@ -1,0 +1,11 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+/resources/views/default/frontend/modules/activity/detail.blade.php
+/vendor
+/node_modules
+/public/storage
+/public/lib
+Homestead.yaml
+Homestead.json
+.env
+/public/static
+/.idea
