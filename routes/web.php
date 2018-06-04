@@ -20,6 +20,9 @@ Route::group([
     });
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::group(['prefix' => 'admin'], function () {
+        Voyager::routes();
+    });
 });
 # api 接口路由
 Route::group([
@@ -28,3 +31,6 @@ Route::group([
 ], function () {
 
 });
+
+
+
