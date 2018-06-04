@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+# 后台管理路由
 Route::group([
     'middleware' => ['web'],
     'domain' => 'admin.starimg.cn'
@@ -20,4 +20,11 @@ Route::group([
     });
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
+});
+# api 接口路由
+Route::group([
+    'middleware' => ['web'],
+    'domain' => 'api.starimg.cn'
+], function () {
+
 });
