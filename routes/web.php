@@ -18,11 +18,10 @@ Route::group([
     Route::get('/', function () {
         return Redirect::to('admin/');
     });
-    Auth::routes();
-    Route::get('/home', 'HomeController@index')->name('home');
-//    Route::get('/home',function (){
-//        return Redirect::to('admin/');
-//    });
+    // 屏蔽注册功能
+//    Auth::routes();
+//    Route::get('/home', 'HomeController@index')->name('home');
+
     Route::group(['prefix' => 'admin'], function () {
         Voyager::routes();
     });
