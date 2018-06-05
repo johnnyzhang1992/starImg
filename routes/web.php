@@ -16,10 +16,10 @@ Route::group([
     'domain' => 'admin.starimg.cn'
 ], function () {
     Route::get('/', function () {
-        return view('welcome');
+        return Redirect::to('admin/');
     });
     Auth::routes();
-    Route::get('/home', 'HomeController@index')->name('home');
+//    Route::get('/home', 'HomeController@index')->name('home');
     Route::group(['prefix' => 'admin'], function () {
         Voyager::routes();
     });
