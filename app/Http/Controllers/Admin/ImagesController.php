@@ -35,10 +35,15 @@ class ImagesController extends BaseController{
 
     }
 
-    public function index(Request $request){
+    public function index(Request $request,$type=null){
         if (Auth::user()) {
-            //            $images = Images::orderBy('id', 'asc')->paginate(15);
-            $images = Images::where('is_video',false)->orderBy('id', 'asc')->paginate(20);
+            if($type && $type =='wb'){
+              $images = Images::where('origin','微博')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+            }elseif($type && $type =='ins'){
+                $images = Images::where('origin','instagram')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+            }else{
+                $images = Images::where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+            }
             return view('admin.images') ->with('images',$images);
         }else{
 

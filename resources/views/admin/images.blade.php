@@ -14,7 +14,7 @@
                                 <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
                             @endif
                             @if(isset($image->pic_detail) && $image->origin == 'instagram')
-                                    <img class="img-responsive" src="{{json_decode($image->pic_detail)[0]->src}}" alt="{{  @html_entity_decode($image->text) }}">
+                                    <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" alt="{{@$image->id}}">
                             @endif
                         @else
                             <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
