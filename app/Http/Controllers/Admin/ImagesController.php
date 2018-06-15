@@ -32,23 +32,20 @@ class ImagesController extends BaseController{
         }else{
             return Voyager::view('voyager::login');
         }
-
     }
 
     public function index(Request $request,$type=null){
         if (Auth::user()) {
             if($type && $type =='wb'){
-              $images = Images::where('origin','微博')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+              $images = Images::where('origin','微博')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+                $images = Images::where('origin','instagram')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(20);
             }else{
                 $images = Images::where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
             }
-            return view('admin.images') ->with('images',$images);
+            return view('admin.img.images') ->with('images',$images);
         }else{
-
             return Voyager::view('voyager::login');
-
         }
     }
 }

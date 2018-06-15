@@ -14,7 +14,7 @@
                                 <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
                             @endif
                             @if(isset($image->pic_detail) && $image->origin == 'instagram')
-                                    <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" alt="{{@$image->id}}">
+                                    <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
                             @endif
                         @else
                             <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
@@ -28,7 +28,7 @@
             {{ @$images->links()}}
         </div>
     </div>
-@endsection
+@stop
 
 @section('css')
     <style>
@@ -54,7 +54,7 @@
         }
         .grid-item--width2 { width: 400px; }
     </style>
-@endsection
+@stop
 @section('javascript')
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <!-- or -->
@@ -69,4 +69,4 @@
             });
         });
     </script>
-@endsection
+@stop

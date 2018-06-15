@@ -24,6 +24,8 @@ Route::group([
 
     Route::group(['prefix' => 'admin'], function () {
         Voyager::routes();
+//        Route::get('/','Admin\StarImgAdminController@index');
+        Route::get('/tongJi','Admin\StarImgAdminController@index');
         Route::get('/images','Admin\ImagesController@index');
         Route::get('/images/{type}','Admin\ImagesController@index');
     });
