@@ -27,11 +27,7 @@ class ImagesController extends BaseController{
         AlertsMessages;
 
     public function __construct(){
-        if (Auth::user()) {
 
-        }else{
-            return Voyager::view('voyager::login');
-        }
     }
 
     public function index(Request $request,$type=null){

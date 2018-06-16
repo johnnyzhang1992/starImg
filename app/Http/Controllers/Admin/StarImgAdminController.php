@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 //use App\Http\Controllers\Controller;
 use TCG\Voyager\Events\Routing;
-use TCG\Voyager\Events\RoutingAdmin;
-use TCG\Voyager\Events\RoutingAdminAfter;
-use TCG\Voyager\Events\RoutingAfter;
 use TCG\Voyager\Models\DataType;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -27,13 +24,7 @@ class StarImgAdminController extends BaseController
         AuthenticatesUsers,
         AlertsMessages;
 
-    public function __construct()
-    {
-        if (Auth::user()) {
-
-        } else {
-            return Voyager::view('voyager::login');
-        }
+    public function __construct(){
 
     }
 
