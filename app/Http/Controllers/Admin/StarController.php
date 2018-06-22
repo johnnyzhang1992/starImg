@@ -29,7 +29,7 @@ class StarController extends BaseController
     public $show_action = true;
     public $listing_cols = ['id','domain','name','description','gender','follow_count','created_at','updated_at'];
     public function __construct(){
-
+        // test
     }
     // index page
     public function index(Request $request){
