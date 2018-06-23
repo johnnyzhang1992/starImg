@@ -14,9 +14,7 @@ use TCG\Voyager\Traits\AlertsMessages;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
-use Qcloud\Cos\Service;
-use Qcloud\Cos\Client as QcloudClient;
-//require __DIR__ . '/vendor/autoload.php';
+use App\Helpers\QcloudUplodImage;
 
 class StarController extends BaseController
 {
@@ -25,7 +23,6 @@ class StarController extends BaseController
         AuthorizesRequests,
         AuthenticatesUsers,
         AlertsMessages;
-
     public $show_action = true;
     public $listing_cols = ['id','domain','name','description','gender','follow_count','created_at','updated_at'];
     public function __construct(){
@@ -33,6 +30,8 @@ class StarController extends BaseController
     }
     // index page
     public function index(Request $request){
+        $QcloudUplodImage = new QcloudUplodImage();
+        $QcloudUplodImage->getBuckets();
         return view('admin.star.index')
             ->with('show_actions',$this->show_action)
             ->with( 'listing_cols' ,$this->listing_cols)
@@ -96,4 +95,5 @@ class StarController extends BaseController
 
         print public_path() .'/test/img/'.$_filename;
     }
+
 }
