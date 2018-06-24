@@ -30,8 +30,6 @@ class StarController extends BaseController
     }
     // index page
     public function index(Request $request){
-        $QcloudUplodImage = new QcloudUplodImage();
-        $QcloudUplodImage->getBuckets();
         return view('admin.star.index')
             ->with('show_actions',$this->show_action)
             ->with( 'listing_cols' ,$this->listing_cols)
@@ -67,33 +65,6 @@ class StarController extends BaseController
         $out->setData($data);
 
         return $out;
-    }
-    public function http_get_data($url,$user) {
-
-        $ch = curl_init ();
-        curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-        curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt ( $ch, CURLOPT_URL, $url );
-        ob_start ();
-        curl_exec ( $ch );
-        $return_content = ob_get_contents ();
-        ob_end_clean ();
-        $return_code = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
-        if(!file_exists(public_path() .'/test/img/')) {
-            if(mkdir(public_path() .'/test/img/',0777, true)) {
-                echo "创建文件夹成功";
-            }else{
-                echo "创建文件夹失败";
-            }
-        }
-                $_filename  = strtolower(base64_encode($user . '-' . str_random(4))) . '.jpg';
-        file_put_contents(public_path() .'/test/img/'.$_filename,$return_content);
-        /* 压缩头像 */
-//        $tmp_file=explode('.',$_filename);
-//
-//        copy(public_path() .'/test/img/'.$_filename,public_path().'/test/img/'.$tmp_file[0].'-orign.'.$tmp_file[1]);
-
-        print public_path() .'/test/img/'.$_filename;
     }
 
 }
