@@ -120,7 +120,8 @@ class QcloudUplodImage{
             $result = $cosClient->putObject(array(
                 'Bucket' => $this->bucket,
                 'Key' => 'star/'.$star_id.'/'.$img_name,
-                'ContentLength' =>$file_size,
+                'ContentLength' => $file_size,
+                'StorageClass' => 'STANDARD',
                 'Body' => fopen(public_path().'/test/img/'.$img_name, 'rb'))
             );
             info($result);
