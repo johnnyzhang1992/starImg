@@ -35,7 +35,7 @@ class ImagesController extends BaseController{
             if($type && $type =='wb'){
               $images = Images::where('origin','微博')->where('status','active')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(20);
+                $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(10);
             }else{
                 $images = Images::where('is_video',false)->where('status','active')->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
             }
@@ -63,5 +63,19 @@ class ImagesController extends BaseController{
             $res['message'] = 'fail';
         }
         return response()->json($res);
+    }
+    public function starImage($id,$type){
+        if (Auth::user()) {
+            if($type && $type =='wb'){
+                $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(20);
+            }elseif($type && $type =='ins'){
+                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('star_id',$id)->where('is_video',false)->orderBy('attitudes_count','desc')->orderBy('created_at', 'desc')->paginate(10);
+            }else{
+                $images = Images::where('is_video',false)->where('star_id',$id)->where('status','active')->orderBy('attitudes_count','desc')->orderBy('created_at', 'asc')->paginate(20);
+            }
+            return view('admin.img.images') ->with('images',$images);
+        }else{
+            return Voyager::view('voyager::login');
+        }
     }
 }

@@ -37,8 +37,9 @@ Route::group([
 //            Route::get('/','Admin\StarImgAdminController@index');
             Route::get('/tongJi','Admin\StarImgAdminController@index');
             Route::get('/images','Admin\ImagesController@index');
-            Route::get('/images/{id}/{type}','Admin\ImagesController@update');
+            Route::post('/images/{id}/{type}','Admin\ImagesController@update');
             Route::get('/images/{type}','Admin\ImagesController@index');
+            Route::get('/images/{star_id}/{type}','Admin\ImagesController@starImage')->where('star_id', '[0-9]+');
             Route::get('/stars','Admin\StarController@index');
             Route::get('/stars_ajax','Admin\StarController@dtajax');
             event(new RoutingAdminAfter());

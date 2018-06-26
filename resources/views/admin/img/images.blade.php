@@ -9,7 +9,7 @@
                 @foreach($images as $image)
                     <div class="grid-item" data-id="{{@$image->id}}">
                         <a href="{{@$image->origin_url}}" target="_blank">
-                        @if(isset($image->pic_detail) && $image->pic_detail)
+                        @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
                             @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
                                 <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
                             @endif
@@ -20,6 +20,7 @@
                             <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
                         @endif
                         </a>
+                        <p>{!! @strip_tags($image->text) !!}</p>
                         <a type="button" class="delete-item btn btn-danger btn-sm" data-id="{{@$image->id}}" data-status="{{@$image->status}}">删除</a>
                     </div>
                 @endforeach
@@ -90,13 +91,8 @@
                         $.ajax({
                             url: '/admin/images/'+img_id+'/delete',
                             dataType: "json",
+                            type:"POST",
                             success: function(d){
-                                // console.log(d);
-                                // Swal(
-                                //     'Deleted!',
-                                //     'Your imaginary file has been deleted.',
-                                //     'success'
-                                // );
                                 $(that).parent().remove();
                                 $.each(d.errors, function (inputName, errorMessage) {
 

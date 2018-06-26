@@ -55,9 +55,9 @@ class StarController extends BaseController
         for($i=0; $i < count($data->data); $i++) {
             if($this->show_action) {
                 $output = '';
-                $output .= '<a href="'.url('/admin/stars/'.$data->data[$i][0]).'" class="btn btn-sm btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;" target="_blank"><i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">视图</span></a>';
-                $output .= ' <a href="'.url('/admin/stars/'.$data->data[$i][0]).'/edit'.'" class="btn btn-sm btn-info btn-xs" style="display:inline;padding:2px 5px 3px 5px;" target="_blank"><i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">编辑</span></a>';
-                $output .= ' <a href="'.url('/admin/stars/'.$data->data[$i][0]).'/delete'.'" class="btn btn-sm btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" target="_blank"><i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">编辑</span></a>';
+                $output .= '<a href="'.url('/admin/stars/'.$data->data[$i][0]).'" class="btn btn-sm btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;margin-right: 5px" target="_blank"><i class="voyager-eye"></i> </a>';
+                $output .= ' <a href="'.url('/admin/stars/'.$data->data[$i][0]).'/edit'.'" class="btn btn-sm btn-info btn-xs" style="display:inline;padding:2px 5px 3px 5px;margin-right: 5px" target="_blank"><i class="voyager-edit"></i> </a>';
+                $output .= ' <a href="'.url('/admin/stars/'.$data->data[$i][0]).'/delete'.'" class="btn btn-sm btn-danger btn-xs" style="display:inline;padding:2px 5px 3px 5px;" target="_blank"><i class="voyager-trash"></i> </a>';
                 $data->data[$i][] = (string)$output;
             }
         }
