@@ -24,7 +24,7 @@ class StarController extends BaseController
         AuthenticatesUsers,
         AlertsMessages;
     public $show_action = true;
-    public $listing_cols = ['id','domain','name','description','gender','follow_count','created_at'];
+    public $listing_cols = ['id','domain','name','gender','follow_count','created_at'];
     public function __construct(){
         // test
     }
@@ -32,7 +32,7 @@ class StarController extends BaseController
     public function index(Request $request){
         return view('admin.star.index')
             ->with('show_actions',$this->show_action)
-            ->with( 'listing_cols' , ['id','domain','name','description','gender','follow_count','created_at','wb_images','ins_images'])
+            ->with( 'listing_cols' , ['id','domain','name','gender','follow_count','created_at','wb_images','ins_images'])
             ->with('page_title','查看 Stars');
     }
     public function show($id){
@@ -55,6 +55,56 @@ class StarController extends BaseController
 
     }
 
+    /**
+     * 编辑
+     * @param $id
+     * @return mixed
+     */
+    public function edit($id){
+        $star = Star::where('id',$id)->first();
+        $star_wb = DB::table('star_wb')->where('star_id',$id)->first();
+        $star_ins = DB::table('star_ins')->where('star_id',$id)->first();
+        if(isset($star) && $star){
+            return view('admin.star.edit')
+                ->with('star',$star)
+                ->with('star_wb',$star_wb)
+                ->with('star_ins',$star_ins)
+                ->with('page_title','编辑 Star '.$star->name);
+        }else{
+            abort(404);
+        }
+    }
+
+    /**
+     * new star
+     * @return $this
+     */
+    public function create(){
+        return view('admin.star.edit')
+            ->with('page_title','添加 Star ');
+    }
+
+    /**
+     * store
+     * @param Request $request
+     * @return mixed
+     */
+    public function store(Request $request){
+        $star = $request->input('star');
+        $star_id = $request->input('star_id');
+        if(isset($star_id) && $star_id){
+            // 编辑保存
+            $star['updated_at'] = date('Y-m-d H:i:s',time());
+            Star::where('id',$star_id)->update($star);
+            return redirect('/admin/stars/'.$star_id.'/edit');
+        }else{
+            // create new star
+            $star['updated_at'] = date('Y-m-d H:i:s',time());
+            $star['created_at'] = date('Y-m-d H:i:s',time());
+            $_star_id = Star::create($star);
+            return redirect('/admin/stars/'.$_star_id.'/edit');
+        }
+    }
     public function dtajax()
     {
         $values = DB::table('star')

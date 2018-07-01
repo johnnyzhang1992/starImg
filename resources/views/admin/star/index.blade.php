@@ -11,7 +11,7 @@
         <h1 class="page-title">
             <i class="voyager-people"></i>{{@$page_title}}
         </h1>
-        <a href="" class="btn btn-success btn-add-new">
+        <a href="{{ url('/admin/stars/new')  }}" class="btn btn-success btn-add-new">
             <i class="voyager-plus"></i> <span>添加</span>
         </a>
         <a class="btn btn-danger" id="bulk_delete_btn"><i class="voyager-trash"></i> <span>删除选中</span></a>

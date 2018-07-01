@@ -98,22 +98,22 @@
                 @endif
 
                 @if(isset($star_ins) && $star_ins)
-
+                    <div class="panel panel-bordered">
+                        <div class="panel-heading" style="border-bottom:0;">
+                            <h3 class="panel-title">Ins</h3>
+                        </div>
+                        <div class="panel-body" style="padding-top:0;">
+                            <img src="{{ url(@$star_ins->avatar) }}" alt="" class="img-responsive" style="max-width: 150px">
+                        </div>
+                        <div class="panel-body" style="padding-top:0;">
+                            <p><a href="{{ url('http://insstar.cn/'.@$star_ins->name) }}">{{@$star_ins->name}}</a> 粉丝： {{@$star_ins->followers_count}}</p>
+                            <p> 认证：{{ $star_ins->verified ? '是' : '否' }}</p>
+                            <p>介绍：{{@$star_ins->description}}</p>
+                        </div>
+                        <hr style="margin:0;">
+                    </div>
                 @endif
-                <div class="panel panel-bordered">
-                    <div class="panel-heading" style="border-bottom:0;">
-                        <h3 class="panel-title">Ins</h3>
-                    </div>
-                    <div class="panel-body" style="padding-top:0;">
-                        <img src="{{ url(@$star_ins->avatar) }}" alt="" class="img-responsive" style="max-width: 150px">
-                    </div>
-                    <div class="panel-body" style="padding-top:0;">
-                        <p><a href="{{ url('http://insstar.cn/'.@$star_ins->name) }}">{{@$star_ins->name}}</a> 粉丝： {{@$star_ins->followers_count}}</p>
-                        <p> 认证：{{ $star_ins->verified ? '是' : '否' }}</p>
-                        <p>介绍：{{@$star_ins->description}}</p>
-                    </div>
-                    <hr style="margin:0;">
-                </div>
+
             </div>
         </div>
     </div>

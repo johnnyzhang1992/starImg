@@ -41,6 +41,9 @@ Route::group([
             Route::get('/images/{type}','Admin\ImagesController@index');
             Route::get('/images/{star_id}/{type}','Admin\ImagesController@starImage')->where('star_id', '[0-9]+');
             Route::get('/stars','Admin\StarController@index');
+            Route::get('/stars/new','Admin\StarController@create');
+            Route::post('/stars/store','Admin\StarController@store');
+            Route::get('/stars/{id}/edit','Admin\StarController@edit')->where('id', '[0-9]+');
             Route::get('/stars/{id}','Admin\StarController@show')->where('id', '[0-9]+');
             Route::get('/stars_ajax','Admin\StarController@dtajax');
             event(new RoutingAdminAfter());
