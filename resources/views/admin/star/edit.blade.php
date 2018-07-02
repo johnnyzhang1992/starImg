@@ -88,19 +88,31 @@
                             </div>
                             <div class="form-group">
                                 <label for="wb_id">微博id</label>
-                                <input type="text" class="form-control" id="wb_id" name="star[wb_id]" placeholder="wb_id" value="{{@$star->wb_id}}">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://weibo.com/u/</span>
+                                    <input type="text" class="form-control" id="wb_id" name="star[wb_id]" placeholder="wb_id" value="{{@$star->wb_id}}">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="wb_domain">微博 domain</label>
-                                <input type="text" class="form-control" id="wb_domain" name="star[wb_domain]" placeholder="wb_domain" value="{{@$star->wb_domain}}">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://weibo.com/</span>
+                                    <input type="text" class="form-control" id="wb_domain" name="star[wb_domain]" placeholder="wb_domain" value="{{@$star->wb_domain}}">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="ins_id">IG id</label>
-                                <input type="text" class="form-control" id="ins_id" name="star[ins_id]" placeholder="ins_id" value="{{@$star->ins_id}}">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://instagram/</span>
+                                    <input type="text" class="form-control" id="ins_id" name="star[ins_id]" placeholder="ins_id" value="{{@$star->ins_id}}">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="ins_domain">IG domain</label>
-                                <input type="text" class="form-control" id="ins_domain" name="star[ins_name]" placeholder="ins_name" value="{{@$star->ins_name}}">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://instagram.com/</span>
+                                    <input type="text" class="form-control" id="ins_domain" name="star[ins_name]" placeholder="ins_name" value="{{@$star->ins_name}}">
+                                </div>
                             </div>
                         </div>
                     </div>
