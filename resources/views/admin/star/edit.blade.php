@@ -21,7 +21,7 @@
 @section('content')
     <div class="page-content browse container-fluid">
         @include('voyager::alerts')
-        <form action="{{url('/admin/stars/store')}}" method="POST" enctype="multipart/form-data" autocomplete="off" class="form-edit-add">
+        <form action="{{url('/admin/stars/store')}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             <input type="hidden" name="star_id" value="{{@$star->id}}">
             {{ csrf_field() }}
             <div class="row">
@@ -112,6 +112,20 @@
                                 <div class="input-group">
                                     <span class="input-group-addon" id="basic-addon3">https://instagram.com/</span>
                                     <input type="text" class="form-control" id="ins_domain" name="star[ins_name]" placeholder="ins_name" value="{{@$star->ins_name}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tw_domain">Twitter domain</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://twitter.com/</span>
+                                    <input type="text" class="form-control" id="tw_domain" name="star[twitter_domain]" placeholder="twitter_domain" value="{{@$star->twitter_domain}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="fb_domain">Fb domain</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">https://www.facebook.com/</span>
+                                    <input type="text" class="form-control" id="fb_domain" name="star[fb_domain]" placeholder="fb_domain" value="{{@$star->fb_domain}}">
                                 </div>
                             </div>
                         </div>

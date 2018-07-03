@@ -92,6 +92,9 @@ class StarController extends BaseController
     public function store(Request $request){
         $star = $request->input('star');
         $star_id = $request->input('star_id');
+        if(!isset($star['follow_count']) || $star['follow_count'] ==''){
+            $star['follow_count'] = 0;
+        }
         if(isset($star_id) && $star_id){
             // 编辑保存
             $star['updated_at'] = date('Y-m-d H:i:s',time());
