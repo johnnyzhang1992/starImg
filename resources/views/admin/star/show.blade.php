@@ -11,7 +11,7 @@
         <h1 class="page-title">
             <i class="voyager-people"></i>{{@$page_title}}
         </h1>
-        <a href="" class="btn btn-success btn-add-new">
+        <a href="{{ url('/admin/stars/new')  }}" class="btn btn-success btn-add-new">
             <i class="voyager-plus"></i> <span>添加</span>
         </a>
         <a href="{{ url('/admin/stars') }}" class="btn btn-warning">

@@ -82,9 +82,13 @@
                             <div class="form-group">
                                 <label for="status">状态</label>
                                 <select name="star[status]" id="status" class="form-control select2">
-                                    <option value="status" @if(isset($star) && isset($star->status) && $star->status =='active') selected @endif> 正常</option>
+                                    <option value="active" @if(isset($star) && isset($star->status) && $star->status =='active') selected @endif> 正常</option>
                                     <option value="freeze" @if(isset($star) && isset($star->atatus) && $star->status =='freeze') selected @endif>冻结</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tag">标签（英文逗号隔开）</label>
+                                <input type="text" class="form-control" id="tag" name="star[tag]" placeholder="创造101,偶像练习生" value="{{@$star->tag}}">
                             </div>
                             <div class="form-group">
                                 <label for="wb_id">微博id</label>
