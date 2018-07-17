@@ -33,7 +33,7 @@ class ImagesController extends BaseController{
     public function index(Request $request,$type=null){
         if (Auth::user()) {
             if($type && $type =='wb'){
-              $images = Images::where('origin','微博')->where('status','active')->where('is_video',false)->orderBy('created_at', 'desc')->paginate(20);
+              $images = Images::where('origin','微博')->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
                 $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->orderBy('created_at', 'desc')->paginate(10);
             }else{
@@ -68,9 +68,9 @@ class ImagesController extends BaseController{
     public function starImage($id,$type){
         if (Auth::user()) {
             if($type && $type =='wb'){
-                $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('created_at', 'desc')->paginate(20);
+                $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('star_id',$id)->where('is_video',false)->orderBy('created_at', 'desc')->paginate(10);
+                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('star_id',$id)->where('is_video',false)->orderBy('id', 'asc')->paginate(10);
             }else{
                 $images = Images::where('is_video',false)->where('star_id',$id)->where('status','active')->orderBy('created_at', 'asc')->paginate(20);
             }
