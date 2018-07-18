@@ -18,6 +18,8 @@ use Illuminate\Routing\Controller as BaseController;
 use TCG\Voyager\Traits\AlertsMessages;
 use TCG\Voyager\Facades\Voyager;
 use App\Models\Images;
+use App\Helpers\QcloudUplodImage;
+use Illuminate\Support\Facades\DB;
 
 class ImagesController extends BaseController{
     use DispatchesJobs,
@@ -65,18 +67,32 @@ class ImagesController extends BaseController{
         }
         return response()->json($res);
     }
+
+    /**
+     * @param $id
+     * @param $type
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function starImage($id,$type){
         if (Auth::user()) {
             if($type && $type =='wb'){
                 $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('star_id',$id)->where('is_video',false)->orderBy('id', 'asc')->paginate(10);
+                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('id', 'asc')->paginate(15);
             }else{
                 $images = Images::where('is_video',false)->where('star_id',$id)->where('status','active')->orderBy('created_at', 'asc')->paginate(20);
             }
             return view('admin.img.images') ->with('images',$images);
         }else{
             return Voyager::view('voyager::login');
+        }
+    }
+    public function downloadHttpImages($star_id){
+        $uploadImage = new QcloudUplodImage();
+        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'asc')->paginate(5);
+        foreach ($images as $image){
+            info($image->display_url);
+            $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
         }
     }
 }

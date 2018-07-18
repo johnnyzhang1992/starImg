@@ -36,6 +36,7 @@ Route::group([
             event(new RoutingAdmin());
 //            Route::get('/','Admin\StarImgAdminController@index');
             Route::get('/tongJi','Admin\StarImgAdminController@index');
+            Route::get('/downloadHttpImages/{id}','Admin\ImagesController@downloadHttpImages');
             Route::get('/images','Admin\ImagesController@index');
             Route::post('/images/{id}/{type}','Admin\ImagesController@update');
             Route::get('/images/{type}','Admin\ImagesController@index');

@@ -9,17 +9,24 @@
                 @foreach($images as $image)
                     <div class="grid-item" data-id="{{@$image->id}}">
                         <a href="{{@$image->origin_url}}" target="_blank">
-                        @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
-                            @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
-                                <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
+                            @if(isset($image->cos_url) && $image->cos_url)
+                                <img class="img-responsive" src="{{'https://i.starimg.cn/'.@$image->cos_url.'!small'}}" alt="{{  @html_entity_decode($image->text) }}">
+                            @else
+                                @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
+                                    @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
+                                        <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                    @endif
+                                    @if(isset($image->pic_detail) && $image->origin == 'instagram')
+
+                                        <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
+                                    @endif
+                                @else
+                                    <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                @endif
                             @endif
-                            @if(isset($image->pic_detail) && $image->origin == 'instagram')
-                                    <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
-                            @endif
-                        @else
-                            <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
-                        @endif
+
                         </a>
+                        <p>{{@$image->take_at_timestamp}}</p>
                         <p>{!! @strip_tags($image->text) !!}</p>
                         <a type="button" class="delete-item btn btn-danger btn-sm" data-id="{{@$image->id}}" data-status="{{@$image->status}}">删除</a>
                     </div>
