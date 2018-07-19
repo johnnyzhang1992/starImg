@@ -26,7 +26,8 @@
                             @endif
 
                         </a>
-                        <p>{{@$image->take_at_timestamp}}</p>
+                        <p>cos_url: {{@$image->cos_url}}</p>
+                        <p>{{@$star->name}} : {{@$image->take_at_timestamp}}</p>
                         <p>{!! @strip_tags($image->text) !!}</p>
                         <a type="button" class="delete-item btn btn-danger btn-sm" data-id="{{@$image->id}}" data-status="{{@$image->status}}">删除</a>
                     </div>

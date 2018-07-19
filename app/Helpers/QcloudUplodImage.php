@@ -10,6 +10,8 @@ namespace App\Helpers;
 
 use Qcloud\Cos\Service;
 use Guzzle\Service\Resource\Model;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use App\Models\Images;
 use Qcloud\Cos\Client as QcloudClient;
 
@@ -112,6 +114,8 @@ class QcloudUplodImage{
      * 大小小于5M
      * @param $star_id
      * @param $img_name
+     * @param $type
+     * @return mixed
      */
     public function putImageToCos($star_id,$img_name,$type){
         $cosClient = new QcloudClient($this->bucket_args);
@@ -125,12 +129,14 @@ class QcloudUplodImage{
                 'StorageClass' => 'STANDARD',
                 'Body' => fopen(public_path().'/test/img/'.$img_name, 'rb'))
             );
-            info($result);
+//            info($result);
             info($result['ObjectURL']);
+            return $result['ObjectURL'];
         } catch (\Exception $e) {
             echo "$e\n";
         }
     }
+
     /**
      * 分块文件上传
      */
@@ -194,6 +200,7 @@ class QcloudUplodImage{
      * 分块上传大文件
      * @param $star_id
      * @param $img_name
+     * @return mixed
      */
     public function uploadImageToCos($star_id,$img_name){
         $cosClient = new QcloudClient($this->bucket_args);
@@ -204,9 +211,56 @@ class QcloudUplodImage{
                 $key = 'star/'.$star_id.'/'.$img_name,
                 $body = fopen(public_path().'/test/img/'.$img_name, 'rb'));
             info($result);
+            return $result;
         } catch (\Exception $e) {
             echo "$e\n";
         }
+    }
+
+    /**
+     * 删除文件
+     * @param $file_name
+     * @return mixed
+     */
+    public function deleteObject($file_name){
+        $cosClient = new QcloudClient($this->bucket_args);
+        // 删除 COS 对象
+        $result = $cosClient->deleteObject(array(
+            //bucket 的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
+            'Bucket' => $this->bucket,
+            'Key' => $file_name));
+        return $result;
+    }
+
+    /**
+     * 获取文件权限控制信息
+     * @param $key
+     */
+    public function getObjectACL($key){
+        $cosClient = new QcloudClient($this->bucket_args);
+        #getObjectACL
+        try {
+            $result = $cosClient->getObjectAcl(array(
+                //bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
+                'Bucket' => 'testbucket-125000000',
+                'Key' => $key));
+            print_r($result);
+        } catch (\Exception $e) {
+            echo "$e\n";
+        }
+    }
+    /**
+     * 获取对象属性
+     * 查询获取 COS 上的对象属性
+     * @param $key
+     * @return mixed
+     */
+    public function headObject($key){
+        $cosClient = new QcloudClient($this->bucket_args);
+        // 获取 COS 文件属性
+        //bucket 的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
+        $result = $cosClient->headObject(array('Bucket' =>$this->bucket, 'Key' =>$key));
+        return $result;
     }
     /**
      * 根据url下载文件到服务器
@@ -218,34 +272,43 @@ class QcloudUplodImage{
      * @return mixed
      */
     public function http_get_data($url,$user,$id,$type) {
-        $ch = curl_init ();
-        curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-        curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt ( $ch, CURLOPT_URL, $url );
-        ob_start ();
-        curl_exec ( $ch );
-        $return_content = ob_get_contents ();
-        ob_end_clean ();
-        $return_code = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
+//        $ch = curl_init ();
+//        curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+//        curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
+//        curl_setopt ( $ch, CURLOPT_URL, $url );
+//        ob_start ();
+//        curl_exec ( $ch );
+//        $return_content = ob_get_contents ();
+//        ob_end_clean ();
+//        $return_code = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
+//        file_put_contents(public_path() .'/test/img/'.$_filename,$return_content);
+//        return public_path() .'/test/img/'.$_filename;
         print $url.'<br>';
-        print_r($return_code);
         if(!file_exists(public_path() .'/test/img/')) {
             if(mkdir(public_path() .'/test/img/',0777, true)) {
+                info('创建文件夹成功');
                 echo "创建文件夹成功";
             }else{
+                info('创建文件夹失败');
                 echo "创建文件夹失败";
             }
         }
-
-        $_filename  = strtolower($user . '-' . str_random(4)) . '.jpg';
-        file_put_contents(public_path() .'/test/img/'.$_filename,$return_content);
-        $this->putImageToCos($user,$_filename,$type);
-        Images::where('id',$id)->update([
-            'cos_url' =>'star/'.$user.'/ins/'.$_filename
-        ]);
-        echo '<img src="https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small" style="width:200px"><br>';
-        unlink(public_path() .'/test/img/'.$_filename);
-//
-//        return public_path() .'/test/img/'.$_filename;
+        $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+        // 下载远程文件到服务器
+        $client = new Client(['verify' => false]);  //忽略SSL错误
+        $response = $client->get($url, ['save_to' => public_path().'/test/img/'.$_filename]);  //保存远程url到文件
+        if($response){
+            // 转存文件到腾讯云
+            $result = $this->putImageToCos($user,$_filename,$type);
+            if(isset($result) && $result){
+                // 入库
+                Images::where('id',$id)->update([
+                    'cos_url' =>'star/'.$user.'/ins/'.$_filename
+                ]);
+                echo '<img src="https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small" style="width:200px"><br>';
+                // 删除服务器暂存文件
+                unlink(public_path() .'/test/img/'.$_filename);
+            }
+        }
     }
 }

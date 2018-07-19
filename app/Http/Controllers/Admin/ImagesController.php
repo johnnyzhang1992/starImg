@@ -18,6 +18,7 @@ use Illuminate\Routing\Controller as BaseController;
 use TCG\Voyager\Traits\AlertsMessages;
 use TCG\Voyager\Facades\Voyager;
 use App\Models\Images;
+use App\Models\Star;
 use App\Helpers\QcloudUplodImage;
 use Illuminate\Support\Facades\DB;
 
@@ -75,6 +76,7 @@ class ImagesController extends BaseController{
      */
     public function starImage($id,$type){
         if (Auth::user()) {
+            $star = Star::where('id',$id)->first();
             if($type && $type =='wb'){
                 $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
@@ -82,14 +84,16 @@ class ImagesController extends BaseController{
             }else{
                 $images = Images::where('is_video',false)->where('star_id',$id)->where('status','active')->orderBy('created_at', 'asc')->paginate(20);
             }
-            return view('admin.img.images') ->with('images',$images);
+            return view('admin.img.images')
+                ->with('star',$star)
+                ->with('images',$images);
         }else{
             return Voyager::view('voyager::login');
         }
     }
     public function downloadHttpImages($star_id){
         $uploadImage = new QcloudUplodImage();
-        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'asc')->paginate(5);
+        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(5);
         foreach ($images as $image){
             info($image->display_url);
             $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
