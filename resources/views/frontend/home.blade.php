@@ -1,9 +1,101 @@
-@extends('voyager::master')
+@extends('frontend.layouts.app')
+
+@section('css')
+    <link rel="stylesheet" href="https://admin.starimg.cn/vendor/tcg/voyager/assets/css/app.css">
+    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.css">
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
+        .full-height {
+            height: 100vh;
+        }
+
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .position-ref {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
+
+        .content {
+            text-align: center;
+            position: relative;
+        }
+
+        .title {
+            font-size: 84px;
+        }
+
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .m-b-md {
+            margin-bottom: 30px;
+        }
+        .grid{
+            margin-bottom: 25px;
+        }
+        .grid-sizer, .grid-item {
+            width: 20%;
+            padding: 10px;
+            position: relative;
+        }
+        .grid-item a{
+            display: block;
+        }
+        .grid-item img{
+            border: 1px dashed #FF9800;
+        }
+        .grid-item p{
+            text-align: left;
+            margin-bottom: 0;
+            text-indent: 2em;
+        }
+        .pagination-image{
+            /*position: absolute;*/
+            /*bottom: 0;*/
+            /*left: -60px;*/
+            /*width: 100%;*/
+            padding: 0 10px;
+            text-align: center;
+        }
+        .grid-item--width2 { width: 400px; }
+        @media(max-width: 768px){
+            .grid-sizer, .grid-item {
+                width: 50%;
+                padding: 10px;
+                position: relative;
+            }
+        }
+    </style>
+@endsection
+
+@include('frontend.partials.tongji')
+@include('frontend.partials.nav')
 
 @section('content')
-    <div class="page-content">
-    @include('voyager::alerts')
-    @include('voyager::dimmers')
+    <div class="content">
         @if(isset($images) && $images)
             <div class="grid">
                 @foreach($images as $image)
@@ -26,10 +118,7 @@
                             @endif
 
                         </a>
-                        <p>cos_url: {{@$image->cos_url}}</p>
-                        <p>{{@$star->name}} : {{@$image->take_at_timestamp}}</p>
-                        <p>{!! @strip_tags($image->text) !!}</p>
-                        <a type="button" class="delete-item btn btn-danger btn-sm" data-id="{{@$image->id}}" data-status="{{@$image->status}}">删除</a>
+                        {{--<p>{!! @strip_tags($image->text) !!}</p>--}}
                     </div>
                 @endforeach
             </div>
@@ -38,41 +127,11 @@
             {{ @$images->links()}}
         </div>
     </div>
-@stop
+@endsection
 
-@section('css')
-    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.css">
-    <style>
-        .grid{
-            margin-bottom: 25px;
-        }
-        .grid-sizer, .grid-item {
-            width: 20%;
-            padding: 10px;
-            position: relative;
-        }
-        .grid-item a{
-            display: block;
-        }
-        .grid-item img{
-            border: 1px dashed #FF9800;
-        }
-        .pagination-image{
-            position: absolute;
-            bottom: 0;
-            left: -60px;
-            width: 100%;
-            text-align: center;
-        }
-        .grid-item--width2 { width: 400px; }
-    </style>
-@stop
 @section('javascript')
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <!-- or -->
-    {{--<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>--}}
     <script src="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.js"></script>
-
     <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
     <script src="https://unpkg.com/promise-polyfill"></script>
     <script>
@@ -124,17 +183,17 @@
                                 });
                             }
                         })
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
-                }
-            });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                });
 
             });
 
         });
     </script>
-@stop
+@endsection()

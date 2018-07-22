@@ -61,4 +61,12 @@ Route::group([
 });
 
 
+# starimg.cn 路由
+Route::group([
+    'middleware' => ['web'],
+    'domain' => 'starimg.cn'
+], function () {
+    Auth::routes();
+    Route::get('/', 'Frontend\HomeController@index')->name('home');
+});
 
