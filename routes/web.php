@@ -47,6 +47,7 @@ Route::group([
             Route::get('/stars/{id}/edit','Admin\StarController@edit')->where('id', '[0-9]+');
             Route::get('/stars/{id}','Admin\StarController@show')->where('id', '[0-9]+');
             Route::get('/stars_ajax','Admin\StarController@dtajax');
+            Route::get('/images_ci','Admin\ImagesController@imageDetect');
             event(new RoutingAdminAfter());
         });
     });

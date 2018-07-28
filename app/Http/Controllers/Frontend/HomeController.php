@@ -24,7 +24,14 @@ class HomeController extends Controller{
      */
     public function index()
     {
-        $images = Images::where('origin','微博')->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
+        $images = DB::table('star_img')
+            ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
+            ->where('star_img.origin','微博')
+            ->where('star_img.status','active')
+            ->where('star_img.is_video',false)
+            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description')
+            ->orderBy('star_img.mid', 'desc')
+            ->paginate(20);
         return view('frontend.home')
             ->with('images',$images);
     }

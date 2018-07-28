@@ -11,33 +11,9 @@
             height: 100vh;
             margin: 0;
         }
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
         .content {
             text-align: center;
             position: relative;
-        }
-
-        .title {
-            font-size: 84px;
         }
 
         .links > a {
@@ -49,23 +25,20 @@
             text-decoration: none;
             text-transform: uppercase;
         }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
         .grid{
             margin-bottom: 25px;
         }
-        .grid-sizer, .grid-item {
+        .grid-item {
             width: 20%;
             padding: 10px;
+            display: inline-block;
             position: relative;
         }
         .grid-item a{
             display: block;
         }
         .grid-item img{
-            border: 1px dashed #FF9800;
+            border-radius: 6px;
         }
         .grid-item p{
             text-align: left;
@@ -73,19 +46,121 @@
             text-indent: 2em;
         }
         .pagination-image{
-            /*position: absolute;*/
-            /*bottom: 0;*/
-            /*left: -60px;*/
-            /*width: 100%;*/
             padding: 0 10px;
             text-align: center;
         }
-        .grid-item--width2 { width: 400px; }
+        .grid-item{
+            /*margin: -8px;*/
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .grid-item::before {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            content: " " !important;
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            -webkit-transform: scale(0.96);
+            transform: scale(0.96);
+            width: 100%;
+            z-index: 3;
+        }
+        .grid-item:hover::before {
+            -webkit-animation: tapAnimation 0.25s cubic-bezier(0.31, 1, 0.34, 1) forwards;
+            animation: tapAnimation 0.25s cubic-bezier(0.31, 1, 0.34, 1) forwards;
+        }
+        /* origin part */
+        .img-origin{
+            display: none;
+            padding: 10px 15px;
+        }
+        .domainNameLink{
+            /*color: #fff;*/
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
+        }
+        .domainNameLink svg{
+            fill: currentColor;
+            stroke-width: 0;
+            vertical-align: middle;
+        }
+        /* author part*/
+        .origin-author{
+            padding: 10px 0;
+        }
+        .origin-author .left,.origin-author .right{
+            display: inline-block;
+            padding: 0;
+        }
+        .origin-author .left{
+            width: 50px;
+            max-width: 50px;
+        }
+        .origin-author .author-avatar{
+            width: 35px;
+            border-radius: 50%;
+        }
+        .origin-author .author_description{
+            font-size: 14px;
+            line-height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        .origin-author .author_name{
+            font-size: 12px;
+            line-height: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            width: 100%;
+            padding-top: 5px;
+        }
+        .origin-author a{
+            color: #333;
+        }
+        .origin-author a:hover{
+            text-decoration: underline;
+        }
+        @keyframes tapAnimation {
+            0% {
+                opacity: 1;
+                -webkit-transform: scale(0.96);
+                transform: scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
         @media(max-width: 768px){
             .grid-sizer, .grid-item {
                 width: 50%;
                 padding: 10px;
                 position: relative;
+                display: inline-block;
+                float: left;
+            }
+            .origin-author .left{
+                width: 30px;
+                line-height: 43px;
+            }
+            .origin-author .author-avatar{
+                width: 25px;
             }
         }
     </style>
@@ -116,8 +191,26 @@
                                     <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
                                 @endif
                             @endif
-
                         </a>
+                        <div class="img-origin">
+                            <a href="https://weibo.com" class="domainNameLink">
+                                <svg class="_s1 _5s _s2 _29" height="14" width="14" viewBox="0 0 24 24" aria-label="link" role="img"><title>link</title><path d="M4.9283,1 C3.6273,1 2.5713,2.054 2.5713,3.357 C2.5713,4.66 3.6273,5.714 4.9283,5.714 L14.9523,5.714 L1.6893,18.976 C0.7703,19.896 0.7703,21.389 1.6893,22.31 C2.1503,22.771 2.7533,23 3.3573,23 C3.9603,23 4.5633,22.771 5.0243,22.31 L18.2853,9.047 L18.2853,19.071 C18.2853,20.374 19.3413,21.429 20.6433,21.429 C21.9443,21.429 23.0003,20.374 23.0003,19.071 L23.0003,1 L4.9283,1 Z"></path></svg>
+                                <div>
+                                    weibo.com
+                                </div>
+                            </a>
+                        </div>
+                        <div class="origin-author col-xs-12">
+                            <div class="left col-xs-3">
+                                <a href="{{'https://weibo.com/u/'.@$image->wb_id}}" target="_blank">
+                                    <img src="{{@$image->avatar}}" alt="{{@$image->screen_name}}" class="author-avatar">
+                                </a>
+                            </div>
+                            <div class="right col-xs-9">
+                                <div class="author_description">{{@$image->description}}</div>
+                                <div class="author_name"><a href="{{'https://weibo.com/u/'.@$image->wb_id}}" target="_blank">{{@$image->screen_name}}</a></div>
+                            </div>
+                        </div>
                         {{--<p>{!! @strip_tags($image->text) !!}</p>--}}
                     </div>
                 @endforeach
@@ -142,58 +235,6 @@
                 columnWidth: '.grid-item',
                 percentPosition: true
             });
-            $('.delete-item').on('click',function () {
-                var img_id = $(this).attr('data-id');
-                var that = $(this);
-                console.log('---img-id-'+img_id);
-                Swal({
-                    title: 'Are you sure?',
-                    text: 'You will not be able to recover this imaginary file!',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, keep it'
-                }).then(function(result){
-                    if (result.value) {
-                        $.ajax({
-                            url: '/admin/images/'+img_id+'/delete',
-                            dataType: "json",
-                            type:"POST",
-                            success: function(d){
-                                $(that).parent().remove();
-                                $.each(d.errors, function (inputName, errorMessage) {
-
-                                    // This will work also for fields with brackets in the name, ie. name="image[]
-                                    var $inputElement = $("[name='" + inputName + "']"),
-                                        inputElementPosition = $inputElement.first().parent().offset().top,
-                                        navbarHeight = $('nav.navbar').height();
-
-                                    // Scroll to first error
-                                    if (Object.keys(d.errors).indexOf(inputName) === 0) {
-                                        $('html, body').animate({
-                                            scrollTop: inputElementPosition - navbarHeight + 'px'
-                                        }, 'fast');
-                                    }
-
-                                    // Hightlight and show the error message
-                                    $inputElement.parent()
-                                        .addClass("has-error")
-                                        .append("<span class='help-block' style='color:#f96868'>" + errorMessage + "</span>")
-
-                                });
-                            }
-                        })
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal(
-                            'Cancelled',
-                            'Your imaginary file is safe :)',
-                            'error'
-                        )
-                    }
-                });
-
-            });
-
         });
     </script>
 @endsection()

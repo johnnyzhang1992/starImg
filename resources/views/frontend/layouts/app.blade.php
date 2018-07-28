@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="/star.png">
+    <link rel="icon" sizes="128x128" type="image/png" href="/star.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>{{ config('app.name', 'starimg').' | 快来pick你喜欢的爱豆' }}</title>
+    <meta name="keywords" content="微博明星,微博图片,明星图片,街拍图片,微博精选图片">
+    <meta name="description" content="starImg | 微博精选图片">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('baidutongji')
@@ -15,7 +20,7 @@
 <body>
 <div id="app">
     @yield('nav')
-    <main class="py-4">
+    <main class="main">
         @yield('content')
     </main>
 </div>

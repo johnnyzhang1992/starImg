@@ -9,11 +9,16 @@
 namespace App\Helpers;
 
 use Qcloud\Cos\Service;
-use Guzzle\Service\Resource\Model;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use App\Models\Images;
 use Qcloud\Cos\Client as QcloudClient;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\Promise;
+use Guzzle\Service\Resource\Model;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Request;
 
 class QcloudUplodImage{
     /**
@@ -268,7 +273,7 @@ class QcloudUplodImage{
      * @param $user
      * @param $id
      * @param $type
-     * 返回文件地址
+     * @throws $e
      * @return mixed
      */
     public function http_get_data($url,$user,$id,$type) {
@@ -284,6 +289,7 @@ class QcloudUplodImage{
 //        file_put_contents(public_path() .'/test/img/'.$_filename,$return_content);
 //        return public_path() .'/test/img/'.$_filename;
         print $url.'<br>';
+        // 创建服务器文件夹，授予权限
         if(!file_exists(public_path() .'/test/img/')) {
             if(mkdir(public_path() .'/test/img/',0777, true)) {
                 info('创建文件夹成功');
@@ -294,21 +300,49 @@ class QcloudUplodImage{
             }
         }
         $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+        if(file_exists(public_path() .'/test/img/'.$_filename)) {
+            $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+
+        }
         // 下载远程文件到服务器
+        if(strpos($url,'s.insstar.cn') !== false){
+            print '原图片已丢失<br>';
+            return false;
+        }
         $client = new Client(['verify' => false]);  //忽略SSL错误
-        $response = $client->get($url, ['save_to' => public_path().'/test/img/'.$_filename]);  //保存远程url到文件
-        if($response){
-            // 转存文件到腾讯云
-            $result = $this->putImageToCos($user,$_filename,$type);
-            if(isset($result) && $result){
-                // 入库
-                Images::where('id',$id)->update([
-                    'cos_url' =>'star/'.$user.'/ins/'.$_filename
-                ]);
-                echo '<img src="https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small" style="width:200px"><br>';
-                // 删除服务器暂存文件
-                unlink(public_path() .'/test/img/'.$_filename);
+        $_res = null;
+        try {
+            $_res = $client->request('GET',$url);
+        } catch (\RequestException $e) {
+            echo $e->getRequest();
+            if ($e->hasResponse()) {
+                echo $e->getResponse();
+            }
+        }
+        if($_res){
+//            echo $_res->getBody();
+            info('status_code:'.$_res->getStatusCode());
+            print('status_code:'.$_res->getStatusCode());
+            if($_res->getStatusCode() == 200) {
+                $response = $client->get($url, ['save_to' => public_path().'/test/img/'.$_filename]);  //保存远程url到文件
+                if($response){
+                    // 转存文件到腾讯云
+                    $result = $this->putImageToCos($user,$_filename,$type);
+                    if(isset($result) && $result){
+                        // 入库
+                        Images::where('id',$id)->update([
+                            'cos_url' =>'star/'.$user.'/ins/'.$_filename
+                        ]);
+
+                        echo 'https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small'.'<br>';
+                        // 删除服务器暂存文件
+                        unlink(public_path() .'/test/img/'.$_filename);
+                    }
+                }
+            } else{
+                print '请求页面不存在';
             }
         }
     }
+
 }

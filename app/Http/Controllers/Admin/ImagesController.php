@@ -20,6 +20,7 @@ use TCG\Voyager\Facades\Voyager;
 use App\Models\Images;
 use App\Models\Star;
 use App\Helpers\QcloudUplodImage;
+use App\Helpers\QcloundCiImage;
 use Illuminate\Support\Facades\DB;
 
 class ImagesController extends BaseController{
@@ -98,5 +99,8 @@ class ImagesController extends BaseController{
             info($image->display_url);
             $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
         }
+    }
+    public function imageDetect(){
+        QcloundCiImage::porn_detect(['https://wx1.sinaimg.cn/mw690/a5fa5943gy1ftmg6h2asej21kw2dc4qt.jpg'],'urls');
     }
 }
