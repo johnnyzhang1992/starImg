@@ -11,9 +11,9 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>{{ config('app.name', 'starimg').' | 快来pick你喜欢的爱豆' }}</title>
     <meta name="keywords" content="微博明星,微博图片,明星图片,街拍图片,微博精选图片">
-    <meta name="description" content="starImg | 微博精选图片">
+    <meta name="description" content="starImg | 搜罗你喜欢的爱豆的微博、instagram、twitter、facebook各种来源的图片。">
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @yield('baidutongji')
     @yield('css')
 </head>
@@ -25,8 +25,8 @@
     </main>
 </div>
 <!-- Scripts -->
-<script type="text/javascript" src="https://admin.starimg.cn/vendor/tcg/voyager/assets/js/app.js"></script>
-{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
+{{--<script type="text/javascript" src="https://admin.starimg.cn/vendor/tcg/voyager/assets/js/app.js"></script>--}}
+<script src="{{ mix('js/app.js') }}"></script>
 @yield('javascript')
 </body>
 </html>

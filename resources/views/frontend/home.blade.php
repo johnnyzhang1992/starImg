@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="https://admin.starimg.cn/vendor/tcg/voyager/assets/css/app.css">
-    <link rel="stylesheet" href="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.css">
+    {{--<link rel="stylesheet" href="https://admin.starimg.cn/vendor/tcg/voyager/assets/css/app.css">--}}
+    {{--<link rel="stylesheet" href="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.css">--}}
     <style>
         html, body {
             background-color: #fff;
@@ -48,6 +48,9 @@
         .pagination-image{
             padding: 0 10px;
             text-align: center;
+        }
+        .pagination{
+            overflow: auto;
         }
         .grid-item{
             /*margin: -8px;*/
@@ -97,6 +100,7 @@
         /* author part*/
         .origin-author{
             padding: 10px 0;
+            display: flex;
         }
         .origin-author .left,.origin-author .right{
             display: inline-block;
@@ -177,18 +181,18 @@
                     <div class="grid-item" data-id="{{@$image->id}}">
                         <a href="{{@$image->origin_url}}" target="_blank">
                             @if(isset($image->cos_url) && $image->cos_url)
-                                <img class="img-responsive" src="{{'https://i.starimg.cn/'.@$image->cos_url.'!small'}}" alt="{{  @html_entity_decode($image->text) }}">
+                                <img class="img-fluid" src="{{'https://i.starimg.cn/'.@$image->cos_url.'!small'}}" alt="{{  @html_entity_decode($image->text) }}">
                             @else
                                 @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
                                     @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
-                                        <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                        <img class="img-fluid" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
                                     @endif
                                     @if(isset($image->pic_detail) && $image->origin == 'instagram')
 
-                                        <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
+                                        <img class="img-fluid" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
                                     @endif
                                 @else
-                                    <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                    <img class="img-fluid" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
                                 @endif
                             @endif
                         </a>
@@ -200,13 +204,13 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="origin-author col-xs-12">
-                            <div class="left col-xs-3">
+                        <div class="origin-author col-12 clearfix">
+                            <div class="left col-3">
                                 <a href="{{'https://weibo.com/u/'.@$image->wb_id}}" target="_blank">
                                     <img src="{{@$image->avatar}}" alt="{{@$image->screen_name}}" class="author-avatar">
                                 </a>
                             </div>
-                            <div class="right col-xs-9">
+                            <div class="right col-9">
                                 <div class="author_description">{{@$image->description}}</div>
                                 <div class="author_name"><a href="{{'https://weibo.com/u/'.@$image->wb_id}}" target="_blank">{{@$image->screen_name}}</a></div>
                             </div>
@@ -224,7 +228,7 @@
 
 @section('javascript')
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <script src="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.js"></script>
+    {{--<script src="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.min.js"></script>--}}
     <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
     <script src="https://unpkg.com/promise-polyfill"></script>
     <script>
