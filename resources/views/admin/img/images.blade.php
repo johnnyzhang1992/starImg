@@ -5,6 +5,20 @@
     @include('voyager::alerts')
     @include('voyager::dimmers')
         @if(isset($images) && $images)
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            全选： <input type="checkbox" name="checkAll" aria-label="...">
+                        </span>
+                        <input type="text" class="form-control" name="checkIds" aria-label="...">
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+                <div class="col-lg-2">
+                    <a type="button" class="delete-all btn btn-danger btn-sm">删除</a>
+                </div>
+            </div>
             <div class="grid">
                 @foreach($images as $image)
                     <div class="grid-item" data-id="{{@$image->id}}">
@@ -24,11 +38,16 @@
                                     <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
                                 @endif
                             @endif
-
                         </a>
                         <p>cos_url: {{@$image->cos_url}}</p>
                         <p>{{@$star->name}} : {{@$image->take_at_timestamp}}</p>
                         <p>{!! @strip_tags($image->text) !!}</p>
+                        <div class="row image-check">
+                            <div class="col-xs-4">选择：</div>
+                            <div class="col-xs-8">
+                                <input type="checkbox" name="check" value="{{@$image->id}}">
+                            </div>
+                        </div>
                         <a type="button" class="delete-item btn btn-danger btn-sm" data-id="{{@$image->id}}" data-status="{{@$image->status}}">删除</a>
                     </div>
                 @endforeach
@@ -131,10 +150,62 @@
                         'error'
                     )
                 }
+                });
             });
-
+            $("input[name='checkAll']").change(function() {
+                var ids = '';
+                if($(this).is(':checked')){
+                    $("input[name = 'check']:checkbox").attr("checked", true);
+                    $("input[name='check'][checked]").each(function(){
+                        ids +=$(this).val()+',';
+                    });
+                    $("input[name='checkIds']").val(ids);
+                }else{
+                    $("input[name = 'check']:checkbox").attr("checked", false);
+                    $("input[name='checkIds']").val('');
+                }
             });
-
+            $('input[name="check"]').change(function () {
+                $(this).attr("checked", !$(this).attr("checked"));
+                var ids = '';
+                $("input[name='check'][checked]").each(function(){
+                    ids +=$(this).val()+',';
+                });
+                $("input[name='checkIds']").val(ids);
+            });
+            $('.delete-all').on('click',function () {
+                var ids = $("input[name='checkIds']").val();
+                Swal({
+                    title: 'Are you sure?',
+                    text: 'You will not be able to recover this imaginary file!',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, keep it'
+                }).then(function(result){
+                    if (result.value) {
+                        $.ajax({
+                            url: '/admin/images/deleteSome?ids='+ids,
+                            dataType: "json",
+                            type:"POST",
+                            success: function(d){
+                              var img_ids = ids.split(',');
+                              for(var i =0;i<img_ids.length;i++){
+                                  if(img_ids[i] && img_ids !=''){
+                                      $('.grid-item[data-id="'+img_ids[i]+'"]').remove();
+                                  }
+                              }
+                            }
+                        })
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                });
+            })
         });
     </script>
 @stop

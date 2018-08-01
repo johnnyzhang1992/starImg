@@ -69,7 +69,26 @@ class ImagesController extends BaseController{
         }
         return response()->json($res);
     }
+    public function deleteSome(Request $request){
+        $ids = $request->input('ids');
+        $id_arr = explode(',',$ids);
+        $res = [];
+        foreach ($id_arr as $id){
+            if(isset($id) && $id !=''){
+                $status = Images::where('id',$id)->update([
+                    'status'=>'delete',
+                    'updated_at' => date('Y-m-d H:i:s',time())
+                ]);
+                if($status){
+                    $res['message'] = 'success';
+                }else{
+                    $res['message'] = 'fail';
+                }
+            }
 
+        }
+        return response()->json($res);
+    }
     /**
      * @param $id
      * @param $type

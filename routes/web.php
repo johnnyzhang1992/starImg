@@ -38,7 +38,8 @@ Route::group([
             Route::get('/tongJi','Admin\StarImgAdminController@index');
             Route::get('/downloadHttpImages/{id}','Admin\ImagesController@downloadHttpImages');
             Route::get('/images','Admin\ImagesController@index');
-            Route::post('/images/{id}/{type}','Admin\ImagesController@update');
+            Route::post('/images/deleteSome','Admin\ImagesController@deleteSome');
+            Route::post('/images/{id}/{type}','Admin\ImagesController@update')->where('id', '[0-9]+');
             Route::get('/images/{type}','Admin\ImagesController@index');
             Route::get('/images/{star_id}/{type}','Admin\ImagesController@starImage')->where('star_id', '[0-9]+');
             Route::get('/stars','Admin\StarController@index');
