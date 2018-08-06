@@ -24,6 +24,14 @@ class HomeController extends Controller{
      */
     public function index()
     {
+        return view('frontend.home');
+    }
+    public function starImage($id){
+        $star = DB::table('star')
+            ->first();
+        return view('frontend.star');
+    }
+    public function test(){
         $images = DB::table('star_img')
             ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
             ->where('star_img.origin','微博')

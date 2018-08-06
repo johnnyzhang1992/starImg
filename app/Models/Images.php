@@ -35,6 +35,6 @@ class Images extends Model
     public static function getStarImageByStarId ($id) {
         return self::where('star_id', $id)
             ->where('status', 'active')
-            ->get();
+            ->paginate(10);
     }
 }

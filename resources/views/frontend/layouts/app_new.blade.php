@@ -14,17 +14,20 @@
     <meta name="description" content="starImg | 搜罗你喜欢的爱豆的微博、instagram、twitter、facebook各种来源的图片。">
     <meta name="baidu-site-verification" content="2X6IMyYQxI" />
     <!-- Styles -->
-    {{--<link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     @yield('tongji')
     @yield('css')
 </head>
 <body>
 <div id="app">
-
+    @yield('nav')
+    <main class="main">
+        @yield('content')
+    </main>
 </div>
 <!-- Scripts -->
 {{--<script type="text/javascript" src="https://admin.starimg.cn/vendor/tcg/voyager/assets/js/app.js"></script>--}}
-{{--<script src="{{ mix('js/app.js') }}"></script>--}}
+<script src="{{ mix('js/app.js') }}"></script>
 @yield('javascript')
 </body>
 </html>
