@@ -73,7 +73,8 @@ Route::group([
 //    Auth::routes();
     Route::get('/', 'Frontend\HomeController@index');
     Route::get('/getImages', 'Frontend\ImagesController@index');
-    Route::get('/{id}', 'Frontend\ImagesController@getStarImages');
+    Route::get('/{id}', 'Frontend\HomeController@starDetail');
+    Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages');
     Route::get('/starList', 'Frontend\ImagesController@getStarList');
 });
 

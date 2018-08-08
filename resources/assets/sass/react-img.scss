@@ -1,6 +1,190 @@
 @import '~gestalt/dist/gestalt.css';
+html,body{
+  margin: 0;
+  padding: 0;
+  //overflow-x: hidden;
+}
 .pinItem{
   cursor: -webkit-zoom-in;
   cursor: -moz-zoom-in;
   cursor: zoom-in;
+}
+.pinItem img:first-child {
+  border-radius: 8px;
+}
+@media (min-width: 800px) and (max-width: 1039px) {
+  .gridCentered .static:nth-child(-n+3) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 780px;
+  }
+}
+
+@media (min-width: 1040px) and (max-width: 1299px) {
+  .gridCentered .static:nth-child(-n+4) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 1040px;
+  }
+}
+
+@media (min-width: 1300px) and (max-width: 1559px) {
+  .gridCentered .static:nth-child(-n+5) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 1300px;
+  }
+}
+
+@media (min-width: 1560px) and (max-width: 1819px) {
+  .gridCentered .static:nth-child(-n+6) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 1560px;
+  }
+}
+
+@media (min-width: 1820px) and (max-width: 2079px) {
+  .gridCentered .static:nth-child(-n+7) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 1820px;
+  }
+}
+
+@media (min-width: 2080px) and (max-width: 2339px) {
+  .gridCentered .static:nth-child(-n+8) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 2080px;
+  }
+}
+
+@media (min-width: 2340px) and (max-width: 2599px) {
+  .gridCentered .static:nth-child(-n+9) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 2340px;
+  }
+}
+
+@media (min-width: 2600px) and (max-width: 2859px) {
+  .gridCentered .static:nth-child(-n+10) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 2600px;
+  }
+}
+
+@media (min-width: 2860px) and (max-width: 3119px) {
+  .gridCentered .static:nth-child(-n+11) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 2860px;
+  }
+}
+
+@media (min-width: 3120px) and (max-width: 3379px) {
+  .gridCentered .static:nth-child(-n+12) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 3120px;
+  }
+}
+
+@media (min-width: 3380px) and (max-width: 3639px) {
+  .gridCentered .static:nth-child(-n+13) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 3380px;
+  }
+}
+
+@media (min-width: 3640px) and (max-width: 3899px) {
+  .gridCentered .static:nth-child(-n+14) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 3640px;
+  }
+}
+
+@media (min-width: 3900px) and (max-width: 4159px) {
+  .gridCentered .static:nth-child(-n+15) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 3900px;
+  }
+}
+
+@media (min-width: 4160px) and (max-width: 4419px) {
+  .gridCentered .static:nth-child(-n+16) {
+    float: left;
+    position: static;
+    display: block;
+    visibility: visible;
+  }
+  .gridCentered {
+    width: 4160px;
+  }
+}
+
+.gridCentered .static {
+  position: absolute;
+  visibility: hidden;
+}
+.gridCentered {
+  margin-left: auto;
+  margin-right: auto;
 }

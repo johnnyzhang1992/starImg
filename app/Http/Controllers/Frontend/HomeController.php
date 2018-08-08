@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,21 +27,34 @@ class HomeController extends Controller{
     {
         return view('frontend.home');
     }
-    public function starImage($id){
+
+    /**
+     * star detail page
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function starDetail($id){
         $star = DB::table('star')
+            ->where('star.id','=',$id)
+            ->leftJoin('star_wb','star_wb.star_id','=','star.id')
+            ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
             ->first();
-        return view('frontend.star');
-    }
-    public function test(){
-        $images = DB::table('star_img')
-            ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
-            ->where('star_img.origin','微博')
-            ->where('star_img.status','active')
-            ->where('star_img.is_video',false)
-            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description')
-            ->orderBy('star_img.mid', 'desc')
-            ->paginate(20);
-        return view('frontend.home')
-            ->with('images',$images);
+        if(isset($star) && $star){
+            return view('frontend.star.show')
+                ->with('site_title','@'.$star->name.' | '.$star->screen_name.'的微博图片')
+                ->with('site_description',$star->description)
+                ->with('star',$star);
+        }else{
+            $star = DB::table('star')
+                ->where('star.domain','=',$id)
+                ->leftJoin('star_wb','star_wb.star_id','=','star.id')
+                ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
+                ->first();
+            return view('frontend.star.show')
+                ->with('site_title','@'.$star->name.' | '.$star->screen_name.'的微博图片')
+                ->with('site_description',$star->description)
+                ->with('star',$star);
+        }
+
     }
 }
