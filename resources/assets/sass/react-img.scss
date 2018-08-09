@@ -12,6 +12,9 @@ html,body{
 .pinItem img:first-child {
   border-radius: 8px;
 }
+.layerSection>div{
+  z-index: 888;
+}
 @media (min-width: 800px) and (max-width: 1039px) {
   .gridCentered .static:nth-child(-n+3) {
     float: left;

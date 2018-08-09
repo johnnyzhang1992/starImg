@@ -35,6 +35,7 @@ class ImagesController extends Controller{
             if(isset($image->pic_detail) && $image->pic_detail){
                 $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
             }
+            $images[$key]->text = strip_tags($image->text);
         }
         return response()->json($images);
     }
@@ -58,6 +59,7 @@ class ImagesController extends Controller{
             if(isset($image->pic_detail) && $image->pic_detail){
                 $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
             }
+            $images[$key]->text = strip_tags($image->text);
         }
         return response()->json($images);
     }
