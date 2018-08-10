@@ -41,20 +41,26 @@ class HomeController extends Controller{
             ->first();
         if(isset($star) && $star){
             return view('frontend.star.show')
-                ->with('site_title','@'.$star->name.' | '.$star->screen_name.'的微博图片')
+                ->with('site_title',$star->name.'的主页 | (@'.$star->screen_name.')')
                 ->with('site_description',$star->description)
                 ->with('star',$star);
         }else{
-            $star = DB::table('star')
-                ->where('star.domain','=',$id)
-                ->leftJoin('star_wb','star_wb.star_id','=','star.id')
-                ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
-                ->first();
+            abort(404);
+        }
+    }
+    public function starNameDetail($name){
+        $star = DB::table('star')
+            ->where('star.domain','=',$name)
+            ->leftJoin('star_wb','star_wb.star_id','=','star.id')
+            ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
+            ->first();
+        if(isset($star) && $star){
             return view('frontend.star.show')
-                ->with('site_title','@'.$star->name.' | '.$star->screen_name.'的微博图片')
+                ->with('site_title',$star->name.'的主页 | (@'.$star->screen_name.')')
                 ->with('site_description',$star->description)
                 ->with('star',$star);
+        }else{
+            abort(404);
         }
-
     }
 }

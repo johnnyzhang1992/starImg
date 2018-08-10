@@ -73,8 +73,10 @@ Route::group([
 //    Auth::routes();
     Route::get('/', 'Frontend\HomeController@index');
     Route::get('/getImages', 'Frontend\ImagesController@index');
-    Route::get('/{id}', 'Frontend\HomeController@starDetail');
-    Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages');
+    Route::get('/{id}', 'Frontend\HomeController@starDetail')->where('id', '[0-9]+');
+    Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages')->where('id', '[0-9]+');
+    Route::get('/{name}', 'Frontend\HomeController@starNameDetail');
+    Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
     Route::get('/starList', 'Frontend\ImagesController@getStarList');
 });
 

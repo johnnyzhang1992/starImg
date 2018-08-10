@@ -25,12 +25,13 @@ class ImagesController extends Controller{
     {
         $images = DB::table('star_img')
             ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
+            ->leftJoin('star','star.id','=','star_img.star_id')
             ->where('star_img.origin','微博')
             ->where('star_img.status','active')
             ->where('star_img.is_video',false)
-            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description')
+            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description','star.domain')
             ->orderBy('star_img.mid', 'desc')
-            ->paginate(15);
+            ->paginate(20);
         foreach ($images as $key=>$image){
             if(isset($image->pic_detail) && $image->pic_detail){
                 $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
@@ -48,20 +49,58 @@ class ImagesController extends Controller{
     public function getStarImages($id){
         $images = DB::table('star_img')
             ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
+            ->leftJoin('star','star.id','=','star_img.star_id')
             ->where('star_img.star_id','=',$id)
             ->where('star_img.origin','微博')
             ->where('star_img.status','active')
             ->where('star_img.is_video',false)
-            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description','star_wb.verified')
+            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description','star_wb.verified','star.domain')
             ->orderBy('star_img.mid', 'desc')
-            ->paginate(15);
-        foreach ($images as $key=>$image){
-            if(isset($image->pic_detail) && $image->pic_detail){
-                $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
+            ->paginate(20);
+        if(isset($images) && $images){
+            foreach ($images as $key=>$image){
+                if(isset($image->pic_detail) && $image->pic_detail){
+                    $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
+                }
+                $images[$key]->text = strip_tags($image->text);
             }
-            $images[$key]->text = strip_tags($image->text);
+            return response()->json($images);
+        }else{
+            return response()->json(['status'=>200,'msg'=>'内容不存在']);
         }
-        return response()->json($images);
+    }
+    public function getStarNameImages($name){
+        $id = $this->getStarId($name);
+        $images = DB::table('star_img')
+            ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
+            ->leftJoin('star','star.id','=','star_img.star_id')
+            ->where('star_img.star_id','=',$id)
+            ->where('star_img.origin','微博')
+            ->where('star_img.status','active')
+            ->where('star_img.is_video',false)
+            ->select('star_img.*','star_wb.screen_name','star_wb.wb_id','star_wb.avatar','star_wb.description','star_wb.verified','star.domain')
+            ->orderBy('star_img.mid', 'desc')
+            ->paginate(20);
+        if(isset($images) && $images){
+            foreach ($images as $key=>$image){
+                if(isset($image->pic_detail) && $image->pic_detail){
+                    $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
+                }
+                $images[$key]->text = strip_tags($image->text);
+            }
+            return response()->json($images);
+        }else{
+            return response()->json(['status'=>200,'msg'=>'内容不存在']);
+        }
+
+    }
+    public function getStarId($name){
+        $star = Star::where('domain',$name)->first();
+        if(isset($star) && $star){
+            return $star->id;
+        }else{
+            return -1;
+        }
     }
     public function getStarList(){
         $stars = DB::table('star_wb')

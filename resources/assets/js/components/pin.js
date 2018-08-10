@@ -109,14 +109,14 @@ class Pin extends Component {
                         </div>
                         <Box display="flex" direction="row" paddingY={2}>
                             <Box column={2}>
-                                <Link href={this.state.item.star_id} target={'blank'}>
+                                <Link href={this.state.item.domain} target={'blank'}>
                                     <Avatar name={this.state.item.screen_name} src={this.state.item.avatar} verified={this.state.item.verified} />
                                 </Link>
                             </Box>
                             <Box column={10} paddingX={2}>
                                 <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
                                 <Text color={'gray'} align={'left'} truncate size="xs" >
-                                    <Link href={this.state.item.star_id} target={'blank'}>{this.state.item.screen_name}</Link>
+                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.screen_name}</Link>
                                 </Text>
                             </Box>
                         </Box>
@@ -155,14 +155,14 @@ class Pin extends Component {
                                                     <Box color="white" paddingX={2} paddingY={2}>
                                                         <Box display="flex" column={12} direction="row" paddingY={2}>
                                                             <Box column={2}>
-                                                                <Link href={this.state.item.star_id} target={'blank'}>
+                                                                <Link href={this.state.item.domain} target={'blank'}>
                                                                     <Avatar name={this.state.item.screen_name} src={this.state.item.avatar} verified={this.state.item.verified} />
                                                                 </Link>
                                                             </Box>
                                                             <Box column={10} paddingX={2} paddingY={1}>
                                                                 <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
                                                                 <Text color={'gray'} align={'left'} truncate size="xs" >
-                                                                    <Link href={this.state.item.star_id} target={'blank'}>{this.state.item.screen_name}</Link>
+                                                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.screen_name}</Link>
                                                                 </Text>
                                                             </Box>
                                                         </Box>
