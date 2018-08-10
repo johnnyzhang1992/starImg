@@ -18,7 +18,7 @@
     @yield('tongji')
     @yield('css')
 </head>
-<body>
+<body id="body">
 <div id="app">
 
 </div>

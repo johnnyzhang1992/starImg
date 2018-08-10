@@ -39,6 +39,11 @@ class Pin extends Component {
         this.setState(prevState => ({
             showLayer: !prevState.showLayer
         }));
+        if(document.getElementById('body').style.overflowY == 'scroll'){
+            document.getElementById('body').style.overflowY ='hidden'
+        }else{
+            document.getElementById('body').style.overflowY ='scroll'
+        }
     }
     // 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
     componentDidMount() {
@@ -75,7 +80,8 @@ class Pin extends Component {
                             this.setState(prevState => ({
                                 showLayer: !prevState.showLayer ,
                                 src: this.state.item.pic_detail ? this.state.item.pic_detail.large.url :this.state.item.display_url
-                            }))
+                            }));
+                            document.getElementById('body').style.overflowY ='hidden'
                         }}>
                             <Box shape={'roundedTop'} color={this.state.boxColor[this.state.itemIdx]}>
                                 <Image
