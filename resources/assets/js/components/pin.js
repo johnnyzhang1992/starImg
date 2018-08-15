@@ -170,7 +170,7 @@ class Pin extends Component {
                                                             <Text color={'darkGray'} truncate size="xs">{this.state.item.text}</Text>
                                                         </Box>
                                                         <Box paddingY={1} shape={'rounded'} color={'white'} marginTop={3} marginBottom={3} display={ 'block'}>
-                                                            <Link href={this.state.item.origin_url}>
+                                                            <Link href={this.state.item.origin_url} target={'blank'}>
                                                                 <Box alignItems="center" display="flex" color={'darkWash'} shape={'rounded'} paddingX={4} paddingY={2}>
                                                                     <Box marginRight={1} padding={1}>
                                                                         <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>

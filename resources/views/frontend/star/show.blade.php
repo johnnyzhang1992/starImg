@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @include('frontend.partials.tongji')
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('css/react-img.css') }}">
 @endsection
@@ -10,5 +11,5 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ mix('js/react-img.js') }}"></script>
+    <script src="{{ mix('js/star.js') }}"></script>
 @endsection()

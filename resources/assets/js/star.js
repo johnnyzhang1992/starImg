@@ -3,9 +3,15 @@ import ReactDOM from 'react-dom';
 import axios from  'axios';
 import { Masonry } from 'gestalt';
 import { Box } from 'gestalt';
+import { Avatar } from 'gestalt';
+import { Link } from 'gestalt';
+import { IconButton } from 'gestalt';
 import { Spinner } from 'gestalt';
+import { Column } from 'gestalt';
+import { Text } from 'gestalt';
 import Pin from './components/pin';
-import Header from './components/header';
+import Header from "./components/header";
+
 // import { Button } from 'gestalt';
 
 //滚动条在Y轴上的滚动距离
@@ -51,9 +57,11 @@ class App extends Component {
             count: 16,
             total: 0,
             pins: [],
-            show_spinner:false,
+            clientWidth: document.documentElement.clientWidth,
+            show_spinner:true,
             current_page:0,
-            url: window.location.href+'/getImages'
+            url: window.location.href+'/getImages',
+            star: []
         };
     }
     // 在第一次渲染后调用，只在客户端。
@@ -68,7 +76,7 @@ class App extends Component {
         let scrollHeight = getScrollHeight();
         let windowHeight = getWindowHeight();
         if(scrollTop + windowHeight+ 30 > scrollHeight){
-          this.getPins(th);
+            this.getPins(th);
         }
     }
     // 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。
@@ -115,9 +123,28 @@ class App extends Component {
             })
         }
     }
+
+    getStarDetail(th){
+        let that = th;
+        axios.post(window.location.href, {
+            params:{
+                'csrf-token': document.getElementsByTagName('meta')['csrf-token'].getAttribute('content')
+            }
+        }).then((res)=>{
+            // console.log(res.data);
+            that.setState({
+                star: res.data.star
+            });
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
     // 在渲染前调用,在客户端也在服务端。
     componentWillMount() {
-        this.getPins(this);
+        this.getStarDetail(this);
+        setTimeout(()=>{
+            this.getPins(this);
+        },3000);
         let _this = this;
         window.addEventListener('scroll', () => {
             _this.handleScroll(_this);
@@ -130,8 +157,37 @@ class App extends Component {
     render() {
         return (
             <div>
+                <Header/>
+                <Box display="flex" direction="row" paddingX={8} paddingY={2}>
+                    <Column span={4} >
+                        <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
+                            <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
+                                <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
+                            </Box>
+                        </Box>
+                    </Column>
+                    <Column span={8}>
+                        <Box color="white" paddingX={5} paddingY={3}>
+                            <Box color="white" paddingY={2}>
+                                <Text align={'left'}>{this.state.star.screen_name}</Text>
+                            </Box>
+                            <Box color="white">
+                                <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
+                            </Box>
+                            <Box color="white" paddingY={2}>
+                                <Text align="left">{this.state.star.description}</Text>
+                            </Box>
+                            <Box color="white" paddingY={2} alignSelf={'center'}>
+                                <Box width={35}>
+                                    <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)}>
+                                        <Avatar name={'weibo'} />
+                                    </Link>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Column>
+                </Box>
                 <Box paddingY={6}>
-                    <Header/>
                     <div className="gridCentered">
                         <Masonry
                             comp={Pin}

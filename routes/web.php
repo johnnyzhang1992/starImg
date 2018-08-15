@@ -70,12 +70,15 @@ Route::group([
     'middleware' => ['web'],
     'domain' => 'starimg.cn'
 ], function () {
-//    Auth::routes();
+    Auth::routes();
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/', 'Frontend\HomeController@index');
     Route::get('/getImages', 'Frontend\ImagesController@index');
-    Route::get('/{id}', 'Frontend\HomeController@starDetail')->where('id', '[0-9]+');
+    Route::get('/{id}', 'Frontend\starController@starDetail')->where('id', '[0-9]+');
+    Route::get('/{id}', 'Frontend\starController@getStarDetail')->where('id', '[0-9]+');
     Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages')->where('id', '[0-9]+');
-    Route::get('/{name}', 'Frontend\HomeController@starNameDetail');
+    Route::get('/{name}', 'Frontend\starController@starNameDetail');
+    Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
     Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
     Route::get('/starList', 'Frontend\ImagesController@getStarList');
 });
