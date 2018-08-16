@@ -159,14 +159,14 @@ class App extends Component {
             <div>
                 <Header/>
                 <Box display="flex" direction="row" paddingX={8} paddingY={2}>
-                    <Column span={4} >
+                    <Column span={this.state.clientWidth >768 ? 5 : 3} >
                         <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
                             <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
                                 <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
                             </Box>
                         </Box>
                     </Column>
-                    <Column span={8}>
+                    <Column span={this.state.clientWidth >768 ? 7: 9}>
                         <Box color="white" paddingX={5} paddingY={3}>
                             <Box color="white" paddingY={2}>
                                 <Text align={'left'}>{this.state.star.screen_name}</Text>
