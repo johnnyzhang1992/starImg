@@ -178,9 +178,14 @@ class App extends Component {
                                 <Text align="left">{this.state.star.description}</Text>
                             </Box>
                             <Box color="white" paddingY={2} alignSelf={'center'}>
-                                <Box width={35}>
+                                <Box width={35} display={ 'inlineBlock'}>
                                     <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)}>
-                                        <Avatar name={'weibo'} />
+                                        <Avatar name={'Weibo'} />
+                                    </Link>
+                                </Box>
+                                <Box width={35} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
+                                    <Link href={'https://instagram.com/'+(this.state.star.ins_name )}>
+                                        <Avatar name={'Instagram'} />
                                     </Link>
                                 </Box>
                             </Box>

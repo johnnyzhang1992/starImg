@@ -7,7 +7,7 @@ import { Link } from 'gestalt';
 import { Sticky } from 'gestalt';
 import { Divider } from 'gestalt';
 import { SearchField } from 'gestalt';
-import { IconButton } from 'gestalt';
+// import { IconButton } from 'gestalt';
 
 class Header extends Component {
     constructor(props) {

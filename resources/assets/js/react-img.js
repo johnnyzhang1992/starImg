@@ -130,22 +130,20 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Box paddingY={6}>
-                    <Header/>
-                    <div className="gridCentered">
-                        <Masonry
-                            comp={Pin}
-                            items={this.state.pins}
-                            loadItems={(event)=>{}}
-                            minCols={2}
-                            gutterWidth = {5}
-                            flexible = {true}
-                        />
-                        <Box marginBottom={6}>
-                            <Spinner accessibilityLabel={'Load more Pins'} show={this.state.show_spinner}/>
-                        </Box>
-                    </div>
-                </Box>
+                <Header/>
+                <div className="gridCentered">
+                    <Masonry
+                        comp={Pin}
+                        items={this.state.pins}
+                        loadItems={(event)=>{}}
+                        minCols={2}
+                        gutterWidth = {5}
+                        flexible = {true}
+                    />
+                    <Box marginBottom={6}>
+                        <Spinner accessibilityLabel={'Load more Pins'} show={this.state.show_spinner}/>
+                    </Box>
+                </div>
             </div>
         );
     }
