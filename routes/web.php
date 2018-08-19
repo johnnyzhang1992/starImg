@@ -49,6 +49,7 @@ Route::group([
             Route::get('/stars/{id}','Admin\StarController@show')->where('id', '[0-9]+');
             Route::get('/stars_ajax','Admin\StarController@dtajax');
             Route::get('/images_ci','Admin\ImagesController@imageDetect');
+            Route::get('/updateImagesSize/{id}','Admin\ImagesController@updateInsImagesSize')->where('id', '[0-9]+');
             event(new RoutingAdminAfter());
         });
     });
@@ -73,13 +74,14 @@ Route::group([
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/', 'Frontend\HomeController@index');
+    Route::get('/explore', 'Frontend\starController@explore');
     Route::get('/getImages', 'Frontend\ImagesController@index');
+    Route::post('/starList', 'Frontend\starController@getStarList');
     Route::get('/{id}', 'Frontend\starController@starDetail')->where('id', '[0-9]+');
     Route::get('/{id}', 'Frontend\starController@getStarDetail')->where('id', '[0-9]+');
     Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages')->where('id', '[0-9]+');
     Route::get('/{name}', 'Frontend\starController@starNameDetail');
     Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
     Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
-    Route::get('/starList', 'Frontend\ImagesController@getStarList');
 });
 

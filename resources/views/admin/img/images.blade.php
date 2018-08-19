@@ -28,14 +28,13 @@
                             @else
                                 @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
                                     @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
-                                        <img class="img-responsive" src="{{json_decode($image->pic_detail)->url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                        <img class="img-responsive" src="{{str_replace('s.insstar.cn','inbmi.com',json_decode($image->pic_detail)->url)}}" alt="{{  @html_entity_decode($image->text) }}">
                                     @endif
                                     @if(isset($image->pic_detail) && $image->origin == 'instagram')
-
-                                        <img class="img-responsive" src="{{@json_decode($image->pic_detail)[0]->src}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
+                                            <img class="img-responsive" src="{{str_replace('s.insstar.cn','inbmi.com',@json_decode($image->pic_detail)[0]->src)}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">
                                     @endif
                                 @else
-                                    <img class="img-responsive" src="{{$image->display_url}}" alt="{{  @html_entity_decode($image->text) }}">
+                                    <img class="img-responsive" src="{{str_replace('s.insstar.cn','inbmi.com',$image->display_url)}}" alt="{{  @html_entity_decode($image->text) }}">
                                 @endif
                             @endif
                         </a>

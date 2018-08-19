@@ -20,7 +20,7 @@
 </head>
 <body id="body">
 <div id="app">
-
+    @yield('content')
 </div>
 <!-- Scripts -->
 {{--<script type="text/javascript" src="https://admin.starimg.cn/vendor/tcg/voyager/assets/js/app.js"></script>--}}

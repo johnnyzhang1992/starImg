@@ -60,6 +60,7 @@ class starController extends Controller
     }
 
     /**
+     * 明星详情
      * @param $name
      * @return \Illuminate\Http\JsonResponse
      */
@@ -76,5 +77,22 @@ class starController extends Controller
         }else{
             abort(404);
         }
+    }
+
+    public function explore(){
+        return view('frontend.star.list')
+            ->with('site_title','发现更多')
+            ->with('site_description','发现更多明星图片，明星列表页');
+    }
+    /**
+     * 明星列表
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getStarList(Request $request){
+        $stars = DB::table('star')
+            ->where('status','active')
+            ->paginate(15);
+        return response()->json($stars);
     }
 }

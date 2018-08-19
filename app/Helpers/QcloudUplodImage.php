@@ -306,8 +306,9 @@ class QcloudUplodImage{
         }
         // 下载远程文件到服务器
         if(strpos($url,'s.insstar.cn') !== false){
-            print '原图片已丢失<br>';
-            return false;
+//            print '原图片已丢失<br>';
+//            return false;
+            $url = str_replace('s.insstar.cn','inbmi.com',$url);
         }
         $client = new Client(['verify' => false]);  //忽略SSL错误
         $_res = null;
@@ -328,9 +329,17 @@ class QcloudUplodImage{
                 if($response){
                     // 转存文件到腾讯云
                     $result = $this->putImageToCos($user,$_filename,$type);
+                    $image_size = getimagesize( public_path().'/test/img/'.$_filename);
                     if(isset($result) && $result){
+                        $size = array();
                         // 入库
+                        if(isset($image_size) && $image_size){
+                            $size[0]['config_width'] = $image_size[0];
+                            $size[0]['config_height'] = $image_size[1];
+                            $size[0]['src'] = 'https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small';
+                        }
                         Images::where('id',$id)->update([
+                            'pic_detail'=>json_encode($size),
                             'cos_url' =>'star/'.$user.'/ins/'.$_filename
                         ]);
 

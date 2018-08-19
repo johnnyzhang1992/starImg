@@ -64,7 +64,7 @@ class Pin extends Component {
         };
         return (
             <div style={this.state.style} className={'pinItem'}>
-                <Box paddingX={2} paddingY={2}  shape={'rounded'}>
+                <Box paddingX={2} paddingY={2}  shape={'rounded'} color={'white'}>
                     <Card
                         paddingX={3}
                         paddingY={2}
@@ -76,14 +76,14 @@ class Pin extends Component {
                         onMouseLeave={()=>{
                             this.setState({ hovered: false });
                         }}>
-                        <div onClick={()=>{
+                        <div className={'PinLayer'} onClick={()=>{
                             this.setState(prevState => ({
                                 showLayer: !prevState.showLayer ,
                                 src: this.state.item.pic_detail ? this.state.item.pic_detail.large.url :this.state.item.display_url
                             }));
                             document.getElementById('body').style.overflowY ='hidden'
                         }}>
-                            <Box shape={'roundedTop'} color={this.state.boxColor[this.state.itemIdx]}>
+                            <Box shape={'rounded'} color={'white'}>
                                 <Image
                                     alt={this.state.item.text}
                                     // fit="cover"
@@ -107,16 +107,16 @@ class Pin extends Component {
                                 </Image>
                             </Box>
                         </div>
-                        <Box display="flex" direction="row" paddingY={2}>
+                        <Box display="flex" direction="row" paddingY={2} color={'white'}>
                             <Box column={2}>
                                 <Link href={this.state.item.domain} target={'blank'}>
-                                    <Avatar name={this.state.item.screen_name} src={this.state.item.avatar} verified={this.state.item.verified} />
+                                    <Avatar name={this.state.item.name} src={this.state.item.avatar} verified={this.state.item.verified} />
                                 </Link>
                             </Box>
                             <Box column={10} paddingX={2}>
                                 <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
                                 <Text color={'gray'} align={'left'} truncate size="xs" >
-                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.screen_name}</Link>
+                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.name}</Link>
                                 </Text>
                             </Box>
                         </Box>
@@ -139,7 +139,7 @@ class Pin extends Component {
                                         <Column span={this.state.clientWidth >767 ? 8 : 12}>
                                             <Box color={'white'} display={this.state.clientWidth >767 ? 'flex' : 'block'} shape={this.state.clientWidth >767 ? 'rounded' : 'square'} padding={this.state.clientWidth >767 ? 5 :1 } width={'100%'}>
                                                 <Column span={this.state.clientWidth >767 ? 8 :12}>
-                                                    <Box shape={'roundedTop'} color={this.state.boxColor[this.state.itemIdx]}>
+                                                    <Box shape={'rounded'} color={this.state.boxColor[this.state.itemIdx]}>
                                                         <Image
                                                             alt={this.state.item.text}
                                                             // fit="cover"
@@ -156,13 +156,13 @@ class Pin extends Component {
                                                         <Box display="flex" column={12} direction="row" paddingY={2}>
                                                             <Box column={2}>
                                                                 <Link href={this.state.item.domain} target={'blank'}>
-                                                                    <Avatar name={this.state.item.screen_name} src={this.state.item.avatar} verified={this.state.item.verified} />
+                                                                    <Avatar name={this.state.item.name} src={this.state.item.avatar} verified={this.state.item.verified} />
                                                                 </Link>
                                                             </Box>
                                                             <Box column={10} paddingX={2} paddingY={1}>
                                                                 <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
                                                                 <Text color={'gray'} align={'left'} truncate size="xs" >
-                                                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.screen_name}</Link>
+                                                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.name}</Link>
                                                                 </Text>
                                                             </Box>
                                                         </Box>

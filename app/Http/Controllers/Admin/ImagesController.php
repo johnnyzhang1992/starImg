@@ -51,7 +51,7 @@ class ImagesController extends BaseController{
     }
 
     /**
-     * update
+     * 删除图片
      * @param $id
      * @param $type
      * @return mixed
@@ -69,6 +69,12 @@ class ImagesController extends BaseController{
         }
         return response()->json($res);
     }
+
+    /**
+     * 批量删除图片
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteSome(Request $request){
         $ids = $request->input('ids');
         $id_arr = explode(',',$ids);
@@ -90,6 +96,7 @@ class ImagesController extends BaseController{
         return response()->json($res);
     }
     /**
+     * 明星图片
      * @param $id
      * @param $type
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -111,15 +118,68 @@ class ImagesController extends BaseController{
             return Voyager::view('voyager::login');
         }
     }
+
+    /**
+     * 上传图片到腾讯云
+     * @param $star_id
+     */
     public function downloadHttpImages($star_id){
         $uploadImage = new QcloudUplodImage();
-        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(5);
+        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(10);
         foreach ($images as $image){
             info($image->display_url);
             $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
         }
     }
+
+    /**
+     * 腾讯与图片鉴黄
+     */
     public function imageDetect(){
         QcloundCiImage::porn_detect(['https://wx1.sinaimg.cn/mw690/a5fa5943gy1ftmg6h2asej21kw2dc4qt.jpg'],'urls');
+    }
+
+    public function updateInsImagesSize(Request $request,$star_id){
+        $images = Images::where('star_id',$star_id)
+            ->where('status','active')
+            ->where('size_flag',false)
+            ->where('is_video',false)
+            ->whereNotNull('cos_url')
+            ->where('origin','instagram')
+            ->orderBy('id','asc')
+            ->paginate(10);
+        print count($images).'<br>';
+        foreach ($images as $image){
+            echo $image->cos_url;
+            print '<br>';
+            $this->updateImageSize($image->id,'https://img.starimg.cn/'.$image->cos_url,$image->cos_url);
+        }
+    }
+    /**
+     * 更新ins图片的尺寸函数
+     * @param $id
+     * @param $url
+     * @param $o_url
+     */
+    public function updateImageSize($id,$url,$o_url){
+        $image_size = getimagesize($url);
+//        print_r($image_size);
+        if (isset($image_size) && $image_size) {
+            print '----------<br>';
+            $size = array();
+            // 入库
+            if (isset($image_size) && $image_size) {
+                $size[0]['config_width'] = $image_size[0];
+                $size[0]['config_height'] = $image_size[1];
+                $size[0]['src'] = 'https://i.starimg.cn/'.$o_url.'!small';
+            }
+            print $id.'----'.$url;
+            print_r($size);
+            print '<br>';
+            Images::where('id', $id)->update([
+                'pic_detail' => json_encode($size),
+                'size_flag'=>true
+            ]);
+        }
     }
 }

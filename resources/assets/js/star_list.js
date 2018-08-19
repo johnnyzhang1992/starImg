@@ -5,7 +5,7 @@ import { Masonry } from 'gestalt';
 import { Box } from 'gestalt';
 import { Avatar } from 'gestalt';
 import { Link } from 'gestalt';
-// import { IconButton } from 'gestalt';
+import { IconButton } from 'gestalt';
 import { Spinner } from 'gestalt';
 import { Column } from 'gestalt';
 import { Text } from 'gestalt';
@@ -169,7 +169,7 @@ class App extends Component {
                     <Column span={this.state.clientWidth >768 ? 7: 9}>
                         <Box color="white" paddingX={5} paddingY={3}>
                             <Box color="white" paddingY={2}>
-                                <Text align={'left'}>{this.state.star.name}</Text>
+                                <Text align={'left'}>{this.state.star.screen_name}</Text>
                             </Box>
                             <Box color="white">
                                 <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
