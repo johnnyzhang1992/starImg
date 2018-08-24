@@ -126,6 +126,12 @@ class ImagesController extends BaseController{
     public function downloadHttpImages($star_id){
         $uploadImage = new QcloudUplodImage();
         $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(10);
+        info(count($images));
+        if(count($images)<1){
+            print '没有待下载的图片';
+        }else{
+            print '待下载的图片张数为：'.count($images);
+        }
         foreach ($images as $image){
             info($image->display_url);
             $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');

@@ -4,11 +4,11 @@ html,body{
   padding: 0;
   //overflow-x: hidden;
 }
-.pinItem{
-  cursor: -webkit-zoom-in;
-  cursor: -moz-zoom-in;
-  cursor: zoom-in;
-}
+//.pinItem{
+//  cursor: -webkit-zoom-in;
+//  cursor: -moz-zoom-in;
+//  cursor: zoom-in;
+//}
 .pinItem img:first-child {
   border-radius: 8px;
 }
@@ -191,6 +191,17 @@ html,body{
   margin-left: auto;
   margin-right: auto;
 }
+.pinImage{
+  border-radius: 8px;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+  >div{
+    border-radius: 8px;
+    margin: -1px;
+  }
+}
+
 /* header */
 .header a,.header a:hover{
   text-decoration: none;

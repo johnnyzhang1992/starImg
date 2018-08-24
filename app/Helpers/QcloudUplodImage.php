@@ -340,7 +340,8 @@ class QcloudUplodImage{
                         }
                         Images::where('id',$id)->update([
                             'pic_detail'=>json_encode($size),
-                            'cos_url' =>'star/'.$user.'/ins/'.$_filename
+                            'cos_url' =>'star/'.$user.'/ins/'.$_filename,
+                            'size_flag' =>true
                         ]);
 
                         echo 'https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small'.'<br>';
