@@ -11,7 +11,7 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ mix('js/pin-show.js') }}"></script>
+    <script src="{{ mix('js/pin-img.js') }}"></script>
     <script>
         (function(){
             let bp = document.createElement('script');

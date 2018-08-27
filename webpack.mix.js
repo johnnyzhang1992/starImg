@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.react('resources/assets/js/app.js', 'public/js')
     .react('resources/assets/js/react-img.js', 'public/js')
     .react('resources/assets/js/star.js', 'public/js')
+    .react('resources/assets/js/pin-img.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/sass/react-img.scss', 'public/css')
     // .sourceMaps()

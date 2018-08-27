@@ -39,6 +39,7 @@ class Pin extends Component {
         this.setState(prevState => ({
             showLayer: !prevState.showLayer
         }));
+        window.history.back();
         if(document.getElementById('body').style.overflowY == 'scroll'){
             document.getElementById('body').style.overflowY ='hidden'
         }else{
@@ -81,30 +82,35 @@ class Pin extends Component {
                                 showLayer: !prevState.showLayer ,
                                 src: this.state.item.pic_detail ? this.state.item.pic_detail.large.url :this.state.item.display_url
                             }));
-                            document.getElementById('body').style.overflowY ='hidden'
+                            document.getElementById('body').style.overflowY ='hidden';
+                            let title =document.getElementsByTagName('meta')['title'].getAttribute('content');
+                            let state = {title:title,url:window.location.href};
+                            history.pushState(state,'','pin/'+this.state.item.id);
                         }}>
                             <Box shape={'rounded'} color={'white'}>
-                                <Image
-                                    alt={this.state.item.text}
-                                    // fit="cover"
-                                    color = {this.state.imageColor[this.state.itemIdx]}
-                                    naturalWidth={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360   }
-                                    naturalHeight={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.height : 540}
-                                    src={this.state.item.pic_detail ? this.state.item.pic_detail.url :this.state.item.display_url}
-                                >
-                                    <Box paddingX={3} paddingY={1} position={'absolute'} bottom={true} left={true} shape={'rounded'} color={'white'} marginLeft={3} marginBottom={3} display={this.state.hovered ? 'block' : 'none'}>
-                                        <Link href={this.state.item.origin_url}>
-                                            <Box alignItems="center" display="flex">
-                                                <Box marginRight={1} padding={1}>
-                                                    <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>
+                                <div className={'pinImage'}>
+                                    <Image
+                                        alt={this.state.item.text}
+                                        // fit="cover"
+                                        color = {this.state.imageColor[this.state.itemIdx]}
+                                        naturalWidth={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360   }
+                                        naturalHeight={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.height : 540}
+                                        src={this.state.item.pic_detail ? this.state.item.pic_detail.url :this.state.item.display_url}
+                                    >
+                                        <Box paddingX={3} paddingY={1} position={'absolute'} bottom={true} left={true} shape={'rounded'} color={'white'} marginLeft={3} marginBottom={3} display={this.state.hovered ? 'block' : 'none'}>
+                                            <Link href={this.state.item.origin_url}>
+                                                <Box alignItems="center" display="flex">
+                                                    <Box marginRight={1} padding={1}>
+                                                        <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>
+                                                    </Box>
+                                                    <Text align="center" bold color="darkGray">
+                                                        weibo.com
+                                                    </Text>
                                                 </Box>
-                                                <Text align="center" bold color="darkGray">
-                                                    weibo.com
-                                                </Text>
-                                            </Box>
-                                        </Link>
-                                    </Box>
-                                </Image>
+                                            </Link>
+                                        </Box>
+                                    </Image>
+                                </div>
                             </Box>
                         </div>
                         <Box display="flex" direction="row" paddingY={2} color={'white'}>
