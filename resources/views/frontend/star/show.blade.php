@@ -11,7 +11,7 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ 'https://img.starimg.cn'.mix('js/star.js') }}"></script>
+    <script src="{{ mix('js/star.js') }}"></script>
     <script>
         (function(){
             var bp = document.createElement('script');

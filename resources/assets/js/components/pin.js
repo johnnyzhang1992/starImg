@@ -94,7 +94,7 @@ class Pin extends Component {
                                         // fit="cover"
                                         color = {this.state.imageColor[this.state.itemIdx]}
                                         naturalWidth={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360   }
-                                        naturalHeight={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.height : 540}
+                                        naturalHeight={this.state.item.pic_detail  ? (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540}
                                         src={this.state.item.pic_detail ? this.state.item.pic_detail.url :this.state.item.display_url}
                                     >
                                         <Box paddingX={3} paddingY={1} position={'absolute'} bottom={true} left={true} shape={'rounded'} color={'white'} marginLeft={3} marginBottom={3} display={this.state.hovered ? 'block' : 'none'}>

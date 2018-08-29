@@ -11,9 +11,18 @@ html,body{
 //}
 .pinItem img:first-child {
   border-radius: 8px;
+  transform: scale(1.005);
+  -ms-transform:scale(1.005);     /* IE 9 */
+  -moz-transform:scale(1.005);     /* Firefox */
+  -webkit-transform:scale(1.005); /* Safari 和 Chrome */
+  -o-transform:scale(1.005);
 }
 .layerSection>div{
   z-index: 888;
+}
+.gridCentered{
+  padding-top: 15px;
+  padding-bottom: 20px;
 }
 @media (min-width: 800px) and (max-width: 1039px) {
   .gridCentered .static:nth-child(-n+3) {
@@ -198,7 +207,7 @@ html,body{
   cursor: zoom-in;
   >div{
     border-radius: 8px;
-    margin: -1px;
+    //margin: -1px;
   }
 }
 
