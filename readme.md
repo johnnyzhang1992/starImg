@@ -14,7 +14,6 @@ StarImg 是一个明星图库，主要采集微博和Ins的明星图片，后期
 
 - [Voyager](https://github.com/the-control-group/voyager)
 
-test
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
