@@ -9,8 +9,8 @@
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="/star.png">
     <link rel="icon" sizes="128x128" type="image/png" href="/star.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').config('seo.site_title')  }}</title>
-    <meta name="title" content="{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').config('seo.site_title') }}">
+    <title>{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').' | '.config('seo.site_title')  }}</title>
+    <meta name="title" content="{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').' | '.config('seo.site_title') }}">
     <meta name="keywords" content="{{isset($site_keywords) && $site_keywords ? $site_keywords : config('seo.keywords')}}">
     <meta name="description" content="{{isset($site_description) && $site_description ? @$site_description : config('seo.description')}}">
     <meta name="baidu-site-verification" content="2X6IMyYQxI" />
