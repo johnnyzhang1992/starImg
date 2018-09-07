@@ -12,6 +12,8 @@ import { Column } from 'gestalt';
 import { Text } from 'gestalt';
 import Pin from './components/pin';
 import Header from "./components/header";
+import FontAwesomeIcon from 'react-fontawesome'
+
 
 // import { Button } from 'gestalt';
 
@@ -179,14 +181,24 @@ class App extends Component {
                                 <Text align="left">{this.state.star.description}</Text>
                             </Box>
                             <Box color="white" paddingY={2} alignSelf={'center'}>
-                                <Box width={35} display={ 'inlineBlock'}>
+                                <Box width={24} display={ 'inlineBlock'}>
                                     <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)}>
-                                        <Avatar name={'Weibo'} />
+                                        <FontAwesomeIcon
+                                            className={'brand-weibo'}
+                                            name={'weibo'}
+                                            size={'1.4x'}
+                                        />
+                                        {/*<Avatar name={'Weibo'} />*/}
                                     </Link>
                                 </Box>
-                                <Box width={35} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
+                                <Box width={24} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
                                     <Link href={'https://instagram.com/'+(this.state.star.ins_name )}>
-                                        <Avatar name={'Instagram'} />
+                                        {/*<Avatar name={'Instagram'} />*/}
+                                        <FontAwesomeIcon
+                                            className={'brand-instagram'}
+                                            name={'instagram'}
+                                            size={'1.4x'}
+                                        />
                                     </Link>
                                 </Box>
                             </Box>
