@@ -48,9 +48,22 @@ class Pin extends Component {
     }
     // 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
     componentDidMount() {
+        let th = this;
+        window.addEventListener('popstate', function(event) {
+            let path_name = event.currentTarget.location.pathname;
+            // console.log(path_name);
+            if(path_name.indexOf('/pin/') == -1){
+                th.setState({
+                    showLayer: false
+                });
+                document.getElementById('body').style.overflowY ='scroll'
+            }
+
+        });
+    }
+    componentDidUpdate(){
 
     }
-
     // 在组件从 DOM 中移除的时候立刻被调用。
     componentWillUnmount() {
 
