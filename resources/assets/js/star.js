@@ -178,15 +178,19 @@ class App extends Component {
                                 <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
                             </Box>
                             <Box color="white" paddingY={2}>
+                                <Text align={'left'} inline={true} bold={true}>{this.state.star.posts_count}</Text>
+                                <Text align={'left'} inline={true}> posts</Text>
+                            </Box>
+                            <Box color="white" paddingY={2}>
                                 <Text align="left">{this.state.star.description}</Text>
                             </Box>
                             <Box color="white" paddingY={2} alignSelf={'center'}>
                                 <Box width={24} display={ 'inlineBlock'}>
                                     <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)}>
                                         <FontAwesomeIcon
-                                            className={'brand-weibo'}
+                                            className={'f-brand'}
                                             name={'weibo'}
-                                            size={'1.4x'}
+                                            size={'2x'}
                                         />
                                         {/*<Avatar name={'Weibo'} />*/}
                                     </Link>
@@ -195,9 +199,9 @@ class App extends Component {
                                     <Link href={'https://instagram.com/'+(this.state.star.ins_name )}>
                                         {/*<Avatar name={'Instagram'} />*/}
                                         <FontAwesomeIcon
-                                            className={'brand-instagram'}
+                                            className={'f-brand'}
                                             name={'instagram'}
-                                            size={'1.4x'}
+                                            size={'2x'}
                                         />
                                     </Link>
                                 </Box>

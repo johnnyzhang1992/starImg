@@ -70,7 +70,13 @@ class starController extends Controller
             ->leftJoin('star_wb','star_wb.star_id','=','star.id')
             ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
             ->first();
+        $posts_count = DB::table('star_img')
+            ->where('star_id',$star->id)
+            ->where('status','active')
+            ->where('star_img.is_video',false)
+            ->count();
         if(isset($star) && $star){
+            $star->posts_count = $posts_count;
             $res = [];
             $res['star'] = $star;
             return response()->json($res);
