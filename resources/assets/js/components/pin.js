@@ -33,6 +33,7 @@ class Pin extends Component {
             hovered: false,
             showLayer: false,
             src: 'https://wx3.sinaimg.cn/orj360/4a47f46cly1fu2j0ki4pfj22kw3vckjn.jpg',
+            page_type: document.getElementsByTagName('meta')['page-type'].getAttribute('content')
         };
     }
     _handleToggle() {
@@ -126,19 +127,24 @@ class Pin extends Component {
                                 </div>
                             </Box>
                         </div>
-                        <Box display="flex" direction="row" paddingY={2} marginTop={1} color={'white'}>
-                            <Box column={2}>
-                                <Link href={this.state.item.domain} target={'blank'}>
-                                    <Avatar name={this.state.item.name} src={this.state.item.avatar} verified={this.state.item.verified} />
-                                </Link>
-                            </Box>
-                            <Box column={10} paddingX={2}>
-                                <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
-                                <Text color={'gray'} align={'left'} truncate size="xs" >
-                                    <Link href={this.state.item.domain} target={'blank'}>{this.state.item.name}</Link>
-                                </Text>
-                            </Box>
-                        </Box>
+                        {
+                            this.state.page_type && this.state.page_type =='normal' ?
+                                <Box display="flex" direction="row" paddingY={2} marginTop={1} color={'white'} >
+                                    <Box column={2}>
+                                        <Link href={this.state.item.domain} target={'blank'}>
+                                            <Avatar name={this.state.item.name} src={this.state.item.avatar} verified={this.state.item.verified} />
+                                        </Link>
+                                    </Box>
+                                    <Box column={10} paddingX={2}>
+                                        <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>
+                                        <Text color={'gray'} align={'left'} truncate size="xs" >
+                                            <Link href={this.state.item.domain} target={'blank'}>{this.state.item.name}</Link>
+                                        </Text>
+                                    </Box>
+                                </Box>
+                                : ''
+                        }
+
                     </Card>
                 </Box>
                 <Box marginLeft={1} marginRight={1}>

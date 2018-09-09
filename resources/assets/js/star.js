@@ -177,16 +177,23 @@ class App extends Component {
                             <Box color="white">
                                 <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
                             </Box>
-                            <Box color="white" paddingY={2}>
+                            <Box color="white" paddingY={1}>
                                 <Text align={'left'} inline={true} bold={true}>{this.state.star.posts_count}</Text>
                                 <Text align={'left'} inline={true}> posts</Text>
                             </Box>
-                            <Box color="white" paddingY={2}>
-                                <Text align="left">{this.state.star.description}</Text>
+                            <Box color="white" paddingY={1} display={this.state.star.baike && this.state.star.baike !='' ? 'block' : 'none'}>
+                                <Text align={'left'} inline={true} color={'gray'}>百度人物资料 </Text>
+                                <Text align="left" inline={true}>{this.state.star.description}... </Text>
+                                <Text align={'left'} inline={true} color={'orange'}>
+                                    <Link inline={true} href={this.state.star.baike} target={'blank'}>详情>></Link>
+                                </Text>
+                            </Box>
+                            <Box color="white" paddingY={2} display={this.state.star.baike && this.state.star.baike !='' ? 'none' : 'block'}>
+                                <Text align="left" >{this.state.star.description}</Text>
                             </Box>
                             <Box color="white" paddingY={2} alignSelf={'center'}>
                                 <Box width={24} display={ 'inlineBlock'}>
-                                    <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)}>
+                                    <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)} target={'blank'}>
                                         <FontAwesomeIcon
                                             className={'f-brand'}
                                             name={'weibo'}
@@ -196,7 +203,7 @@ class App extends Component {
                                     </Link>
                                 </Box>
                                 <Box width={24} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
-                                    <Link href={'https://instagram.com/'+(this.state.star.ins_name )}>
+                                    <Link href={'https://instagram.com/'+(this.state.star.ins_name )} target={'blank'}>
                                         {/*<Avatar name={'Instagram'} />*/}
                                         <FontAwesomeIcon
                                             className={'f-brand'}

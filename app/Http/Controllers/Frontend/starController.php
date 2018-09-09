@@ -53,6 +53,7 @@ class starController extends Controller
             return view('frontend.star.show')
                 ->with('site_title',$star->name.'的主页 | (@'.$star->screen_name.')')
                 ->with('site_description',$star->description)
+                ->with('page_type','star')
                 ->with('star',$star);
         }else{
             abort(404);
