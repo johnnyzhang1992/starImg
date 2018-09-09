@@ -16,9 +16,9 @@
     <meta name="description" content="{{isset($site_description) && $site_description ? @$site_description : config('seo.description')}}">
     <meta name="baidu-site-verification" content="2X6IMyYQxI" />
     <!-- Styles -->
+    @yield('css')
     {{--<link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
     @yield('tongji')
-    @yield('css')
 </head>
 <body id="body">
 <div id="app">

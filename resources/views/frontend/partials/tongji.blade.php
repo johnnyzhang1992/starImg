@@ -1,4 +1,5 @@
 @section('tongji')
+    <!--百度统计-->
     <script>
         var _hmt = _hmt || [];
         (function() {
