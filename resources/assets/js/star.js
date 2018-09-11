@@ -183,9 +183,9 @@ class App extends Component {
                             </Box>
                             <Box color="white" paddingY={1} display={this.state.star.baike && this.state.star.baike !='' ? 'block' : 'none'}>
                                 <Text align={'left'} inline={true} color={'gray'}>百度人物资料 </Text>
-                                <Text align="left" inline={true}>{this.state.star.description}... </Text>
+                                <Text align="left" inline={true}>{this.state.star.description} </Text>
                                 <Text align={'left'} inline={true} color={'orange'}>
-                                    <Link inline={true} href={this.state.star.baike} target={'blank'}>详情>></Link>
+                                    <Link inline={true} href={this.state.star.baike} target={'blank'}>详情</Link>
                                 </Text>
                             </Box>
                             <Box color="white" paddingY={2} display={this.state.star.baike && this.state.star.baike !='' ? 'none' : 'block'}>

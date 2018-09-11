@@ -3,7 +3,7 @@
 @include('frontend.partials.tongji')
 
 @section('css')
-    <link rel="stylesheet" href="{{ mix('css/react-img.css') }}">
+    <link rel="stylesheet" href="{{ _star_asset(mix('css/react-img.css')) }}">
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ mix('js/star.js') }}"></script>
+    <script src="{{ _star_asset(mix('js/star.js')) }}"></script>
     <!--百度自动提交-->
     <script>
         (function(){
