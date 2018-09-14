@@ -4,7 +4,6 @@
 function _star_asset($file){
     $_file = $file;
 
-
     if(str_contains($file, "http://") || str_contains($file, "https://")){
         return $file;
     }
