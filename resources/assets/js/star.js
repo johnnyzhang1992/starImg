@@ -6,10 +6,14 @@ import { Masonry } from 'gestalt';
 import { Box } from 'gestalt';
 import { Avatar } from 'gestalt';
 import { Link } from 'gestalt';
-// import { IconButton } from 'gestalt';
+import { Icon } from 'gestalt';
 import { Spinner } from 'gestalt';
 import { Column } from 'gestalt';
 import { Text } from 'gestalt';
+import { Flyout } from 'gestalt';
+import { Button } from 'gestalt';
+import { Divider } from 'gestalt';
+import { SegmentedControl } from 'gestalt';
 import Pin from './components/pin';
 import Header from "./components/header";
 import FontAwesomeIcon from 'react-fontawesome'
@@ -64,8 +68,64 @@ class App extends Component {
             show_spinner:true,
             current_page:0,
             url: window.location.href+'/getImages',
-            star: []
+            star: [],
+            itemIndex: 0,
+            open: false,
+            type_name: '微博图片',
+            sort_by: 'time'
         };
+        this.handleItemChange = this.handleItemChange.bind(this);
+        this.handleClick = this._handleClick.bind(this);
+        this.handleDismiss = this._handleDismiss.bind(this);
+        this.handleSortByTime = this.handleSortByTime.bind(this);
+        this.handleSortByLikeCount = this.handleSortByLikeCount.bind(this);
+    }
+    handleItemChange({ activeIndex }) {
+        let type_name = '微博图片';
+        switch (activeIndex) {
+            case 0:
+                console.log('weibo');
+                type_name = '微博图片';
+                break;
+            case 1:
+                type_name = 'Ins 图片';
+                console.log('ins');
+                break;
+            case 2:
+                type_name = '其他图片';
+                console.log('others');
+                break;
+            default:
+                console.log('default');
+        }
+        this.setState(prevState => ({
+            itemIndex: activeIndex ,
+            type_name: type_name
+        }));
+    }
+    _handleClick() {
+        this.setState(() => ({
+            open: !this.state.open
+        }));
+    }
+    _handleDismiss() {
+        this.setState(() => ({ open: false }));
+    }
+    handleSortByTime() {
+        this.setState(()=>({
+            open: false,
+            sort_by: 'time',
+            current_page: 0
+        }));
+        this.getPins(this,1,'time');
+    }
+    handleSortByLikeCount() {
+        this.setState(()=>({
+            open: false,
+            sort_by: 'like',
+            current_page: 0
+        }));
+        this.getPins(this,1,'like');
     }
     // 在第一次渲染后调用，只在客户端。
     // 你应该在 componentDidMount 生命周期方法内发送 AJAX 请求数据。
@@ -95,24 +155,27 @@ class App extends Component {
         },2000)
     }
     // 获取 pins 数据
-    getPins(th){
+    getPins(th,_page,sort){
         let that = th;
         th.setState({
             show_spinner: true
         });
-        let page = that.state.current_page+1;
+        let page = _page && _page>0 ? 1: that.state.current_page+1;
         if((page<that.state.last_page && that.state.is_load) || page==1){
             that.setState({
                 is_load: false
             });
-            axios.get(th.state.url+'?page='+page, {
+            axios.get(th.state.url, {
                 params:{
+                    'page': page,
+                    'type': that.state.itemIndex,
+                    'sort': sort ? sort : that.state.sort_by,
                     'csrf-token': document.getElementsByTagName('meta')['csrf-token'].getAttribute('content')
                 }
             }).then((res)=>{
                 that.setState({
                     total: res.data.total,
-                    pins: that.state.pins.concat(res.data.data),
+                    pins: _page && _page>0 ? res.data.data :that.state.pins.concat(res.data.data),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
                     current_page: res.data.current_page,
@@ -158,61 +221,138 @@ class App extends Component {
 
     }
     render() {
+        const items = [
+            '微博',
+            'Ins',
+            '其他'
+        ];
         return (
             <div>
                 <Header/>
-                <Box display="flex" direction="row" paddingX={8} paddingY={2}>
-                    <Column span={this.state.clientWidth >768 ? 5 : 3} >
-                        <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
-                            <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
-                                <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
-                            </Box>
+                <Box display="flex" direction="row">
+                    <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
+                    <Column span={this.state.clientWidth >768 ? 10 : 12} >
+                        <Box display="flex" direction="row" paddingX={8} paddingY={2}>
+                            <Column span={this.state.clientWidth >768 ? 6 : 3} >
+                                <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
+                                    <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
+                                        <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
+                                    </Box>
+                                </Box>
+                            </Column>
+                            <Column span={this.state.clientWidth >768 ? 5: 9}>
+                                <Box color="white" paddingX={5} paddingY={3}>
+                                    <Box color="white" paddingY={2}>
+                                        <Text align={'left'}>{this.state.star.name}</Text>
+                                    </Box>
+                                    <Box color="white">
+                                        <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
+                                    </Box>
+                                    <Box color="white" paddingY={1}>
+                                        <Text align={'left'} inline={true} bold={true}>{this.state.star.posts_count}</Text>
+                                        <Text align={'left'} inline={true}> posts</Text>
+                                    </Box>
+                                    <Box color="white" paddingY={1} display={this.state.star.baike && this.state.star.baike !='' ? 'block' : 'none'}>
+                                        <Text align={'left'} inline={true} color={'gray'}>百度人物资料 </Text>
+                                        <Text align="left" inline={true}>{this.state.star.description} </Text>
+                                        <Text align={'left'} inline={true} color={'orange'}>
+                                            <Link inline={true} href={this.state.star.baike} target={'blank'}>详情</Link>
+                                        </Text>
+                                    </Box>
+                                    <Box color="white" paddingY={2} display={this.state.star.baike && this.state.star.baike !='' ? 'none' : 'block'}>
+                                        <Text align="left" >{this.state.star.description}</Text>
+                                    </Box>
+                                    <Box color="white" paddingY={2} alignSelf={'center'}>
+                                        <Box width={24} display={ 'inlineBlock'}>
+                                            <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)} target={'blank'}>
+                                                <FontAwesomeIcon
+                                                    className={'f-brand'}
+                                                    name={'weibo'}
+                                                    size={'2x'}
+                                                />
+                                                {/*<Avatar name={'Weibo'} />*/}
+                                            </Link>
+                                        </Box>
+                                        <Box width={24} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
+                                            <Link href={'https://instagram.com/'+(this.state.star.ins_name )} target={'blank'}>
+                                                {/*<Avatar name={'Instagram'} />*/}
+                                                <FontAwesomeIcon
+                                                    className={'f-brand'}
+                                                    name={'instagram'}
+                                                    size={'2x'}
+                                                />
+                                            </Link>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Column>
                         </Box>
-                    </Column>
-                    <Column span={this.state.clientWidth >768 ? 7: 9}>
-                        <Box color="white" paddingX={5} paddingY={3}>
-                            <Box color="white" paddingY={2}>
-                                <Text align={'left'}>{this.state.star.name}</Text>
-                            </Box>
-                            <Box color="white">
-                                <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
-                            </Box>
-                            <Box color="white" paddingY={1}>
-                                <Text align={'left'} inline={true} bold={true}>{this.state.star.posts_count}</Text>
-                                <Text align={'left'} inline={true}> posts</Text>
-                            </Box>
-                            <Box color="white" paddingY={1} display={this.state.star.baike && this.state.star.baike !='' ? 'block' : 'none'}>
-                                <Text align={'left'} inline={true} color={'gray'}>百度人物资料 </Text>
-                                <Text align="left" inline={true}>{this.state.star.description} </Text>
-                                <Text align={'left'} inline={true} color={'orange'}>
-                                    <Link inline={true} href={this.state.star.baike} target={'blank'}>详情</Link>
-                                </Text>
-                            </Box>
-                            <Box color="white" paddingY={2} display={this.state.star.baike && this.state.star.baike !='' ? 'none' : 'block'}>
-                                <Text align="left" >{this.state.star.description}</Text>
-                            </Box>
-                            <Box color="white" paddingY={2} alignSelf={'center'}>
-                                <Box width={24} display={ 'inlineBlock'}>
-                                    <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)} target={'blank'}>
-                                        <FontAwesomeIcon
-                                            className={'f-brand'}
-                                            name={'weibo'}
-                                            size={'2x'}
-                                        />
-                                        {/*<Avatar name={'Weibo'} />*/}
-                                    </Link>
+                        {/*tabs*/}
+                        <Box display="flex" direction="row">
+                            <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
+                            <Column span={this.state.clientWidth >768 ? 10 : 12} >
+                                <Box color={"white"} paddingY={2} wrap paddingX={8}>
+                                    <SegmentedControl
+                                        items={items}
+                                        selectedItemIndex={this.state.itemIndex}
+                                        onChange={this.handleItemChange}
+                                    />
                                 </Box>
-                                <Box width={24} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
-                                    <Link href={'https://instagram.com/'+(this.state.star.ins_name )} target={'blank'}>
-                                        {/*<Avatar name={'Instagram'} />*/}
-                                        <FontAwesomeIcon
-                                            className={'f-brand'}
-                                            name={'instagram'}
-                                            size={'2x'}
+                                <Box color={"white"} wrap paddingY={2} paddingX={8}>
+                                    <Box display={'inlineBlock'} height={'36px'}>
+                                        <Text align={'left'} inline={true} color={'gray'}>{this.state.type_name}</Text>
+                                    </Box>
+                                    <div
+                                        style={{ display: "inline-block" ,float: 'right'}}
+                                        ref={c => {
+                                            this.anchor = c;
+                                        }}
+                                    >
+                                        <Button
+                                            accessibilityExpanded={!!this.state.open}
+                                            accessibilityHaspopup
+                                            onClick={this.handleClick}
+                                            text={this.state.sort_by == 'time' ? '按时间排序': '按热度排序' }
+                                            size={'sm'}
+                                            color={'white'}
                                         />
-                                    </Link>
+                                    </div>
+                                    {this.state.open && (
+                                        <div className={'sortLayer'}>
+                                            <Flyout
+                                                anchor={this.anchor}
+                                                idealDirection="down"
+                                                onDismiss={this.handleDismiss}
+                                                size={'xs'}
+                                            >
+                                                <Box width={'100%'} paddingY={1}>
+                                                    <Box>
+                                                        <Button
+                                                            accessibilityExpanded={!!this.state.open}
+                                                            accessibilityHaspopup
+                                                            onClick={this.handleSortByTime}
+                                                            text={'按时间排序'}
+                                                            size={'sm'}
+                                                            color={'white'}
+                                                        />
+                                                    </Box>
+                                                    <Box>
+                                                        <Button
+                                                            accessibilityExpanded={!!this.state.open}
+                                                            accessibilityHaspopup
+                                                            onClick={this.handleSortByLikeCount}
+                                                            text={'按热度排序'}
+                                                            size={'sm'}
+                                                            color={'white'}
+                                                        />
+                                                    </Box>
+                                                </Box>
+                                            </Flyout>
+                                        </div>
+                                    )}
+                                    <Divider />
                                 </Box>
-                            </Box>
+                            </Column>
                         </Box>
                     </Column>
                 </Box>
