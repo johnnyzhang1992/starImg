@@ -288,10 +288,10 @@ class App extends Component {
                             </Column>
                         </Box>
                         {/*tabs*/}
-                        <Box display="flex" direction="row">
-                            <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
-                            <Column span={this.state.clientWidth >768 ? 10 : 12} >
-                                <Box color={"white"} paddingY={2} wrap paddingX={8}>
+                        <Box display="flex" direction="row" paddingX={this.state.clientWidth >768 ? 8 : 0}>
+                            <Column span={this.state.clientWidth >768 ? 2 : 0} > </Column>
+                            <Column span={this.state.clientWidth >768 ? 9 : 12} >
+                                <Box color={"white"} paddingY={2} wrap paddingX={5}>
                                     <SegmentedControl
                                         items={items}
                                         selectedItemIndex={this.state.itemIndex}
@@ -300,9 +300,12 @@ class App extends Component {
                                 </Box>
                                 <Box color={"white"} wrap paddingY={2} paddingX={8}>
                                     <Box display={'inlineBlock'} height={'36px'}>
-                                        <Text align={'left'} inline={true} color={'gray'}>{this.state.type_name}</Text>
+                                        <div className={'sortLeft'}>
+                                            <Text align={'left'} color={'gray'}>{this.state.type_name} {this.state.total} posts</Text>
+                                        </div>
                                     </Box>
                                     <div
+                                        className={'sortRight'}
                                         style={{ display: "inline-block" ,float: 'right'}}
                                         ref={c => {
                                             this.anchor = c;
