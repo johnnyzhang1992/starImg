@@ -382,8 +382,9 @@ class App extends Component {
                                 gutterWidth = {5}
                                 flexible = {true}
                             />
-                            :
-                            <Text align={'center'}>该分类下暂时无图片</Text>
+                            : (!this.state.show_spinner ?
+                                <Text align={'center'}>该分类下暂时无图片</Text>
+                                : '')
                         }
                         <Box marginBottom={6}>
                             <Spinner accessibilityLabel={'Load more Pins'} show={this.state.show_spinner}/>
