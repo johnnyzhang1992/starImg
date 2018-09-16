@@ -74,7 +74,14 @@ class ImagesController extends Controller{
         $id = $this->getStarId($name);
         $type = $request->input('type');
         $sort = $request->input('sort');
-
+        $origin = '微博';
+        if(isset($type) && $type>0){
+            if($type==1){
+                $origin = 'instagram';
+            }else{
+                $origin = 'others';
+            }
+        }
 
         if(isset($sort) && $sort){
             if($sort == 'time'){
@@ -82,12 +89,13 @@ class ImagesController extends Controller{
                     ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
                     ->leftJoin('star','star.id','=','star_img.star_id')
                     ->where('star_img.star_id','=',$id)
-                    ->where('star_img.origin','微博')
+                    ->where('star_img.origin',$origin)
                     ->where('star_img.status','active')
                     ->where('star_img.is_video',false)
                     ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin',
                         'star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name',
-                        'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id','star_img.attitudes_count')
+                        'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
+                        'star_img.attitudes_count','star_img.cos_url','star_img.code')
                     ->orderBy('star_img.mid','desc')
                     ->paginate(20);
             }elseif($sort == 'like'){
@@ -95,12 +103,13 @@ class ImagesController extends Controller{
                     ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
                     ->leftJoin('star','star.id','=','star_img.star_id')
                     ->where('star_img.star_id','=',$id)
-                    ->where('star_img.origin','微博')
+                    ->where('star_img.origin',$origin)
                     ->where('star_img.status','active')
                     ->where('star_img.is_video',false)
                     ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin',
                         'star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name',
-                        'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id','star_img.attitudes_count')
+                        'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
+                        'star_img.attitudes_count','star_img.cos_url','star_img.code')
                     ->orderBy('star_img.attitudes_count','desc')->paginate(20);
             }
         }else{
@@ -108,12 +117,13 @@ class ImagesController extends Controller{
                 ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
                 ->leftJoin('star','star.id','=','star_img.star_id')
                 ->where('star_img.star_id','=',$id)
-                ->where('star_img.origin','微博')
+                ->where('star_img.origin',$origin)
                 ->where('star_img.status','active')
                 ->where('star_img.is_video',false)
                 ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin',
                     'star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name',
-                    'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id','star_img.attitudes_count')
+                    'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
+                    'star_img.attitudes_count','star_img.cos_url','star_img.code')
                 ->orderBy('star_img.mid', 'desc')
                 ->paginate(20);
         }

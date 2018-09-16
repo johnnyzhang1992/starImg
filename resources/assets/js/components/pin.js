@@ -94,7 +94,9 @@ class Pin extends Component {
                         <div className={'PinLayer'} onClick={()=>{
                             this.setState(prevState => ({
                                 showLayer: !prevState.showLayer ,
-                                src: this.state.item.pic_detail ? this.state.item.pic_detail.large.url :this.state.item.display_url
+                                src: this.state.item.origin == '微博' ? (this.state.item.pic_detail ?
+                                    this.state.item.pic_detail.large.url :this.state.item.display_url) :
+                                    ('https://img.starimg.cn/'+this.state.item.cos_url)
                             }));
                             document.getElementById('body').style.overflowY ='hidden';
                             let title =document.getElementsByTagName('meta')['title'].getAttribute('content');
@@ -107,18 +109,23 @@ class Pin extends Component {
                                         alt={this.state.item.text}
                                         // fit="cover"
                                         color = {this.state.imageColor[this.state.itemIdx]}
-                                        naturalWidth={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360   }
-                                        naturalHeight={this.state.item.pic_detail  ? (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540}
-                                        src={this.state.item.pic_detail ? this.state.item.pic_detail.url :this.state.item.display_url}
+                                        naturalWidth={ this.state.item.origin == '微博' ? (this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360) :
+                                            (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_width : 360)   }
+                                        naturalHeight={this.state.item.origin == '微博' ? (this.state.item.pic_detail  ?
+                                            (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540) :
+                                            (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_height : 540)}
+                                        src={this.state.item.origin == '微博' ? (this.state.item.pic_detail ?
+                                            this.state.item.pic_detail.large.url :this.state.item.display_url) :
+                                            ('https://i.starimg.cn/'+this.state.item.cos_url+'!small')}
                                     >
                                         <Box paddingX={3} paddingY={1} position={'absolute'} bottom={true} left={true} shape={'rounded'} color={'white'} marginLeft={3} marginBottom={3} display={this.state.hovered ? 'block' : 'none'}>
-                                            <Link href={this.state.item.origin_url}>
+                                            <Link href={this.state.item.origin == '微博' ? this.state.item.origin_url : 'https://instagram.com/p/'+this.state.item.code}>
                                                 <Box alignItems="center" display="flex">
                                                     <Box marginRight={1} padding={1}>
                                                         <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>
                                                     </Box>
                                                     <Text align="center" bold color="darkGray">
-                                                        weibo.com
+                                                        {this.state.item.origin == '微博' ? 'weibo.com' : 'instagram.com'}
                                                     </Text>
                                                 </Box>
                                             </Link>
@@ -169,9 +176,13 @@ class Pin extends Component {
                                                             alt={this.state.item.text}
                                                             // fit="cover"
                                                             color = {this.state.imageColor[this.state.itemIdx]}
-                                                            naturalWidth={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360   }
-                                                            naturalHeight={this.state.item.pic_detail  ? this.state.item.pic_detail.geo.height : 540}
-                                                            src={this.state.item.pic_detail ? this.state.item.pic_detail.large.url :this.state.item.display_url}
+                                                            naturalWidth={ this.state.item.origin == '微博' ? (this.state.item.pic_detail  ? this.state.item.pic_detail.geo.width : 360) :
+                                                                (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_width : 360)   }
+                                                            naturalHeight={this.state.item.origin == '微博' ? (this.state.item.pic_detail  ?
+                                                                (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540) :
+                                                                (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_height : 540)}
+                                                            src={this.state.item.origin == '微博' ? (this.state.item.pic_detail ?
+                                                                this.state.item.pic_detail.large.url :this.state.item.display_url) : 'https://img.starimg.cn/'+this.state.item.cos_url}
                                                         >
                                                         </Image>
                                                     </Box>
@@ -195,13 +206,13 @@ class Pin extends Component {
                                                             <Text color={'darkGray'}  size="xs">{this.state.item.text}</Text>
                                                         </Box>
                                                         <Box paddingY={1} shape={'rounded'} color={'white'} marginTop={3} marginBottom={3} display={ 'block'}>
-                                                            <Link href={this.state.item.origin_url} target={'blank'}>
+                                                            <Link href={this.state.item.origin == '微博' ? this.state.item.origin_url : 'https://instagram.com/p/'+this.state.item.code} target={'blank'}>
                                                                 <Box alignItems="center" display="flex" color={'darkWash'} shape={'rounded'} paddingX={4} paddingY={2}>
                                                                     <Box marginRight={1} padding={1}>
                                                                         <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>
                                                                     </Box>
                                                                     <Text align="center" bold color="darkGray">
-                                                                        weibo.com
+                                                                        {this.state.item.origin == '微博' ? 'weibo.com' : 'instagram.com'}
                                                                     </Text>
                                                                 </Box>
                                                             </Link>

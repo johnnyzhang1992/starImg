@@ -84,16 +84,16 @@ class App extends Component {
         let type_name = '微博图片';
         switch (activeIndex) {
             case 0:
-                console.log('weibo');
+                // console.log('weibo');
                 type_name = '微博图片';
                 break;
             case 1:
                 type_name = 'Ins 图片';
-                console.log('ins');
+                // console.log('ins');
                 break;
             case 2:
                 type_name = '其他图片';
-                console.log('others');
+                // console.log('others');
                 break;
             default:
                 console.log('default');
@@ -102,6 +102,7 @@ class App extends Component {
             itemIndex: activeIndex ,
             type_name: type_name
         }));
+        this.getPins(this,1,'time',activeIndex);
     }
     _handleClick() {
         this.setState(() => ({
@@ -155,7 +156,7 @@ class App extends Component {
         },2000)
     }
     // 获取 pins 数据
-    getPins(th,_page,sort){
+    getPins(th,_page,sort,index){
         let that = th;
         th.setState({
             show_spinner: true
@@ -168,14 +169,23 @@ class App extends Component {
             axios.get(th.state.url, {
                 params:{
                     'page': page,
-                    'type': that.state.itemIndex,
+                    'type': index || index == 0 ? index : that.state.itemIndex,
                     'sort': sort ? sort : that.state.sort_by,
                     'csrf-token': document.getElementsByTagName('meta')['csrf-token'].getAttribute('content')
                 }
             }).then((res)=>{
+                let pins = res.data.data;
+                pins.forEach((item)=>{
+                   if(item.origin != '微博'){
+                       if(item.cos_url){
+                           return item;
+                       }
+                   }
+                    return item;
+                });
                 that.setState({
                     total: res.data.total,
-                    pins: _page && _page>0 ? res.data.data :that.state.pins.concat(res.data.data),
+                    pins: _page && _page>0 ? pins :that.state.pins.concat(pins),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
                     current_page: res.data.current_page,
@@ -353,7 +363,9 @@ class App extends Component {
                                             </Flyout>
                                         </div>
                                     )}
-                                    <Divider />
+                                    <Box paddingY={1}>
+                                        <Divider />
+                                    </Box>
                                 </Box>
                             </Column>
                         </Box>
@@ -361,14 +373,18 @@ class App extends Component {
                 </Box>
                 <Box paddingY={6}>
                     <div className="gridCentered">
-                        <Masonry
-                            comp={Pin}
-                            items={this.state.pins}
-                            loadItems={(event)=>{}}
-                            minCols={2}
-                            gutterWidth = {5}
-                            flexible = {true}
-                        />
+                        {this.state.pins.length>0 ?
+                            <Masonry
+                                comp={Pin}
+                                items={this.state.pins}
+                                loadItems={(event)=>{}}
+                                minCols={2}
+                                gutterWidth = {5}
+                                flexible = {true}
+                            />
+                            :
+                            <Text align={'center'}>该分类下暂时无图片</Text>
+                        }
                         <Box marginBottom={6}>
                             <Spinner accessibilityLabel={'Load more Pins'} show={this.state.show_spinner}/>
                         </Box>
