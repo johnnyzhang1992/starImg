@@ -115,7 +115,7 @@ class Pin extends Component {
                                             (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540) :
                                             (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_height : 120)}
                                         src={this.state.item.origin == '微博' ? (this.state.item.pic_detail ?
-                                            this.state.item.pic_detail.large.url :this.state.item.display_url) :
+                                            this.state.item.pic_detail.url :this.state.item.display_url) :
                                             ('https://star-1256165736.picgz.myqcloud.com/'+this.state.item.cos_url+'!small')}
                                     >
                                         <Box paddingX={3} paddingY={1} position={'absolute'} bottom={true} left={true} shape={'rounded'} color={'white'} marginLeft={3} marginBottom={3} display={this.state.hovered ? 'block' : 'none'}>

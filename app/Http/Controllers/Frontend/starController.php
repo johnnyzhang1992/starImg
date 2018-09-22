@@ -76,10 +76,25 @@ class starController extends Controller
             ->where('status','active')
             ->where('star_img.is_video',false)
             ->count();
+        $wb_posts_count = DB::table('star_img')
+            ->where('star_id',$star->id)
+            ->where('origin','微博')
+            ->where('status','active')
+            ->where('star_img.is_video',false)
+            ->count();
+
+        $ins_posts_count = DB::table('star_img')
+            ->where('star_id',$star->id)
+            ->where('origin','instagram')
+            ->where('status','active')
+            ->where('star_img.is_video',false)
+            ->count();
         if(isset($star) && $star){
             $star->posts_count = $posts_count;
             $res = [];
             $res['star'] = $star;
+            $res['wb_count'] = $wb_posts_count;
+            $res['ins_count'] = $ins_posts_count;
             return response()->json($res);
         }else{
             abort(404);

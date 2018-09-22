@@ -72,7 +72,9 @@ class App extends Component {
             itemIndex: 0,
             open: false,
             type_name: '微博图片',
-            sort_by: 'time'
+            sort_by: 'time',
+            wb_count:0,
+            ins_count: 0
         };
         this.handleItemChange = this.handleItemChange.bind(this);
         this.handleClick = this._handleClick.bind(this);
@@ -82,25 +84,31 @@ class App extends Component {
     }
     handleItemChange({ activeIndex }) {
         let type_name = '微博图片';
+        let count = 0;
         switch (activeIndex) {
             case 0:
                 // console.log('weibo');
                 type_name = '微博图片';
+                count = this.state.wb_count;
                 break;
             case 1:
                 type_name = 'Ins 图片';
+                count = this.state.ins_count;
                 // console.log('ins');
                 break;
             case 2:
                 type_name = '其他图片';
+                count = 0;
                 // console.log('others');
                 break;
             default:
+                count = 0;
                 console.log('default');
         }
         this.setState(prevState => ({
             itemIndex: activeIndex ,
-            type_name: type_name
+            type_name: type_name,
+            total: count
         }));
         this.getPins(this,1,'time',activeIndex);
     }
@@ -209,7 +217,9 @@ class App extends Component {
         }).then((res)=>{
             // console.log(res.data);
             that.setState({
-                star: res.data.star
+                star: res.data.star,
+                wb_count: res.data.wb_count,
+                ins_count: res.data.ins_count
             });
         }).catch((error)=>{
             console.log(error);
@@ -373,7 +383,7 @@ class App extends Component {
                 </Box>
                 <Box paddingY={6}>
                     <div className="gridCentered">
-                        {this.state.pins.length>0 ?
+                        {this.state.total>0 ?
                             <Masonry
                                 comp={Pin}
                                 items={this.state.pins}
