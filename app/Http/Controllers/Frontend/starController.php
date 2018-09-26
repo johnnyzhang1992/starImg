@@ -113,8 +113,11 @@ class starController extends Controller
      */
     public function getStarList(Request $request){
         $stars = DB::table('star')
-            ->where('status','active')
-            ->paginate(15);
+            ->leftJoin('star_wb','star_wb.star_id','=','star.id')
+//            ->leftJoin('star_ins','star_wb.star_id','=','star.id')
+            ->where('star.status','=','active')
+            ->select('star.*','star_wb.verified')
+            ->paginate(30);
         return response()->json($stars);
     }
 }

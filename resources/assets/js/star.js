@@ -253,14 +253,14 @@ class App extends Component {
                     <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
                     <Column span={this.state.clientWidth >768 ? 10 : 12} >
                         <Box display="flex" direction="row" paddingX={8} paddingY={2}>
-                            <Column span={this.state.clientWidth >768 ? 6 : 3} >
+                            <Column span={this.state.clientWidth >768 ? 5 : 3} >
                                 <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
                                     <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
                                         <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
                                     </Box>
                                 </Box>
                             </Column>
-                            <Column span={this.state.clientWidth >768 ? 5: 9}>
+                            <Column span={this.state.clientWidth >768 ? 6: 9}>
                                 <Box color="white" paddingX={5} paddingY={3}>
                                     <Box color="white" paddingY={2}>
                                         <Text align={'left'}>{this.state.star.name}</Text>

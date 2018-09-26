@@ -4,14 +4,19 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ mix('css/react-img.css') }}">
+    <style>
+        .f-brand {
+            font-size: 18px;
+        }
+    </style>
 @endsection
 
 @section('content')
-    <div style="text-align: center;padding: 50px 0">列表页,正在制作过程中。。。</div>
+    <div style="text-align: center;padding: 50px 0">加载中。。。</div>
 @endsection
 
 @section('javascript')
-    {{--<script src="{{ mix('js/star.js') }}"></script>--}}
+    <script src="{{ mix('js/star_list.js') }}"></script>
     <script>
         // (function(){
         //     var bp = document.createElement('script');
