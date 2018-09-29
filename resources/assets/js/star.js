@@ -110,7 +110,7 @@ class App extends Component {
             type_name: type_name,
             total: count
         }));
-        this.getPins(this,1,'time',activeIndex);
+        this.getPins(this,1,this.state.sort_by,activeIndex);
     }
     _handleClick() {
         this.setState(() => ({
