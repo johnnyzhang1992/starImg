@@ -219,7 +219,8 @@ class App extends Component {
             that.setState({
                 star: res.data.star,
                 wb_count: res.data.wb_count,
-                ins_count: res.data.ins_count
+                ins_count: res.data.ins_count,
+                total: res.data.wb_count
             });
         }).catch((error)=>{
             console.log(error);
@@ -392,7 +393,7 @@ class App extends Component {
                                 gutterWidth = {5}
                                 flexible = {true}
                             />
-                            : (!this.state.show_spinner ?
+                            : (!this.state.show_spinner && this.state.total<1 ?
                                 <Text align={'center'}>该分类下暂时无图片</Text>
                                 : '')
                         }
