@@ -97,6 +97,7 @@ class ImagesController extends Controller{
                         'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
                         'star_img.attitudes_count','star_img.cos_url','star_img.code')
                     ->orderBy('star_img.mid','desc')
+                    ->orderBy('star_img.id', 'desc')
                     ->paginate(20);
             }elseif($sort == 'like'){
                 $images = DB::table('star_img')
@@ -125,6 +126,7 @@ class ImagesController extends Controller{
                     'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
                     'star_img.attitudes_count','star_img.cos_url','star_img.code')
                 ->orderBy('star_img.mid', 'desc')
+                ->orderBy('star_img.id', 'desc')
                 ->paginate(20);
         }
         if(isset($images) && $images){

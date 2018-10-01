@@ -230,6 +230,13 @@ class App extends Component {
     componentWillMount() {
         this.getStarDetail(this);
         setTimeout(()=>{
+            if(this.state.wb_count<1){
+                this.setState({
+                    itemIndex: 1,
+                    total: this.state.ins_count,
+                    type_name: 'Ins 图片',
+                })
+            }
             this.getPins(this);
         },3000);
         let _this = this;
