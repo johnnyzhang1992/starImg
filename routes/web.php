@@ -77,6 +77,7 @@ Route::group([
     Route::get('/explore', 'Frontend\starController@explore');
     Route::get('/getImages', 'Frontend\ImagesController@index');
     Route::post('/starList', 'Frontend\starController@getStarList');
+    Route::get('/starUrlList', 'Frontend\starController@getUrlStarList');
     Route::get('/pin/{id}', 'Frontend\PinController@pinDetail')->where('id', '[0-9]+');
     Route::post('/pin/{id}', 'Frontend\PinController@getPinDetail')->where('id', '[0-9]+');
     Route::get('/{id}', 'Frontend\starController@starDetail')->where('id', '[0-9]+');

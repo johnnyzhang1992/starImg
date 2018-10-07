@@ -121,4 +121,17 @@ class starController extends Controller
             ->paginate(30);
         return response()->json($stars);
     }
+    public function getUrlStarList(){
+
+        $stars = DB::table('star')
+            ->leftJoin('star_wb','star_wb.star_id','=','star.id')
+//            ->leftJoin('star_ins','star_wb.star_id','=','star.id')
+            ->where('star.status','=','active')
+            ->select('star.*','star_wb.verified')
+            ->paginate(20);
+        foreach ($stars as $star){
+            print 'https://starimg.cn/'.$star->domain.'<br>';
+        }
+
+    }
 }

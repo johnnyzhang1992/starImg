@@ -67,6 +67,16 @@ class Star extends Component {
                                             />
                                         </Link>
                                     </Box>
+                                    <Box width={24} display={this.state.item.fb_domain? 'inlineBlock' : 'none'} marginLeft={2}>
+                                        <Link href={'https://facebook.com/'+(this.state.item.fb_domain )} target={'blank'}>
+                                            {/*<Avatar name={'Instagram'} />*/}
+                                            <FontAwesomeIcon
+                                                className={'f-brand'}
+                                                name={'facebook'}
+                                                size={'2x'}
+                                            />
+                                        </Link>
+                                    </Box>
                                 </Box>
 
                                 <Text color={'darkGray'} align={'left'} truncate size="xs">{this.state.item.description}</Text>

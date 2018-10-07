@@ -311,6 +311,16 @@ class App extends Component {
                                                 />
                                             </Link>
                                         </Box>
+                                        <Box width={24} display={this.state.star.fb_domain? 'inlineBlock' : 'none'} marginLeft={2}>
+                                            <Link href={'https://facebook.com/'+(this.state.star.fb_domain )} target={'blank'}>
+                                                {/*<Avatar name={'Instagram'} />*/}
+                                                <FontAwesomeIcon
+                                                    className={'f-brand'}
+                                                    name={'facebook'}
+                                                    size={'2x'}
+                                                />
+                                            </Link>
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Column>
