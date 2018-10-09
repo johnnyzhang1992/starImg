@@ -47,7 +47,7 @@ class Star extends Component {
                                 </Text>
 
                                 <Box color="white" paddingY={2} alignSelf={'center'}>
-                                    <Box width={24} display={ 'inlineBlock'}>
+                                    <Box width={24} display={(this.state.item.wb_domain || this.state.item.wb_id) ? 'inlineBlock' : 'none'}>
                                         <Link href={'https://weibo.com/'+(this.state.item.wb_domain ? this.state.item.wb_domain : 'u/'+this.state.item.wb_id)} target={'blank'}>
                                             <FontAwesomeIcon
                                                 className={'f-brand'}

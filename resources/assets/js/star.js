@@ -291,7 +291,7 @@ class App extends Component {
                                         <Text align="left" >{this.state.star.description}</Text>
                                     </Box>
                                     <Box color="white" paddingY={2} alignSelf={'center'}>
-                                        <Box width={24} display={ 'inlineBlock'}>
+                                        <Box width={24} display={(this.state.star.wb_domain || this.state.star.wb_id) ? 'inlineBlock' : 'none'}>
                                             <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)} target={'blank'}>
                                                 <FontAwesomeIcon
                                                     className={'f-brand'}
