@@ -170,7 +170,7 @@ class App extends Component {
             show_spinner: true
         });
         let page = _page && _page>0 ? 1: that.state.current_page+1;
-        if((page<that.state.last_page && that.state.is_load) || page==1){
+        if((page<=that.state.last_page && that.state.is_load) || page==1){
             that.setState({
                 is_load: false
             });

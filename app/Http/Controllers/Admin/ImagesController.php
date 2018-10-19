@@ -39,7 +39,11 @@ class ImagesController extends BaseController{
             if($type && $type =='wb'){
               $images = Images::where('origin','微博')->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->orderBy('created_at', 'desc')->paginate(10);
+                $images = Images::where('origin','instagram')
+                    ->where('status','active')
+                    ->where('is_video',false)
+                    ->orderBy('id', 'desc')
+                    ->paginate(10);
             }else{
                 $images = Images::where('is_video',false)->where('status','active')->orderBy('created_at', 'asc')->paginate(20);
             }
@@ -124,19 +128,36 @@ class ImagesController extends BaseController{
      * @param $star_id
      */
     public function downloadHttpImages($star_id){
-        $uploadImage = new QcloudUplodImage();
-        $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(10);
-        $count = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->count();
-        info(count($images));
-        if(count($images)<1){
-            print '没有待下载的图片';
+        if($star_id == 'all'){
+            $uploadImage = new QcloudUplodImage();
+            $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(8);
+            $count = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->count();
+            info(count($images));
+            if(count($images)<1){
+                print '没有待下载的图片';
+            }else{
+                print '待下载的图片张数为：'.($count-8);
+            }
+            foreach ($images as $image){
+                info($image->display_url);
+                $uploadImage->http_get_data($image->display_url,$image->star_id,$image->id,'ins');
+            }
         }else{
-            print '待下载的图片张数为：'.($count-10);
+            $uploadImage = new QcloudUplodImage();
+            $images = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(10);
+            $count = Images::where('star_id',$star_id)->where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->count();
+            info(count($images));
+            if(count($images)<1){
+                print '没有待下载的图片';
+            }else{
+                print '待下载的图片张数为：'.($count-10);
+            }
+            foreach ($images as $image){
+                info($image->display_url);
+                $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
+            }
         }
-        foreach ($images as $image){
-            info($image->display_url);
-            $uploadImage->http_get_data($image->display_url,$star_id,$image->id,'ins');
-        }
+
     }
 
     /**

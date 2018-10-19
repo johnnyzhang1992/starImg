@@ -51,7 +51,7 @@ class starController extends Controller
             ->first();
         if(isset($star) && $star){
             return view('frontend.star.show')
-                ->with('site_title',$star->name.'的图片集|(@'.($star->screen_name ? $star->screen_name : $star->name).')')
+                ->with('site_title',$star->name.'的图片集|(@'.$star->domain.')')
                 ->with('site_description',$star->description.'|微博图片集、Instagram网页版、Instagram图片集')
                 ->with('site_keywords',$star->screen_name.','.$star->name.','.$star->domain.','.config('seo.keywords'))
                 ->with('page_type','star')
@@ -118,6 +118,7 @@ class starController extends Controller
 //            ->leftJoin('star_ins','star_wb.star_id','=','star.id')
             ->where('star.status','=','active')
             ->select('star.*','star_wb.verified')
+            ->orderBy('id','asc')
             ->paginate(30);
         return response()->json($stars);
     }
