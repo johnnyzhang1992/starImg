@@ -1,5 +1,6 @@
 @extends('frontend.layouts.app')
 
+@include('frontend.partials.seo')
 @include('frontend.partials.tongji')
 
 @section('css')

@@ -31,6 +31,8 @@ class starController extends Controller
             ->first();
         if(isset($star) && $star){
             return view('frontend.star.show')
+                ->with('og_image',$star->avatar)
+                ->with('og_url',asset($star->domain))
                 ->with('site_title',$star->name.'的主页 | (@'.$star->screen_name.')')
                 ->with('site_description',$star->description)
                 ->with('star',$star);
@@ -51,6 +53,8 @@ class starController extends Controller
             ->first();
         if(isset($star) && $star){
             return view('frontend.star.show')
+                ->with('og_image',$star->avatar)
+                ->with('og_url',asset($star->domain))
                 ->with('site_title',$star->name.'的图片集|(@'.$star->domain.')')
                 ->with('site_description',$star->description.'|微博图片集、Instagram网页版、Instagram图片集')
                 ->with('site_keywords',$star->screen_name.','.$star->name.','.$star->domain.','.config('seo.keywords'))
