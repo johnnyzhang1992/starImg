@@ -52,6 +52,15 @@ class starController extends Controller
             ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
             ->first();
         if(isset($star) && $star){
+             // post siteMap of recent pin
+            $pins = $this->getStarImages($star->id);
+            if(isset($pins) && $pins){
+                $urls = '';
+                foreach ($pins as $pin){
+                    $urls .= asset('/pin/'.$pin->id).',';
+                }
+                $this->postSiteMapToBaiDu($urls);
+            }
             return view('frontend.star.show')
                 ->with('og_image',$star->avatar)
                 ->with('og_url',asset($star->domain))
@@ -65,6 +74,25 @@ class starController extends Controller
         }
     }
 
+    /**
+     * 获取最新的十条图片
+     * @param $id
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function getStarImages($id){
+        $images = DB::table('star_img')
+            ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
+            ->leftJoin('star','star.id','=','star_img.star_id')
+            ->where('star_img.star_id','=',$id)
+            ->where('star_img.origin','微博')
+            ->where('star_img.status','active')
+            ->where('star_img.is_video',false)
+            ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id',
+                'star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name','star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id')
+            ->orderBy('star_img.mid', 'desc')
+            ->paginate(20);
+        return $images;
+    }
     /**
      * 明星详情
      * @param $name

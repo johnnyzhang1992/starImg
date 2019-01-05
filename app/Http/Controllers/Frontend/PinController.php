@@ -30,6 +30,7 @@ class PinController extends Controller
             ->select('star.domain','star.name','star.description','star_img.*')
             ->first();
         if(isset($pin) && $pin){
+            $this->postSiteMapToBaiDu(asset('/pin/'.$pin->id));
             return view('frontend.pin.show')
                 ->with('site_title',@$pin->name.'的图片 | @'.$pin->domain)
                 ->with('site_keywords',$pin->name.','.$pin->domain.','.config('seo.keywords'))
