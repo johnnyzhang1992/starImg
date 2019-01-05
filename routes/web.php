@@ -72,6 +72,10 @@ Route::group([
     'domain' => 'starimg.cn'
 ], function () {
     Auth::routes();
+
+    // site map
+    Route::get('/sitemap','SiteMapController@index');
+
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/', 'Frontend\HomeController@index');
     Route::get('/explore', 'Frontend\starController@explore');
