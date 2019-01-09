@@ -161,9 +161,10 @@ class starController extends Controller
 //            ->leftJoin('star_ins','star_wb.star_id','=','star.id')
             ->where('star.status','=','active')
             ->select('star.*','star_wb.verified')
-            ->paginate(20);
+            ->orderBy('star.id')
+            ->get();
         foreach ($stars as $star){
-            print 'https://starimg.cn/'.$star->domain.'<br>';
+            print ' <a href="https://starimg.cn/'.$star->domain.'">'.$star->name.'</a>  ';
         }
 
     }

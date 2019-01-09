@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "388afc18e32266254538b9ddc7696b45",
+    "content-hash": "9634803c8b98143edc63199ef729e895",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -1463,45 +1463,6 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
-        },
-        {
-            "name": "jingling0101/laravel-qcloud-cos",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/YueCode/laravel-qcloud-cos.git",
-                "reference": "caf2b02ba1968b049ecc29468bd49e3f03a19fba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/YueCode/laravel-qcloud-cos/zipball/caf2b02ba1968b049ecc29468bd49e3f03a19fba",
-                "reference": "caf2b02ba1968b049ecc29468bd49e3f03a19fba",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "YueCode\\Cos\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "jingling0101",
-                    "email": "admin@nmfox.com"
-                }
-            ],
-            "description": "qclouds api",
-            "keywords": [
-                "cos",
-                "laravel",
-                "laravel-qcloud",
-                "laravel-qcloud-cos",
-                "qcloud",
-                "qcloud-cos",
-                "tengxun"
-            ],
-            "time": "2017-03-03T06:58:26+00:00"
         },
         {
             "name": "justinrainbow/json-schema",

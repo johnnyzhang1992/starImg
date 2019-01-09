@@ -39,7 +39,7 @@ class SiteMapController extends Controller{
                 ->where('star.status','=','active')
                 ->select('star.*','star_wb.verified')
                 ->orderBy('id','asc')
-                ->paginate(30);
+                ->get();
 
             // add every star to the sitemap
             foreach ($stars as $star){
