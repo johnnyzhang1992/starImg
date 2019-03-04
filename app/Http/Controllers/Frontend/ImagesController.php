@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\Images;
 use App\Models\Star;
 use Illuminate\Support\Facades\DB;
+//use Session;
+use Illuminate\Support\Facades\Session;
 
 class ImagesController extends Controller{
     public function __construct()
@@ -82,9 +84,22 @@ class ImagesController extends Controller{
                 $origin = 'others';
             }
         }
-
+//        $sort_time = 'desc';
         if(isset($sort) && $sort){
             if($sort == 'time'){
+                if(Session::has('sort_time')){
+                    $sort_time = Session::get('sort_time');
+                    if($sort_time == 'desc'){
+                        Session::put('sort_time','asc');
+                        $sort_time = 'asc';
+                    }else{
+                        Session::put('sort_time','desc');
+                        $sort_time = 'desc';
+                    }
+                }else{
+                    Session::put('sort_time','desc');
+                    $sort_time = 'desc';
+                }
                 $images = DB::table('star_img')
                     ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
                     ->leftJoin('star','star.id','=','star_img.star_id')
@@ -96,8 +111,8 @@ class ImagesController extends Controller{
                         'star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name',
                         'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
                         'star_img.attitudes_count','star_img.cos_url','star_img.code')
-                    ->orderBy('star_img.mid','desc')
-                    ->orderBy('star_img.id', 'desc')
+                    ->orderBy('star_img.mid',$sort_time)
+                    ->orderBy('star_img.id', $sort_time)
                     ->paginate(20);
             }elseif($sort == 'like'){
                 $images = DB::table('star_img')
