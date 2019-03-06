@@ -85,8 +85,11 @@ class App extends Component {
                                             alt={this.state.pin && this.state.pin.text ? this.state.pin.text : ''}
                                             // fit="cover"
                                             color = {'orange'}
-                                            naturalWidth={this.state.pin.pic_detail  ? this.state.pin.pic_detail.geo.width : 360   }
-                                            naturalHeight={this.state.pin.pic_detail  ? this.state.pin.pic_detail.geo.height : 540}
+                                            naturalWidth={ this.state.pin.origin == '微博' ? (this.state.pin.pic_detail.geo  ? this.state.pin.pic_detail.geo.width : 360) :
+                                                (this.state.pin.pic_detail ? this.state.pin.pic_detail[0].config_width : 120)   }
+                                            naturalHeight={this.state.pin.origin == '微博' ? (this.state.pin.pic_detail.geo  ?
+                                                (this.state.pin.pic_detail.geo.height>1200 ? 1200 : this.state.pin.pic_detail.geo.height) : 540) :
+                                                (this.state.pin.pic_detail ? this.state.pin.pic_detail[0].config_height : 120)}
                                             src={this.state.pin.pic_detail ? this.state.pin.pic_detail.large.url :this.state.pin.display_url}
                                         >
                                         </Image>
