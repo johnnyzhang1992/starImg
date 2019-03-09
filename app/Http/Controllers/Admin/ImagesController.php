@@ -103,17 +103,30 @@ class ImagesController extends BaseController{
      * 明星图片
      * @param $id
      * @param $type
+     * @param $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function starImage($id,$type){
+    public function starImage($id,$type,Request $request){
         if (Auth::user()) {
             $star = Star::where('id',$id)->first();
+            $images = Images::where('star_id',$id)->where('status','active')->where('is_video',false);
             if($type && $type =='wb'){
-                $images = Images::where('origin','微博')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('mid', 'desc')->paginate(20);
+                $images->where('origin','微博');
             }elseif($type && $type =='ins'){
-                $images = Images::where('origin','instagram')->where('star_id',$id)->where('status','active')->where('is_video',false)->orderBy('id', 'asc')->paginate(15);
+                $images = $images->where('origin','instagram');
+            }
+            if($request->input('sort')){
+                $images->orderBy('attitudes_count','desc');
             }else{
-                $images = Images::where('is_video',false)->where('star_id',$id)->where('status','active')->orderBy('created_at', 'asc')->paginate(20);
+                if($type && $type =='wb'){
+                    $images->orderBy('mid', 'desc');
+                }elseif($type && $type =='ins'){
+                    $images->orderBy('id', 'asc');
+                }
+            }
+            $images = $images->paginate(15);
+            if($request->input('sort')){
+                $images->withPath('?sort=like');
             }
             return view('admin.img.images')
                 ->with('star',$star)

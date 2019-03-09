@@ -26,6 +26,7 @@ class starController extends Controller
     public function starDetail($id){
         $star = DB::table('star')
             ->where('star.id','=',$id)
+            ->where('status','active')
             ->leftJoin('star_wb','star_wb.star_id','=','star.id')
             ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
             ->first();
@@ -47,6 +48,7 @@ class starController extends Controller
      */
     public function starNameDetail($name){
         $star = DB::table('star')
+            ->where('status','active')
             ->where('star.domain','=',$name)
             ->leftJoin('star_wb','star_wb.star_id','=','star.id')
             ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
@@ -101,6 +103,7 @@ class starController extends Controller
     public function getStarNameDetail($name){
         $star = DB::table('star')
             ->where('star.domain','=',$name)
+            ->where('status','active')
             ->leftJoin('star_wb','star_wb.star_id','=','star.id')
             ->select('star.*','star_wb.screen_name','star_wb.description as wb_description','star_wb.verified','star_wb.verified_reason')
             ->first();
