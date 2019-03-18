@@ -6,6 +6,8 @@ StarImg 是一个明星图库，主要采集微博和Ins的明星图片，后期
 
  [starimg.cn](https://starimg.cn) 网站的前端页面。
  laravel框架，php + react.js
+ 
+ 使用了 pinterest开源的项目 [gestalt](https://github.com/pinterest/gestalt)
 
 
 ## 后台管理页面
@@ -13,6 +15,7 @@ StarImg 是一个明星图库，主要采集微博和Ins的明星图片，后期
  [admin.starimg.cn](https://admin.starimg.cn),使用了后台模板:
 
 - [Voyager](https://github.com/the-control-group/voyager)
+
 
 ## License
 
