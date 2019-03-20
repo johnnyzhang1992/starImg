@@ -90,7 +90,8 @@ class App extends Component {
                                             naturalHeight={this.state.pin.origin == '微博' ? (this.state.pin.pic_detail.geo  ?
                                                 (this.state.pin.pic_detail.geo.height>1200 ? 1200 : this.state.pin.pic_detail.geo.height) : 540) :
                                                 (this.state.pin.pic_detail ? this.state.pin.pic_detail[0].config_height : 120)}
-                                            src={this.state.pin.pic_detail ? this.state.pin.pic_detail.large.url :this.state.pin.display_url}
+                                            src={this.state.pin.origin == '微博' ? (this.state.pin.pic_detail ? this.state.pin.pic_detail.large.url : this.state.pin.display_url)
+                                                :(this.state.pin.cos_url ?  'https://star-1256165736.picgz.myqcloud.com/'+this.state.pin.cos_url : this.state.pin.display_url)}
                                         >
                                         </Image>
                                     </Box>
@@ -114,13 +115,13 @@ class App extends Component {
                                             <Text color={'darkGray'}  size="xs">{this.state.pin && this.state.pin.text ? this.state.pin.text : ''}</Text>
                                         </Box>
                                         <Box paddingY={1} shape={'rounded'} color={'white'} marginTop={3} marginBottom={3} display={ 'block'}>
-                                            <Link href={this.state.pin.origin_url} target={'blank'}>
+                                            <Link href={this.state.pin.origin == '微博' ? this.state.pin.origin_url : 'https://instagram.com/p/'+this.state.pin.code} target={'blank'}>
                                                 <Box alignItems="center" display="flex" color={'darkWash'} shape={'rounded'} paddingX={4} paddingY={2}>
                                                     <Box marginRight={1} padding={1}>
                                                         <Icon icon="arrow-up-right" accessibilityLabel="link" color="darkGray" inline={true}/>
                                                     </Box>
                                                     <Text align="center" bold color="darkGray">
-                                                        weibo.com
+                                                        {this.state.pin.origin == '微博' ? 'weibo.com' : 'instagram.com'}
                                                     </Text>
                                                 </Box>
                                             </Link>
