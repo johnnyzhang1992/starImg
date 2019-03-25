@@ -72,7 +72,7 @@ class App extends Component {
             itemIndex: 0,
             open: false,
             type_name: '微博图片',
-            sort_by: 'time',
+            sort_by: 'time_desc',
             wb_count:0,
             ins_count: 0
         };
@@ -121,12 +121,13 @@ class App extends Component {
         this.setState(() => ({ open: false }));
     }
     handleSortByTime() {
-        this.setState(()=>({
+        let time_sort = this.state.sort_by == 'time_desc' ? 'time_asc' : 'time_desc';
+        this.setState((preState)=>({
             open: false,
-            sort_by: 'time',
+            sort_by: time_sort,
             current_page: 0
         }));
-        this.getPins(this,1,'time');
+        this.getPins(this,1,time_sort);
     }
     handleSortByLikeCount() {
         this.setState(()=>({
@@ -353,7 +354,7 @@ class App extends Component {
                                             accessibilityExpanded={!!this.state.open}
                                             accessibilityHaspopup
                                             onClick={this.handleClick}
-                                            text={this.state.sort_by == 'time' ? '按时间排序': '按热度排序' }
+                                            text={this.state.sort_by == 'like' ? '按热度排序': '按时间排序' }
                                             size={'sm'}
                                             color={'white'}
                                         />

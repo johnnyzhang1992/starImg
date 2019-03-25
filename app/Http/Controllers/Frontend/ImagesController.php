@@ -86,20 +86,14 @@ class ImagesController extends Controller{
         }
 //        $sort_time = 'desc';
         if(isset($sort) && $sort){
-            if($sort == 'time'){
-                if(Session::has('sort_time')){
-                    $sort_time = Session::get('sort_time');
-                    if($sort_time == 'desc'){
-                        Session::put('sort_time','asc');
-                        $sort_time = 'asc';
-                    }else{
-                        Session::put('sort_time','desc');
-                        $sort_time = 'desc';
-                    }
-                }else{
-                    Session::put('sort_time','desc');
+            if($sort == 'time_desc' || $sort == 'time_asc'){
+                $sort_time = 'desc';
+                if($sort == 'time_desc'){
                     $sort_time = 'desc';
+                }else{
+                    $sort_time = 'asc';
                 }
+
                 $images = DB::table('star_img')
                     ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
                     ->leftJoin('star','star.id','=','star_img.star_id')
