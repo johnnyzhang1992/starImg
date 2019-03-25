@@ -141,7 +141,21 @@ class App extends Component {
     // 你应该在 componentDidMount 生命周期方法内发送 AJAX 请求数据。
     // 这样你才能够在请求的数据到达时使用 setState 更新你的组件。
     componentDidMount() {
-
+        this.getStarDetail(this);
+        setTimeout(()=>{
+            if(this.state.wb_count<1){
+                this.setState({
+                    itemIndex: 1,
+                    total: this.state.ins_count,
+                    type_name: 'Ins 图片',
+                })
+            }
+            this.getPins(this);
+        },3000);
+        let _this = this;
+        window.addEventListener('scroll', () => {
+            _this.handleScroll(_this);
+        });
     }
     // 距离底部30px时，加载更多内容
     handleScroll(th) {
@@ -229,21 +243,7 @@ class App extends Component {
     }
     // 在渲染前调用,在客户端也在服务端。
     componentWillMount() {
-        this.getStarDetail(this);
-        setTimeout(()=>{
-            if(this.state.wb_count<1){
-                this.setState({
-                    itemIndex: 1,
-                    total: this.state.ins_count,
-                    type_name: 'Ins 图片',
-                })
-            }
-            this.getPins(this);
-        },3000);
-        let _this = this;
-        window.addEventListener('scroll', () => {
-            _this.handleScroll(_this);
-        });
+
     }
     // 在组件从 DOM 中移除的时候立刻被调用。
     componentWillUnmount() {
