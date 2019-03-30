@@ -14,7 +14,6 @@ import Header from "./components/header";
 class App extends Component {
     constructor(props) {
         super(props);
-        this.handleToggle = this._handleToggle.bind(this);
         this.state = {
             clientWidth: document.documentElement.clientWidth,
             pin: [],
@@ -24,21 +23,6 @@ class App extends Component {
     // 你应该在 componentDidMount 生命周期方法内发送 AJAX 请求数据。
     // 这样你才能够在请求的数据到达时使用 setState 更新你的组件。
     componentDidMount() {
-
-    }
-    // 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。
-    componentWillUpdate(){
-
-    }
-    // 在组件完成更新后立即调用。在初始化时不会被调用
-    componentDidUpdate(){
-
-    }
-    _handleToggle() {
-        window.location.href = '/';
-    }
-    // 在渲染前调用,在客户端也在服务端。
-    componentWillMount() {
         let that = this;
         axios.post(window.location.href, {
             params:{
@@ -52,6 +36,18 @@ class App extends Component {
         }).catch((error)=>{
             console.log(error);
         });
+    }
+    // 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。
+    componentWillUpdate(){
+
+    }
+    // 在组件完成更新后立即调用。在初始化时不会被调用
+    componentDidUpdate(){
+
+    }
+    // 在渲染前调用,在客户端也在服务端。
+    componentWillMount() {
+
     }
     // 在组件从 DOM 中移除的时候立刻被调用。
     componentWillUnmount() {

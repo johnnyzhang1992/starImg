@@ -1,19 +1,23 @@
-import {Component} from "react";
-import React from "react";
-import { Text } from 'gestalt';
-import { Box } from 'gestalt';
-import { Button } from 'gestalt';
-import { Link } from 'gestalt';
-import { Sticky } from 'gestalt';
-import { Divider } from 'gestalt';
-import { SearchField } from 'gestalt';
+import React, { Component} from "react";
+import { Text,Box,Button,Link,Sticky,Divider,SearchField} from 'gestalt';
+
 // import { IconButton } from 'gestalt';
 
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = { value: '' };
+        this.searchInputChange = this.searchInputChange.bind(this);
     }
+    searchInputChange(e){
+        this.setState({
+            value : e.target.value
+        })
+    }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return false;
+    }
+
     render(){
         return (
             <Sticky top={0} dangerouslySetZIndex={{ __zIndex: 671 }}>
@@ -29,7 +33,7 @@ class Header extends Component {
                                 <SearchField
                                     accessibilityLabel="Demo Search Field"
                                     id="searchField"
-                                    onChange={({ value }) => this.setState({ value })}
+                                    onChange={this.searchInputChange}
                                     placeholder="Search and explore,now no word"
                                     value={this.state.value}
                                 />

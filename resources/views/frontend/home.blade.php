@@ -6,9 +6,9 @@
 @endsection
 
 @section('content')
-
+    <div style="text-align: center;padding: 50px 0">加载中。。。</div>
 @endsection
 
 @section('javascript')
-    <script src="{{ _star_asset(mix('js/react-img.js')) }}"></script>
+    <script src="{{ _star_asset(mix('js/react-img.js')) }}" defer></script>
 @endsection()

@@ -1,15 +1,8 @@
-import {Component} from "react";
-import React from "react";
-import { Image } from 'gestalt';
-import { Card } from 'gestalt';
-import { Box } from 'gestalt';
-import { Avatar } from 'gestalt';
-import { Link } from 'gestalt';
-import { Icon } from 'gestalt';
-import { Text } from 'gestalt';
-import { Layer } from 'gestalt';
-import { Column } from 'gestalt';
-import { IconButton } from 'gestalt';
+import React,{Component} from "react";
+import { Image,Card,Box,Avatar,Link,Icon, Text} from 'gestalt';
+// import { Layer } from 'gestalt';
+// import { Column } from 'gestalt';
+// import { IconButton } from 'gestalt';
 
 // box color list
 const boxColor = ["blue","darkGray","darkWash","eggplant","gray","green","lightGray","lightWash","maroon","midnight","navy","olive","orange","orchid","pine","purple","red","transparent","watermelon","white"];
@@ -18,7 +11,6 @@ const imageColor = ['#7a4579','#d56073','#ec9e69',"#bad7df",'#ffe2e2','#f6f6f6',
 class Pin extends Component {
     constructor(props) {
         super(props);
-        this.handleToggle = this._handleToggle.bind(this);
         this.state = {
             item: props.data,
             itemIdx: props.itemIdx >10 ? parseInt(props.itemIdx % 10) : props.itemIdx,
@@ -35,18 +27,10 @@ class Pin extends Component {
             src: 'https://wx3.sinaimg.cn/orj360/4a47f46cly1fu2j0ki4pfj22kw3vckjn.jpg',
             page_type: document.getElementsByTagName('meta')['page-type'].getAttribute('content')
         };
+        this.handleMouseEnter = this.handleMouseEnter.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
     }
-    _handleToggle() {
-        this.setState(prevState => ({
-            showLayer: !prevState.showLayer
-        }));
-        window.history.back();
-        if(document.getElementById('body').style.overflowY == 'scroll'){
-            document.getElementById('body').style.overflowY ='hidden'
-        }else{
-            document.getElementById('body').style.overflowY ='scroll'
-        }
-    }
+
     // 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
     componentDidMount() {
         let th = this;
@@ -65,32 +49,25 @@ class Pin extends Component {
     componentDidUpdate(){
 
     }
-    // 在组件从 DOM 中移除的时候立刻被调用。
-    componentWillUnmount() {
 
+    handleMouseEnter(){
+        this.setState({
+            hovered: this.state.clientWidth > 768
+        })
+    }
+    handleMouseLeave(){
+        this.setState({ hovered: false });
     }
     render() {
-        const { showLayer } = this.state;
-        let layer_style = {
-            clear:'both',
-            overflow:'hidden',
-            width:'100%',
-            zIndex: 888
-        };
         return (
             <div style={this.state.style} className={'pinItem'}>
                 <Box paddingX={2} paddingY={2}  shape={'rounded'} color={'white'}>
                     <Card
                         paddingX={3}
                         paddingY={2}
-                        onMouseEnter={()=>{
-                            this.setState({
-                                hovered: this.state.clientWidth > 768
-                            })
-                        }}
-                        onMouseLeave={()=>{
-                            this.setState({ hovered: false });
-                        }}>
+                        onMouseEnter={this.handleMouseEnter}
+                        onMouseLeave={this.handleMouseLeave}
+                        >
                         <Link href={'https://starimg.cn/pin/'+this.state.item.id} target={'blank'} className={'PinLayer'}>
                             <Box shape={'rounded'} color={'white'}>
                                 <div className={'pinImage'}>

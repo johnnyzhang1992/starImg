@@ -16,7 +16,7 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ mix('js/star_list.js') }}"></script>
+    <script src="{{ mix('js/star_list.js') }}" defer></script>
     <script>
         // (function(){
         //     var bp = document.createElement('script');
