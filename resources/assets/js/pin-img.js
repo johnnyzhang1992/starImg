@@ -2,12 +2,7 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from  'axios';
-import {Box, Icon, IconButton, Image} from 'gestalt';
-import { Avatar } from 'gestalt';
-import { Link } from 'gestalt';
-// import { IconButton } from 'gestalt';
-import { Column } from 'gestalt';
-import { Text } from 'gestalt';
+import {Box, Icon, IconButton, Image,Avatar,Link,Column,Text} from 'gestalt';
 import Header from "./components/header";
 
 

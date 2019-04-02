@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from  'axios';
-import { Masonry } from 'gestalt';
-import { Box } from 'gestalt';
-import { Spinner } from 'gestalt';
+import { Masonry,Box,Spinner} from 'gestalt';
 import Star from './components/star';
 import Header from "./components/header";
 
