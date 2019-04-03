@@ -4,8 +4,6 @@ import { Image,Card,Box,Avatar,Link,Icon, Text} from 'gestalt';
 // import { Column } from 'gestalt';
 // import { IconButton } from 'gestalt';
 
-// box color list
-const boxColor = ["blue","darkGray","darkWash","eggplant","gray","green","lightGray","lightWash","maroon","midnight","navy","olive","orange","orchid","pine","purple","red","transparent","watermelon","white"];
 const imageColor = ['#7a4579','#d56073','#ec9e69',"#bad7df",'#ffe2e2','#f6f6f6','#99ddcc','#dd0a35','#e4d1d3','#1687a7','#014955','#feb062','#575151','#3f3b3b'];
 
 class Pin extends Component {
@@ -14,16 +12,8 @@ class Pin extends Component {
         this.state = {
             item: props.data,
             itemIdx: props.itemIdx >10 ? parseInt(props.itemIdx % 10) : props.itemIdx,
-            boxColor: boxColor,
-            imageColor:imageColor,
             clientWidth: document.documentElement.clientWidth,
-            style: {
-                clear:'both',
-                overflow:'hidden',
-                width:'100%',
-            },
             hovered: false,
-            showLayer: false,
             src: 'https://wx3.sinaimg.cn/orj360/4a47f46cly1fu2j0ki4pfj22kw3vckjn.jpg',
             page_type: document.getElementsByTagName('meta')['page-type'].getAttribute('content')
         };
@@ -33,18 +23,7 @@ class Pin extends Component {
 
     // 在第一次渲染后调用，只在客户端。之后组件已经生成了对应的DOM结构，可以通过this.getDOMNode()来进行访问。
     componentDidMount() {
-        let th = this;
-        window.addEventListener('popstate', function(event) {
-            let path_name = event.currentTarget.location.pathname;
-            // console.log(path_name);
-            if(path_name.indexOf('/pin/') == -1){
-                th.setState({
-                    showLayer: false
-                });
-                document.getElementById('body').style.overflowY ='scroll'
-            }
 
-        });
     }
     componentDidUpdate(){
 
@@ -58,9 +37,18 @@ class Pin extends Component {
     handleMouseLeave(){
         this.setState({ hovered: false });
     }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return false;
+    }
+
     render() {
+        const style = {
+            clear:'both',
+            overflow:'hidden',
+            width:'100%',
+        }
         return (
-            <div style={this.state.style} className={'pinItem'}>
+            <div style={style} className={'pinItem'} key={this.state.item.id}>
                 <Box paddingX={2} paddingY={2}  shape={'rounded'} color={'white'}>
                     <Card
                         paddingX={3}
@@ -74,7 +62,7 @@ class Pin extends Component {
                                     <Image
                                         alt={this.state.item.text}
                                         // fit="cover"
-                                        color = {this.state.imageColor[this.state.itemIdx]}
+                                        color = {imageColor[this.state.itemIdx]}
                                         naturalWidth={ this.state.item.origin == '微博' ? (this.state.item.pic_detail.geo  ? this.state.item.pic_detail.geo.width : 360) :
                                             (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_width : 120)   }
                                         naturalHeight={this.state.item.origin == '微博' ? (this.state.item.pic_detail.geo  ?

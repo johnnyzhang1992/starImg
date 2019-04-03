@@ -6,53 +6,18 @@ import { Masonry,Box,Spinner} from 'gestalt';
 import Pin from './components/pin';
 import Header from './components/header';
 // import { Button } from 'gestalt';
-
-//滚动条在Y轴上的滚动距离
-function getScrollTop(){
-    let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
-    if(document.body){
-        bodyScrollTop = document.body.scrollTop;
-    }
-    if(document.documentElement){
-        documentScrollTop = document.documentElement.scrollTop;
-    }
-    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-    return scrollTop;
-}
-//文档的总高度
-function getScrollHeight(){
-    let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
-    if(document.body){
-        bodyScrollHeight = document.body.scrollHeight;
-    }
-    if(document.documentElement){
-        documentScrollHeight = document.documentElement.scrollHeight;
-    }
-    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-    return scrollHeight;
-}
-//浏览器视口的高度
-function getWindowHeight(){
-    let windowHeight = 0;
-    if(document.compatMode == "CSS1Compat"){
-        windowHeight = document.documentElement.clientHeight;
-    }else{
-        windowHeight = document.body.clientHeight;
-    }
-    return windowHeight;
-}
+import * as until from './untils/until'
+let timeOut = null;
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // pins: items,
             is_load:true,
-            count: 16,
-            total: 0,
             pins: [],
             show_spinner:false,
             current_page:0,
-            url: window.location.href+'/getImages'
+            url: 'https://starimg.cn/getImages'
         };
     }
     // 在第一次渲染后调用，只在客户端。
@@ -67,23 +32,20 @@ class App extends Component {
     }
     // 距离底部30px时，加载更多内容
     handleScroll(th) {
-        let scrollTop = getScrollTop();
-        let scrollHeight = getScrollHeight();
-        let windowHeight = getWindowHeight();
+        let scrollTop = until.getScrollTop();
+        let scrollHeight = until.getScrollHeight();
+        let windowHeight = until.getWindowHeight();
         if(scrollTop + windowHeight+ 30 > scrollHeight){
           this.getPins(th);
         }
     }
-    // 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。
-    componentWillUpdate(){
-
-    }
     // 在组件完成更新后立即调用。在初始化时不会被调用
     componentDidUpdate(){
-        setTimeout(()=>{
+        timeOut = setTimeout(()=>{
             this.setState({
                 show_spinner: false
-            })
+            });
+            clearTimeout(timeOut)
         },2000)
     }
     // 获取 pins 数据
@@ -103,7 +65,6 @@ class App extends Component {
                 }
             }).then((res)=>{
                 that.setState({
-                    total: res.data.total,
                     pins: that.state.pins.concat(res.data.data),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
@@ -117,14 +78,6 @@ class App extends Component {
                 show_spinner: false
             })
         }
-    }
-    // 在渲染前调用,在客户端也在服务端。
-    componentWillMount() {
-
-    }
-    // 在组件从 DOM 中移除的时候立刻被调用。
-    componentWillUnmount() {
-
     }
     render() {
         return (

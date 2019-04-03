@@ -2,10 +2,11 @@ import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from  'axios';
-import { Masonry,Box,Avatar,Link,Spinner,Column,Text,Flyout,Button,Divider,SegmentedControl} from 'gestalt';
+import { Masonry,Box,Spinner,Column,Text,Flyout,Button,Divider,SegmentedControl} from 'gestalt';
 import Pin from './components/pin';
 import Header from "./components/header";
-import FontAwesomeIcon from 'react-fontawesome'
+import StarHeader from './components/star_header'
+// import FontAwesomeIcon from 'react-fontawesome'
 
 
 // import { Button } from 'gestalt';
@@ -250,71 +251,7 @@ class App extends Component {
                 <Box display="flex" direction="row">
                     <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
                     <Column span={this.state.clientWidth >768 ? 10 : 12} >
-                        <Box display="flex" direction="row" paddingX={8} paddingY={2}>
-                            <Column span={this.state.clientWidth >768 ? 5 : 3} >
-                                <Box color="white" paddingX={5} paddingY={3} display={'flex'} direction={'column'} alignSelf={'end'} alignItems={'end'}>
-                                    <Box color="white" paddingY={2} width={this.state.clientWidth >768 ? 106 : 50} alignContent={'end'} alignSelf={'end'} alignItems={'end'} display={'flex'}>
-                                        <Avatar name={'User name'} src={this.state.star.avatar } verified={this.state.star.verified}/>
-                                    </Box>
-                                </Box>
-                            </Column>
-                            <Column span={this.state.clientWidth >768 ? 6: 9}>
-                                <Box color="white" paddingX={5} paddingY={3}>
-                                    <Box color="white" paddingY={2}>
-                                        <Text align={'left'}>{this.state.star.name}</Text>
-                                    </Box>
-                                    <Box color="white">
-                                        <Text align={'left'} size={'xs'} color={'gray'}>{this.state.star.verified ? this.state.star.verified_reason : ''}</Text>
-                                    </Box>
-                                    <Box color="white" paddingY={1}>
-                                        <Text align={'left'} inline={true} bold={true}>{this.state.star.posts_count}</Text>
-                                        <Text align={'left'} inline={true}> posts</Text>
-                                    </Box>
-                                    <Box color="white" paddingY={1} display={this.state.star.baike && this.state.star.baike !='' ? 'block' : 'none'}>
-                                        <Text align={'left'} inline={true} color={'gray'}>百度人物资料 </Text>
-                                        <Text align="left" inline={true}>{this.state.star.description} </Text>
-                                        <Text align={'left'} inline={true} color={'orange'}>
-                                            <Link inline={true} href={this.state.star.baike} target={'blank'}>详情</Link>
-                                        </Text>
-                                    </Box>
-                                    <Box color="white" paddingY={2} display={this.state.star.baike && this.state.star.baike !='' ? 'none' : 'block'}>
-                                        <Text align="left" >{this.state.star.description}</Text>
-                                    </Box>
-                                    <Box color="white" paddingY={2} alignSelf={'center'}>
-                                        <Box width={24} display={(this.state.star.wb_domain || this.state.star.wb_id) ? 'inlineBlock' : 'none'}>
-                                            <Link href={'https://weibo.com/'+(this.state.star.wb_domain ? this.state.star.wb_domain : 'u/'+this.state.star.wb_id)} target={'blank'}>
-                                                <FontAwesomeIcon
-                                                    className={'f-brand'}
-                                                    name={'weibo'}
-                                                    size={'2x'}
-                                                />
-                                                {/*<Avatar name={'Weibo'} />*/}
-                                            </Link>
-                                        </Box>
-                                        <Box width={24} display={this.state.star.ins_name? 'inlineBlock' : 'none'} marginLeft={2}>
-                                            <Link href={'https://instagram.com/'+(this.state.star.ins_name )} target={'blank'}>
-                                                {/*<Avatar name={'Instagram'} />*/}
-                                                <FontAwesomeIcon
-                                                    className={'f-brand'}
-                                                    name={'instagram'}
-                                                    size={'2x'}
-                                                />
-                                            </Link>
-                                        </Box>
-                                        <Box width={24} display={this.state.star.fb_domain? 'inlineBlock' : 'none'} marginLeft={2}>
-                                            <Link href={'https://facebook.com/'+(this.state.star.fb_domain )} target={'blank'}>
-                                                {/*<Avatar name={'Instagram'} />*/}
-                                                <FontAwesomeIcon
-                                                    className={'f-brand'}
-                                                    name={'facebook'}
-                                                    size={'2x'}
-                                                />
-                                            </Link>
-                                        </Box>
-                                    </Box>
-                                </Box>
-                            </Column>
-                        </Box>
+                        <StarHeader star={this.state.star} clientWidth={this.state.clientWidth} />
                         {/*tabs*/}
                         <Box display="flex" direction="row" paddingX={this.state.clientWidth >768 ? 8 : 0}>
                             <Column span={this.state.clientWidth >768 ? 2 : 0} > </Column>
