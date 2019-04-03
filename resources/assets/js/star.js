@@ -8,57 +8,22 @@ import Header from "./components/header";
 import StarHeader from './components/star_header'
 // import FontAwesomeIcon from 'react-fontawesome'
 
+import * as until from './untils/until'
 
 // import { Button } from 'gestalt';
 
-//滚动条在Y轴上的滚动距离
-function getScrollTop(){
-    let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
-    if(document.body){
-        bodyScrollTop = document.body.scrollTop;
-    }
-    if(document.documentElement){
-        documentScrollTop = document.documentElement.scrollTop;
-    }
-    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-    return scrollTop;
-}
-//文档的总高度
-function getScrollHeight(){
-    let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
-    if(document.body){
-        bodyScrollHeight = document.body.scrollHeight;
-    }
-    if(document.documentElement){
-        documentScrollHeight = document.documentElement.scrollHeight;
-    }
-    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-    return scrollHeight;
-}
-//浏览器视口的高度
-function getWindowHeight(){
-    let windowHeight = 0;
-    if(document.compatMode == "CSS1Compat"){
-        windowHeight = document.documentElement.clientHeight;
-    }else{
-        windowHeight = document.body.clientHeight;
-    }
-    return windowHeight;
-}
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // pins: items,
             is_load:true,
-            count: 16,
-            total: 0,
             pins: [],
             clientWidth: document.documentElement.clientWidth,
             show_spinner:true,
             current_page:0,
             url: window.location.href+'/getImages',
-            star: [],
+            star: {},
             itemIndex: 0,
             open: false,
             type_name: '微博图片',
@@ -136,7 +101,6 @@ class App extends Component {
             if(this.state.wb_count<1){
                 this.setState({
                     itemIndex: 1,
-                    total: this.state.ins_count,
                     type_name: 'Ins 图片',
                 })
             }
@@ -149,9 +113,9 @@ class App extends Component {
     }
     // 距离底部30px时，加载更多内容
     handleScroll(th) {
-        let scrollTop = getScrollTop();
-        let scrollHeight = getScrollHeight();
-        let windowHeight = getWindowHeight();
+        let scrollTop = until.getScrollTop();
+        let scrollHeight = until.getScrollHeight();
+        let windowHeight = until.getWindowHeight();
         if(scrollTop + windowHeight+ 30 > scrollHeight){
             this.getPins(th);
         }
@@ -162,10 +126,11 @@ class App extends Component {
     }
     // 在组件完成更新后立即调用。在初始化时不会被调用
     componentDidUpdate(){
-        setTimeout(()=>{
+        const time_out = setTimeout(()=>{
             this.setState({
                 show_spinner: false
-            })
+            });
+            clearTimeout(time_out)
         },2000)
     }
     // 获取 pins 数据
@@ -197,7 +162,6 @@ class App extends Component {
                     return item;
                 });
                 that.setState({
-                    total: res.data.total,
                     pins: _page && _page>0 ? pins :that.state.pins.concat(pins),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
@@ -251,7 +215,7 @@ class App extends Component {
                 <Box display="flex" direction="row">
                     <Column span={this.state.clientWidth >768 ? 1 : 0} > </Column>
                     <Column span={this.state.clientWidth >768 ? 10 : 12} >
-                        <StarHeader star={this.state.star} clientWidth={this.state.clientWidth} />
+                        <StarHeader {...this.state.star} clientWidth={this.state.clientWidth} />
                         {/*tabs*/}
                         <Box display="flex" direction="row" paddingX={this.state.clientWidth >768 ? 8 : 0}>
                             <Column span={this.state.clientWidth >768 ? 2 : 0} > </Column>
