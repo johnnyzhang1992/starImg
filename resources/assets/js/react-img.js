@@ -15,6 +15,7 @@ class App extends Component {
             // pins: items,
             is_load:true,
             pins: [],
+            last_page:1,
             show_spinner:false,
             current_page:0,
             url: 'https://starimg.cn/getImages'

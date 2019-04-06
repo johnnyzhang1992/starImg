@@ -136,9 +136,9 @@ class App extends Component {
     // 获取 pins 数据
     getPins(th,_page,sort,index){
         let that = th;
-        th.setState({
-            show_spinner: true
-        });
+        this.setState((preState)=>({
+            show_spinner: !preState.show_spinner
+        }));
         let page = _page && _page>0 ? 1: that.state.current_page+1;
         if((page<=that.state.last_page && that.state.is_load) || page==1){
             that.setState({
@@ -171,9 +171,9 @@ class App extends Component {
                 console.log(error);
             });
         }else{
-            this.setState({
-                show_spinner: false
-            })
+            this.setState((preState)=>({
+                show_spinner: !preState.show_spinner
+            }));
         }
     }
 

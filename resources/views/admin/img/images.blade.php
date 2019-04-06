@@ -24,11 +24,11 @@
                     <div class="grid-item" data-id="{{@$image->id}}">
                         <a href="{{@$image->origin_url}}" target="_blank">
                             @if(isset($image->cos_url) && $image->cos_url)
-                                <img class="img-responsive" src="{{'https://i.starimg.cn/'.@$image->cos_url.'!small'}}" alt="{{  @html_entity_decode($image->text) }}">
+                                <img class="img-responsive" src="{{'https://star-1256165736.picgz.myqcloud.com/'.@$image->cos_url.'!small'}}" alt="{{  @html_entity_decode($image->text) }}">
                             @else
                                 @if(isset($image->pic_detail) && $image->pic_detail && $image->pic_detail !='null')
                                     @if(isset(json_decode($image->pic_detail)->url) && json_decode($image->pic_detail)->url)
-                                        <img class="img-responsive" src="{{str_replace('s.insstar.cn','inbmi.com',json_decode($image->pic_detail)->url)}}" alt="{{  @html_entity_decode($image->text) }}">
+                                        <img class="img-responsive" src="{{str_replace('wx4','wx3',json_decode($image->pic_detail)->url)}}" alt="{{  @html_entity_decode($image->text) }}">
                                     @endif
                                     @if(isset($image->pic_detail) && $image->origin == 'instagram')
                                             <img class="img-responsive" src="{{str_replace('s.insstar.cn','inbmi.com',@json_decode($image->pic_detail)[0]->src)}}" title="{{@$image->id.'---time:'.@$image->created_at}}" alt="{{@$image->id.'---time:'.@$image->created_at}}">

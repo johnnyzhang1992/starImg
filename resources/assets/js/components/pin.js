@@ -38,7 +38,7 @@ class Pin extends Component {
         this.setState({ hovered: false });
     }
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return false;
+        return nextState.hovered !== this.state.hovered;
     }
 
     render() {
@@ -46,7 +46,7 @@ class Pin extends Component {
             clear:'both',
             overflow:'hidden',
             width:'100%',
-        }
+        };
         return (
             <div style={style} className={'pinItem'} key={this.state.item.id}>
                 <Box paddingX={2} paddingY={2}  shape={'rounded'} color={'white'}>

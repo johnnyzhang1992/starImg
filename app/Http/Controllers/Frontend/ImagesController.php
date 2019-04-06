@@ -33,7 +33,7 @@ class ImagesController extends Controller{
             ->where('star_img.is_video',false)
             ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name','star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id')
             ->orderBy('star_img.mid', 'desc')
-            ->paginate(20);
+            ->paginate(15);
         foreach ($images as $key=>$image){
             if(isset($image->pic_detail) && $image->pic_detail){
                 $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
@@ -59,7 +59,7 @@ class ImagesController extends Controller{
             ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id',
                 'star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name','star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id')
             ->orderBy('star_img.mid', 'desc')
-            ->paginate(20);
+            ->paginate(15);
         if(isset($images) && $images){
             foreach ($images as $key=>$image){
                 if(isset($image->pic_detail) && $image->pic_detail){
@@ -107,7 +107,7 @@ class ImagesController extends Controller{
                         'star_img.attitudes_count','star_img.cos_url','star_img.code')
                     ->orderBy('star_img.mid',$sort_time)
                     ->orderBy('star_img.id', $sort_time)
-                    ->paginate(20);
+                    ->paginate(15);
             }elseif($sort == 'like'){
                 $images = DB::table('star_img')
                     ->leftJoin('star_wb','star_wb.star_id','=','star_img.star_id')
@@ -120,7 +120,7 @@ class ImagesController extends Controller{
                         'star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name',
                         'star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id',
                         'star_img.attitudes_count','star_img.cos_url','star_img.code')
-                    ->orderBy('star_img.attitudes_count','desc')->paginate(20);
+                    ->orderBy('star_img.attitudes_count','desc')->paginate(15);
             }
         }else{
             $images = DB::table('star_img')
@@ -136,7 +136,7 @@ class ImagesController extends Controller{
                     'star_img.attitudes_count','star_img.cos_url','star_img.code')
                 ->orderBy('star_img.mid', 'desc')
                 ->orderBy('star_img.id', 'desc')
-                ->paginate(20);
+                ->paginate(15);
         }
         if(isset($images) && $images){
             foreach ($images as $key=>$image){
