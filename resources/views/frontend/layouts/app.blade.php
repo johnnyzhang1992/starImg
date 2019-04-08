@@ -10,6 +10,9 @@
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="/star.png">
     <link rel="icon" sizes="128x128" type="image/png" href="/star.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- DNS 预解析 -->
+    <link rel="dns-prefetch" href="//cdn.starimg.cn" />
+    <link rel="dns-prefetch" href="//hm.baidu.com/" />
     <title>{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').' | '.config('seo.site_title')  }}</title>
     <meta name="title" content="{{ isset($site_title) && $site_title ? @$site_title : config('app.name', 'starimg').' | '.config('seo.site_title') }}">
     <meta name="keywords" content="{{isset($site_keywords) && $site_keywords ? $site_keywords : config('seo.keywords')}}">
@@ -18,16 +21,14 @@
     @yield('seo')
     <!-- Styles -->
     @yield('css')
-    {{--<link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
+    <!-- 百度统计-->
     @yield('tongji')
 </head>
 <body id="body">
 <div id="app">
-    @yield('content')
+@yield('content')
 </div>
 <!-- Scripts -->
-{{--<script type="text/javascript" src="https://admin.starimg.cn/vendor/tcg/voyager/assets/js/app.js"></script>--}}
-{{--<script src="{{ mix('js/app.js') }}"></script>--}}
 @yield('javascript')
 </body>
 </html>
