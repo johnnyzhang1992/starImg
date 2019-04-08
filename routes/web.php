@@ -37,6 +37,7 @@ Route::group([
 //            Route::get('/','Admin\StarImgAdminController@index');
             Route::get('/tongJi','Admin\StarImgAdminController@index');
             Route::get('/downloadHttpImages/{id}','Admin\ImagesController@downloadHttpImages');
+            Route::get('/downloadAvatarToCos/all','Admin\ImagesController@downloadAvatarToCos');
             Route::get('/images','Admin\ImagesController@index');
             Route::post('/images/deleteSome','Admin\ImagesController@deleteSome');
             Route::post('/images/{id}/{type}','Admin\ImagesController@update')->where('id', '[0-9]+');

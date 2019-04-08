@@ -54,6 +54,7 @@ export const fetchMoreStars = (current_page,last_page,crsfToken)=>{
         // dispatchIfValid(fetchStarted());
 
         // console.log(page,last_page);
+
         if(page<=last_page){
             console.log('-----reducer--update--');
             let result = {};

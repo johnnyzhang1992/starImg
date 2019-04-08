@@ -89,7 +89,7 @@ class starController extends Controller
             ->where('star_img.origin','微博')
             ->where('star_img.status','active')
             ->where('star_img.is_video',false)
-            ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id',
+            ->select('star_img.display_url','star_img.code','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id',
                 'star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name','star_wb.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id')
             ->orderBy('star_img.mid', 'desc')
             ->paginate(20);

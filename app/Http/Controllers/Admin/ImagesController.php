@@ -174,6 +174,23 @@ class ImagesController extends BaseController{
     }
 
     /**
+     * 下载star头像到腾讯服务器
+     */
+    public function downloadAvatarToCos(){
+        $users = DB::table('star')->select('id','avatar')->orderBy('id','asc')->paginate(10);
+        foreach ($users as $user){
+            if(strpos($user->avatar,'starimg.cn') !== false){
+                print($user->id.'------'.$user->avatar);
+            }else{
+                $uploadImage = new QcloudUplodImage();
+                $uploadImage->http_get_data1($user->avatar,$user->id,'avatar');
+            }
+        }
+
+    }
+
+
+    /**
      * 腾讯与图片鉴黄
      */
     public function imageDetect(){

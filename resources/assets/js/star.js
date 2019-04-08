@@ -24,9 +24,9 @@ class App extends Component {
             current_page:0,
             url: window.location.href+'/getImages',
             star: {},
-            itemIndex: 0,
+            itemIndex: 1,
             open: false,
-            type_name: '微博图片',
+            type_name: 'Ins 图片',
             sort_by: 'time_desc',
             wb_count:0,
             ins_count: 0
@@ -38,7 +38,7 @@ class App extends Component {
         this.handleSortByLikeCount = this.handleSortByLikeCount.bind(this);
     }
     handleItemChange({ activeIndex }) {
-        let type_name = '微博图片';
+        let type_name = 'Ins 图片';
         let count = 0;
         switch (activeIndex) {
             case 0:
@@ -189,7 +189,7 @@ class App extends Component {
                 star: res.data.star,
                 wb_count: res.data.wb_count,
                 ins_count: res.data.ins_count,
-                total: res.data.wb_count
+                total: res.data.ins_count
             });
         }).catch((error)=>{
             console.log(error);

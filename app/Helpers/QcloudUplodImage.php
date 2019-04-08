@@ -19,6 +19,7 @@ use GuzzleHttp\Promise;
 use Guzzle\Service\Resource\Model;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\DB;
 
 class QcloudUplodImage{
     /**
@@ -355,4 +356,71 @@ class QcloudUplodImage{
         }
     }
 
+    /**
+     * 下载用户头像到本地
+     * @param $url
+     * @param $user
+     * @param $type
+     * @throws $e
+     * @return mixed
+     */
+
+    public function http_get_data1($url,$user,$type) {
+        print $url.'<br>';
+        // 创建服务器文件夹，授予权限
+        if(!file_exists(public_path() .'/test/img/')) {
+            if(mkdir(public_path() .'/test/img/',0777, true)) {
+                info('创建文件夹成功');
+                echo "创建文件夹成功";
+            }else{
+                info('创建文件夹失败');
+                echo "创建文件夹失败";
+            }
+        }
+        $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+        if(file_exists(public_path() .'/test/img/'.$_filename)) {
+            $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+
+        }
+        // 下载远程文件到服务器
+        if(strpos($url,'s.insstar.cn') !== false){
+//            print '原图片已丢失<br>';
+//            return false;
+            $url = str_replace('s.insstar.cn','inbmi.com',$url);
+        }
+        $client = new Client(['verify' => false]);  //忽略SSL错误
+        $_res = null;
+        try {
+            $_res = $client->request('GET',$url);
+        } catch (\RequestException $e) {
+            echo $e->getRequest();
+            if ($e->hasResponse()) {
+                echo $e->getResponse();
+            }
+        }
+        if($_res){
+//            echo $_res->getBody();
+            info('status_code:'.$_res->getStatusCode());
+            print('status_code:'.$_res->getStatusCode());
+            if($_res->getStatusCode() == 200) {
+                $response = $client->get($url, ['save_to' => public_path().'/test/img/'.$_filename]);  //保存远程url到文件
+                if($response){
+                    // 转存文件到腾讯云
+                    $result = $this->putImageToCos($user,$_filename,$type);
+                    if(isset($result) && $result){
+                        // 入库
+                        DB::table('star')->where('id',$user)->update([
+                            'avatar'=> 'https://img.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename
+                        ]);
+
+                        echo 'https://img.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small'.'<br>';
+                        // 删除服务器暂存文件
+                        unlink(public_path() .'/test/img/'.$_filename);
+                    }
+                }
+            } else{
+                print '请求页面不存在';
+            }
+        }
+    }
 }
