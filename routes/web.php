@@ -61,9 +61,14 @@ Route::group([
     'middleware' => ['web'],
     'domain' => 'api.starimg.cn'
 ], function () {
-    Route::get('/', 'Frontend\ImagesController@index');
-    Route::get('/{id}', 'Frontend\ImagesController@getStarImages');
-    Route::get('/starList', 'Frontend\ImagesController@getStarList');
+
+    Route::get('/getImages', 'Frontend\ImagesController@index');
+    Route::get('/starUrlList', 'Frontend\starController@getUrlStarList');
+
+    Route::post('/pin/{id}', 'Frontend\PinController@getPinDetail')->where('id', '[0-9]+');
+
+    Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
+    Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
 });
 
 
@@ -87,9 +92,6 @@ Route::group([
     Route::get('/pin/{id}', 'Frontend\PinController@pinDetail')->where('id', '[0-9]+');
     Route::post('/pin/{id}', 'Frontend\PinController@getPinDetail')->where('id', '[0-9]+');
 
-    Route::get('/{id}', 'Frontend\starController@starDetail')->where('id', '[0-9]+');
-    Route::get('/{id}', 'Frontend\starController@getStarDetail')->where('id', '[0-9]+');
-    Route::get('/{id}/getImages', 'Frontend\ImagesController@getStarImages')->where('id', '[0-9]+');
     Route::get('/{name}', 'Frontend\starController@starNameDetail');
     Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
     Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');

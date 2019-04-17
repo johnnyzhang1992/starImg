@@ -35,13 +35,13 @@ class ImagesController extends Controller{
             ->select('star_img.code','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id',
                'star_img.cos_url','star_img.text','star_img.origin_url','star_wb.screen_name','star.avatar','star_wb.verified','star.domain','star.name','star_wb.wb_id')
 //            ->select('star_img.display_url','star_img.id','star_img.pic_detail','star_img.origin','star_img.star_id','star_img.status','star_img.text','star_img.origin_url','star_wb.screen_name','star.avatar','star_wb.description','star_wb.verified','star.domain','star.name','star_wb.wb_id')
-            ->orderBy('star_img.mid', 'desc')
-            ->paginate(10);
+            ->orderBy('star_img.id', 'desc')
+            ->paginate(12);
         foreach ($images as $key=>$image){
             if(isset($image->pic_detail) && $image->pic_detail){
                 $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
             }
-            $images[$key]->text = strip_tags($image->text);
+            $images[$key]->description = strip_tags($image->text);
         }
         return response()->json($images);
     }

@@ -229,7 +229,7 @@ class ImagesController extends BaseController{
             if (isset($image_size) && $image_size) {
                 $size[0]['config_width'] = $image_size[0];
                 $size[0]['config_height'] = $image_size[1];
-                $size[0]['src'] = 'https://i.starimg.cn/'.$o_url.'!small';
+                $size[0]['src'] = 'https://star-1256165736.picgz.myqcloud.com/'.$o_url.'!small';
             }
             print $id.'----'.$url;
             print_r($size);
