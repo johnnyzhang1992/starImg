@@ -3,7 +3,7 @@
 {{--@include('frontend.partials.tongji')--}}
 
 @section('css')
-    <link rel="stylesheet" href="{{ mix('css/react-img.css') }}">
+    <link rel="stylesheet" href="{{ _star_asset(mix('css/react-img.css')) }}">
     <style>
         .f-brand {
             font-size: 18px;
@@ -16,7 +16,7 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ mix('js/new_star_list.js') }}" defer></script>
+    <script src="{{ _star_asset(mix('js/new_star_list.js')) }}" defer></script>
     <script>
         // (function(){
         //     var bp = document.createElement('script');

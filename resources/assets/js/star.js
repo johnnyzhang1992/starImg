@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from  'axios';
@@ -11,7 +11,8 @@ import StarHeader from './components/star_header'
 import * as until from './untils/until'
 
 // import { Button } from 'gestalt';
-
+let pre_page = 0;
+let pre_index = 0;
 class App extends Component {
     constructor(props) {
         super(props);
@@ -97,15 +98,6 @@ class App extends Component {
     // 这样你才能够在请求的数据到达时使用 setState 更新你的组件。
     componentDidMount() {
         this.getStarDetail(this);
-        setTimeout(()=>{
-            if(this.state.wb_count<1){
-                this.setState({
-                    itemIndex: 1,
-                    type_name: 'Ins 图片',
-                })
-            }
-            this.getPins(this);
-        },3000);
         let _this = this;
         window.addEventListener('scroll', () => {
             _this.handleScroll(_this);
@@ -119,10 +111,6 @@ class App extends Component {
         if(scrollTop + windowHeight+ 30 > scrollHeight){
             this.getPins(th);
         }
-    }
-    // 在组件接收到新的props或者state但还没有render时被调用。在初始化时不会被调用。
-    componentWillUpdate(){
-
     }
     // 在组件完成更新后立即调用。在初始化时不会被调用
     componentDidUpdate(){
@@ -140,32 +128,41 @@ class App extends Component {
             show_spinner: !preState.show_spinner
         }));
         let page = _page && _page>0 ? 1: that.state.current_page+1;
-        if((page<=that.state.last_page && that.state.is_load) || page==1){
+        let _index = index || index === 1 ? index : that.state.itemIndex;
+        if(pre_page === page && pre_index){
+            return false;
+        }
+        if((page<=that.state.last_page && that.state.is_load) || page===1){
             that.setState({
                 is_load: false
             });
+            pre_page = page;
+            pre_index = _index;
             axios.get(th.state.url, {
                 params:{
                     'page': page,
-                    'type': index || index == 0 ? index : that.state.itemIndex,
+                    'type': _index,
                     'sort': sort ? sort : that.state.sort_by,
                     'csrf-token': document.getElementsByTagName('meta')['csrf-token'].getAttribute('content')
                 }
             }).then((res)=>{
                 let pins = res.data.data;
                 pins.forEach((item)=>{
-                   if(item.origin != '微博'){
+                   if(_index ===1 && item.origin !== '微博'){
                        if(item.cos_url){
                            return item;
                        }
+                   }else{
+                       return item;
                    }
-                    return item;
                 });
                 that.setState({
                     pins: _page && _page>0 ? pins :that.state.pins.concat(pins),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
                     current_page: res.data.current_page,
+                    total: res.data.total,
+                    itemIndex: _index
                 });
             }).catch((error)=>{
                 console.log(error);
@@ -191,17 +188,18 @@ class App extends Component {
                 ins_count: res.data.ins_count,
                 total: res.data.ins_count
             });
+            if(res.data.ins_count<1){
+                that.setState({
+                    itemIndex: 0,
+                    type_name: '微博 图片',
+                });
+                that.getPins(that,0,'time_desc',0);
+            }else{
+                that.getPins(that,0,'time_desc',1);
+            }
         }).catch((error)=>{
             console.log(error);
         });
-    }
-    // 在渲染前调用,在客户端也在服务端。
-    componentWillMount() {
-
-    }
-    // 在组件从 DOM 中移除的时候立刻被调用。
-    componentWillUnmount() {
-
     }
     render() {
         const items = [

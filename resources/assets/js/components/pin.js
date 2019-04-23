@@ -38,7 +38,7 @@ class Pin extends Component {
         this.setState({ hovered: false });
     }
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return nextState.hovered !== this.state.hovered;
+        return nextProps.id !== this.state.item.id;
     }
 
     render() {
