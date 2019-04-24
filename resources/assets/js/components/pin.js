@@ -25,10 +25,11 @@ class Pin extends Component {
         this.closeImageViewer = this.closeImageViewer.bind(this);
     }
     showImageViewer(){
-        let width = this.state.item.origin === '微博' ? (this.state.item.pic_detail.geo  ? this.state.item.pic_detail.geo.width : 360) :
+        let width = this.state.item.origin === '微博' ? (this.state.item.pic_detail.large  ?
+            this.state.item.pic_detail.large.geo.width : (this.state.item.pic_detail.geo ? this.state.item.pic_detail.geo.width : 360)) :
                     (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_width : 120);
-        let height =this.state.item.origin === '微博' ? (this.state.item.pic_detail.geo  ?
-            (this.state.item.pic_detail.geo.height>1200 ? 1200 : this.state.item.pic_detail.geo.height) : 540) :
+        let height =this.state.item.origin === '微博' ? (this.state.item.pic_detail.large  ?
+            this.state.item.pic_detail.large.geo.height : (this.state.item.pic_detail.geo ? this.state.item.pic_detail.geo.height : 540)):
             (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_height : 120);
         let winWidth = 0;
         let windowHeight = 0;

@@ -62,12 +62,16 @@ class App extends Component {
                 count = 0;
                 console.log('default');
         }
-        this.setState(prevState => ({
-            itemIndex: activeIndex ,
-            type_name: type_name,
-            total: count
-        }));
-        this.getPins(this,1,this.state.sort_by,activeIndex);
+        if(pre_index !== activeIndex){
+            this.setState(prevState => ({
+                itemIndex: activeIndex ,
+                type_name: type_name,
+                total: count,
+                pins: [],
+                current_page: 1
+            }));
+            this.getPins(this,1,this.state.sort_by,activeIndex);
+        }
     }
     _handleClick() {
         this.setState(() => ({
@@ -128,9 +132,9 @@ class App extends Component {
         this.setState((preState)=>({
             show_spinner: !preState.show_spinner
         }));
-        let page = _page && _page>0 ? 1: that.state.current_page+1;
-        let _index = index || index === 1 ? index : that.state.itemIndex;
-        if(pre_page === page && pre_index){
+        let _index = index===0 || index === 1 ? index : that.state.itemIndex;
+        let page = (_page && _page< 2) || pre_index !== _index ? 1: that.state.current_page+1;
+        if(pre_page === page && pre_index === _index){
             return false;
         }
         if((page<=that.state.last_page && that.state.is_load) || page===1){
@@ -149,17 +153,13 @@ class App extends Component {
                 }
             }).then((res)=>{
                 let pins = res.data.data;
-                pins.forEach((item)=>{
-                   if(_index ===1 && item.origin !== '微博'){
-                       if(item.cos_url){
-                           return item;
-                       }
-                   }else{
-                       return item;
-                   }
-                });
+                if(_index ===1){
+                    pins = pins.filter(item=>{
+                        return item.cos_url;
+                    })
+                }
                 that.setState({
-                    pins: _page && _page>0 ? pins :that.state.pins.concat(pins),
+                    pins: that.state.pins.concat(pins),
                     is_load: res.data.next_page_url,
                     last_page: res.data.last_page,
                     current_page: res.data.current_page,
@@ -199,9 +199,9 @@ class App extends Component {
                     itemIndex: 0,
                     type_name: '微博 图片',
                 });
-                that.getPins(that,0,'time_desc',0);
+                that.getPins(that,1,'time_desc',0);
             }else{
-                that.getPins(that,0,'time_desc',1);
+                that.getPins(that,1,'time_desc',1);
             }
             is_loading = false;
         }).catch((error)=>{
