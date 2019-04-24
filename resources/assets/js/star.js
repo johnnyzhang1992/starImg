@@ -13,6 +13,7 @@ import * as until from './untils/until'
 // import { Button } from 'gestalt';
 let pre_page = 0;
 let pre_index = 0;
+let is_loading = false;
 class App extends Component {
     constructor(props) {
         super(props);
@@ -108,7 +109,7 @@ class App extends Component {
         let scrollTop = until.getScrollTop();
         let scrollHeight = until.getScrollHeight();
         let windowHeight = until.getWindowHeight();
-        if(scrollTop + windowHeight+ 30 > scrollHeight){
+        if((scrollTop + windowHeight+ 30 > scrollHeight) && !is_loading){
             this.getPins(th);
         }
     }
@@ -138,6 +139,7 @@ class App extends Component {
             });
             pre_page = page;
             pre_index = _index;
+            is_loading = true;
             axios.get(th.state.url, {
                 params:{
                     'page': page,
@@ -164,18 +166,22 @@ class App extends Component {
                     total: res.data.total,
                     itemIndex: _index
                 });
+                is_loading = false;
             }).catch((error)=>{
                 console.log(error);
+                is_loading = false;
             });
         }else{
             this.setState((preState)=>({
                 show_spinner: !preState.show_spinner
             }));
+            is_loading = false;
         }
     }
 
     getStarDetail(th){
         let that = th;
+        is_loading = true;
         axios.post(window.location.href, {
             params:{
                 'csrf-token': document.getElementsByTagName('meta')['csrf-token'].getAttribute('content')
@@ -197,8 +203,10 @@ class App extends Component {
             }else{
                 that.getPins(that,0,'time_desc',1);
             }
+            is_loading = false;
         }).catch((error)=>{
             console.log(error);
+            is_loading = false;
         });
     }
     render() {

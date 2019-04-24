@@ -25,7 +25,7 @@ class ImageViewerBox extends Component{
 
     render() {
         const style= {
-            top: '10px',
+            top: this.props.top+'px',
             left: this.props.left+'px',
             width: this.props.width+'px',
             height: this.props.height+'px'

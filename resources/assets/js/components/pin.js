@@ -25,7 +25,6 @@ class Pin extends Component {
         this.closeImageViewer = this.closeImageViewer.bind(this);
     }
     showImageViewer(){
-        console.log('---click--');
         let width = this.state.item.origin === '微博' ? (this.state.item.pic_detail.geo  ? this.state.item.pic_detail.geo.width : 360) :
                     (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_width : 120);
         let height =this.state.item.origin === '微博' ? (this.state.item.pic_detail.geo  ?
@@ -33,7 +32,7 @@ class Pin extends Component {
             (this.state.item.pic_detail ? this.state.item.pic_detail[0].config_height : 120);
         let winWidth = 0;
         let windowHeight = 0;
-        if(document.compatMode == "CSS1Compat"){
+        if(document.compatMode === "CSS1Compat"){
             windowHeight = document.documentElement.clientHeight;
         }else{
             windowHeight = document.body.clientHeight;
@@ -44,9 +43,11 @@ class Pin extends Component {
             winWidth = document.body.clientWidth;
         }
         width = height>windowHeight ? (windowHeight-20)/height*width : width;
+        let top = height<windowHeight ? (windowHeight-height-20)/2 : 10;
         this.setState({
             show_image: true,
             img_props: {
+                top: top,
                 width: width,
                 height: height>windowHeight ? windowHeight-20 : height,
                 left: ((winWidth-width)/2).toFixed(2),
@@ -147,6 +148,7 @@ class Pin extends Component {
                     <ImageViewerBox
                         onClose={this.closeImageViewer}
                         img_url={this.state.img_props.img_url}
+                        top={ this.state.img_props.top}
                         left={this.state.img_props.left}
                         width={this.state.img_props.width}
                         height={this.state.img_props.height}
