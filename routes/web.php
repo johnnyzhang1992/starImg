@@ -58,17 +58,12 @@ Route::group([
 });
 # api 接口路由
 Route::group([
-    'middleware' => ['web'],
+    'middleware' => ['api','cross'],
     'domain' => 'api.starimg.cn'
 ], function () {
 
-    Route::get('/getImages', 'Frontend\ImagesController@index');
-    Route::get('/starUrlList', 'Frontend\starController@getUrlStarList');
+    Route::get('/star/{id}','Api\StarController@getStarDetail')->where('id', '[0-9]+');
 
-    Route::post('/pin/{id}', 'Frontend\PinController@getPinDetail')->where('id', '[0-9]+');
-
-    Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
-    Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
 });
 
 
