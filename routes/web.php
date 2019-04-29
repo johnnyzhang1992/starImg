@@ -62,9 +62,17 @@ Route::group([
     'domain' => 'api.starimg.cn'
 ], function () {
 
+    Route::get('/getRecentImages','Api\ImagesController@getRecentImages')->where('id', '[0-9]+');
+    Route::get('/starImages/{name}','Api\ImagesController@getStarNameImages');
+
     Route::get('/star/{id}','Api\StarController@getStarDetail')->where('id', '[0-9]+');
+    Route::get('/star/{name}','Api\StarController@getStarNameDetail');
+
+    Route::get('/searchStar','Api\StarController@searchStar');
+    Route::get('/getStars','Api\StarController@getStarList');
 
 });
+
 
 
 # starimg.cn 路由

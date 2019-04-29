@@ -337,7 +337,7 @@ class QcloudUplodImage{
                         if(isset($image_size) && $image_size){
                             $size[0]['config_width'] = $image_size[0];
                             $size[0]['config_height'] = $image_size[1];
-                            $size[0]['src'] = 'https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small';
+                            $size[0]['src'] = 'https://star-1256165736.picgz.myqcloud.com/star/'.$user.'/'.$type.'/'.$_filename.'!small';
                         }
                         Images::where('id',$id)->update([
                             'pic_detail'=>json_encode($size),
@@ -345,7 +345,7 @@ class QcloudUplodImage{
                             'size_flag' =>true
                         ]);
 
-                        echo 'https://i.starimg.cn/star/'.$user.'/'.$type.'/'.$_filename.'!small'.'<br>';
+                        echo 'https://star-1256165736.picgz.myqcloud.com/star/'.$user.'/'.$type.'/'.$_filename.'!small'.'<br>';
                         // 删除服务器暂存文件
                         unlink(public_path() .'/test/img/'.$_filename);
                     }

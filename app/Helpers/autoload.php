@@ -11,6 +11,7 @@ function _star_asset($file){
     if (0 == strpos($_file, '/')) {
         $_file = substr($_file, 1);
     }
-    return '//cdn.starimg.cn/' . $_file;
+//    return '//cdn.starimg.cn/' . $_file;
+    return '//starimg.cn/' . $_file;
 
 }
