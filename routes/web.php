@@ -56,24 +56,6 @@ Route::group([
     });
 
 });
-# api 接口路由
-Route::group([
-    'middleware' => ['api','cross'],
-    'domain' => 'api.starimg.cn'
-], function () {
-
-    Route::get('/getRecentImages','Api\ImagesController@getRecentImages')->where('id', '[0-9]+');
-    Route::get('/starImages/{name}','Api\ImagesController@getStarNameImages');
-
-    Route::get('/star/{id}','Api\StarController@getStarDetail')->where('id', '[0-9]+');
-    Route::get('/star/{name}','Api\StarController@getStarNameDetail');
-
-    Route::get('/searchStar','Api\StarController@searchStar');
-    Route::get('/getStars','Api\StarController@getStarList');
-
-});
-
-
 
 # starimg.cn 路由
 Route::group([
@@ -98,5 +80,22 @@ Route::group([
     Route::get('/{name}', 'Frontend\starController@starNameDetail');
     Route::post('/{name}', 'Frontend\starController@getStarNameDetail');
     Route::get('/{name}/getImages', 'Frontend\ImagesController@getStarNameImages');
+});
+
+# api 接口路由
+Route::group([
+    'middleware' => ['api'],
+    'domain' => 'api.starimg.cn'
+], function () {
+
+    Route::get('/getRecentImages','Api\ImagesController@getRecentImages')->where('id', '[0-9]+');
+    Route::get('/starImages/{name}','Api\ImagesController@getStarNameImages');
+
+    Route::get('/star/{id}','Api\StarController@getStarDetail')->where('id', '[0-9]+');
+    Route::get('/star/{name}','Api\StarController@getStarNameDetail');
+
+    Route::get('/searchStar','Api\StarController@searchStar');
+    Route::get('/getStars','Api\StarController@getStarList');
+
 });
 

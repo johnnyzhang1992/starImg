@@ -151,7 +151,7 @@ class StarController extends Controller
             ->where('star.status','=','active')
             ->select('star.*','star_wb.verified')
             ->orderBy('id','asc')
-            ->paginate(18);
+            ->paginate(15);
         return response()->json($stars);
     }
 }
