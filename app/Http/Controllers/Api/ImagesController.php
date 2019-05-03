@@ -91,7 +91,7 @@ class ImagesController extends Controller{
                     $images[$key]->pic_detail = json_decode($images[$key]->pic_detail);
                 }
                 if(isset($image->text) && $image->text){
-                    $images[$key]->text = strip_tags($image->text);
+                    $images[$key]->description = strip_tags($image->text);
                 }
             }
             return response()->json($images);
