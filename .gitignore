@@ -8,6 +8,6 @@ Homestead.yaml
 Homestead.json
 .env
 /public/static
-/.idea
+.idea
 yarn-error.log
 .DS_Store
