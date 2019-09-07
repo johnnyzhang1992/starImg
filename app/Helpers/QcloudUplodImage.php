@@ -15,6 +15,10 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJarInterface;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
+
 use GuzzleHttp\Promise;
 use Guzzle\Service\Resource\Model;
 use GuzzleHttp\Exception\GuzzleException;
@@ -277,6 +281,36 @@ class QcloudUplodImage{
      * @throws $e
      * @return mixed
      */
+
+    public function downFile($url,$user){
+        $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+        if(file_exists(public_path() .'/test/img/'.$_filename)) {
+            $_filename  = strtolower($user . '-' . str_random(8)) . '.jpg';
+
+        }
+        // 下载远程文件到服务器
+        if(strpos($url,'s.insstar.cn') !== false){
+//            print '原图片已丢失<br>';
+//            return false;
+            $url = str_replace('s.insstar.cn','inbmi.com',$url);
+        }
+
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+        curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt ( $ch, CURLOPT_URL, $url );
+        ob_start ();
+        curl_exec ( $ch );
+        $return_content = ob_get_contents ();
+        ob_end_clean ();
+        $return_code = curl_getinfo ( $ch, CURLINFO_HTTP_CODE );
+//        public_path().'/test/img/'.$_filename
+        file_put_contents(public_path().'/test/img/'.$_filename,$return_content);
+        print_r($url);
+        print_r($_filename);
+        return $_filename;
+    }
+
     public function http_get_data($url,$user,$id,$type) {
 //        $ch = curl_init ();
 //        curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
@@ -290,6 +324,7 @@ class QcloudUplodImage{
 //        file_put_contents(public_path() .'/test/img/'.$_filename,$return_content);
 //        return public_path() .'/test/img/'.$_filename;
         print $url.'<br>';
+        $this->downFile($url,$user);
         // 创建服务器文件夹，授予权限
         if(!file_exists(public_path() .'/test/img/')) {
             if(mkdir(public_path() .'/test/img/',0777, true)) {
@@ -311,10 +346,26 @@ class QcloudUplodImage{
 //            return false;
             $url = str_replace('s.insstar.cn','inbmi.com',$url);
         }
-        $client = new Client(['verify' => false]);  //忽略SSL错误
+
+        $client = new Client([
+//            'base_uri' => 'https://www.veryins.com',
+            'http_errors' => false,
+//            'proxy' => [
+//                'http'  => 'https://www.veryins.com', // Use this proxy with "http"
+//                'https' => 'https://www.veryins.com', // Use this proxy with "https",
+//                'no' => ['.mit.edu', 'foo.com']    // Don't use a proxy with these
+//            ],
+            'headers' => [
+                ':authority'=>'www.veryins.com',
+                'referer'=>'https://www.veryins.com/',
+                'user-agent'=>'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1' ,
+            ],
+            'verify' => false]);  //忽略SSL错误
         $_res = null;
         try {
             $_res = $client->request('GET',$url);
+            echo $_res->getStatusCode();
+            echo $_res->getBody();
         } catch (\RequestException $e) {
             echo $e->getRequest();
             if ($e->hasResponse()) {

@@ -9,3 +9,5 @@ Homestead.json
 .env
 /public/static
 /.idea
+yarn-error.log
+.DS_Store

@@ -143,7 +143,7 @@ class ImagesController extends BaseController{
     public function downloadHttpImages($star_id){
         if($star_id == 'all'){
             $uploadImage = new QcloudUplodImage();
-            $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(8);
+            $images = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->paginate(1);
             $count = Images::where('origin','instagram')->where('status','active')->where('is_video',false)->whereNull('cos_url')->orderBy('id', 'desc')->count();
             info(count($images));
             if(count($images)<1){
